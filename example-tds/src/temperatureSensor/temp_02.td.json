@@ -1,0 +1,35 @@
+{
+    "@context": [
+        "http://www.w3.org/ns/td",
+        "https://context.dasibreaker.vaimee.it/context.jsonld"
+    ],
+    "@type": [
+        "Sensor"
+    ],
+    "title": "temp_02",
+    "securityDefinitions": {
+        "no_sec": {
+            "scheme": "nosec"
+        }
+    },
+    "security": "no_sec",
+    "actions": {},
+    "properties": {
+		"latitude": {
+            "title": "Latitude",
+            "description": "Latitude of the sensor",
+			"@type": "xsd:float"
+		},
+		"longitude": {
+            "title": "Longitude",
+            "description": "Longitude of the sensor",
+			"@type": "xsd:float"
+		},
+        "value":{ 
+            "title": "Sensor value",
+            "description": "Sensor value",
+			"@type": "xsd:float"
+        }
+    },
+    "events": {}
+}

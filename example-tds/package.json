@@ -1,0 +1,27 @@
+{
+  "name": "example-tds",
+  "version": "1.0.0",
+  "description": "TDs as example for DESMO-LD project",
+  "main": "thing.js",
+  "scripts": {
+    "build": "wam build --typescript ./src/thing.ts ./dist/bundle.js",
+    "debug": "wot-servient --inspect-brk -f servient.config.json ./dist/bundle.js",
+    "start": "wot-servient -f servient.config.json ./dist/bundle.js",
+    "start:dev": "nodemon -w \"src/**\" --ext \"ts,json\" --exec \"npm run build && npm run start\""
+  },
+  "keywords": [
+    ""
+  ],
+  "author": "Andrea Ferrari",
+  "license": "MIT",
+  "devDependencies": {
+    "@arces-wot/wam": "^0.5.6",
+    "@node-wot/cli": "^0.7.0",
+    "@rollup/plugin-typescript": "^2.1.0",
+    "nodemon": "^2.0.14",
+    "typescript": "^3.9.10"
+  },
+  "dependencies": {
+    "@node-wot/core": "^0.7.0"
+  }
+}
