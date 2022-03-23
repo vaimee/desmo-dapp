@@ -16,7 +16,10 @@ credentials can be shared without any risk of information leaking.
 
 ![Architecture](docs/imgs/schema.jpg)
 
+![FlowChart](docs/imgs/FlowChart.jpg)
+[FlowChart link](https://miro.com/app/board/uXjVODIdhHI=/?invite_link_id=916009864260)
+
 **Contents**
 1. [WAM for TDs example management](example-tds/README.md)
 2. [Consensus algorithm for TDs result](consensusAlgorithm/README.md)
-3. [DApp]
+3. [DApp](DApp/README.md)

@@ -1,0 +1,24 @@
+{
+  "description": "DESMO-LD Iexec Oracle App",
+  "license": "MIT",
+  "author": "Andrea Ferrari",
+  "social": {
+    "website": "?",
+    "github": "https://github.com/vaimee/desmo-dapp"
+  },
+  "logo": "logo.png",
+  "buyConf": {
+    "params": {
+      "iexec_args": ""
+    },
+    "tag": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "callback": "0x0000000000000000000000000000000000000000"
+  },
+  "app": {
+    "owner": "0x4d17802C3f99Def201D61BA13b50CC1B94903a3C",
+    "name": "desmo-dapp",
+    "type": "DOCKER",
+    "multiaddr": "docker.io/thespeedghost/desmo-dapp:1.0.0",
+    "checksum": "0xd496749250862b402a4e1eeb56956b7c0c510ab6d7da28712fb2e585e45e6f03"
+  }
+}

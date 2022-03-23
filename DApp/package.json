@@ -1,0 +1,28 @@
+{
+  "name": "iexec",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "lint": "eslint . --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaimee/desmo-dapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vaimee/desmo-dapp/issues"
+  },
+  "homepage": "https://github.com/vaimee/desmo-dapp#readme",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "ethers": "^5.6.0",
+    "ethers-ts": "^5.5.3",
+    "md5": "^2.3.0",
+    "web3": "^1.7.1",
+    "web3-eth-abi": "^1.7.1"
+  }
+}
