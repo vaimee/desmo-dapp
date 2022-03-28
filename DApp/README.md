@@ -12,8 +12,10 @@ Typescript service based on *iexec-sdk* in order to comunicate with the in-chain
 npm install -g ts-node typescript '@types/node'
 ```
 
+Run test
+
 ```
-ts-node testCA.ts
+npm test
 ```
 
 # IexecSimpleApp

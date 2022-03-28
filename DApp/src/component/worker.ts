@@ -20,10 +20,16 @@ export default class Worker{
               const url = "http://www.7timer.info/bin/api.pl?lon=44.49&lat=11.34&product=astro&output=xml";
               const message = await axios.get(url);
               var msg = 10; 
-              //var callback_data =coder.encodeParameter(['uint256', 'string'], [msgRandom,'CIAO']).hex()
-              //var callback_data =coder.encodeParameter('uint256', msgRandom);
-              // packed data always bytes32 (bytes32 vs uint256?) WARNING is that the problem?
-  
+              
+              // Encoding complex structs (using positional properties)
+              // abiCoder.encode(
+              //   [ "uint", "tuple(uint256, string)" ],
+              //   [
+              //     1234,
+              //     [ 5678, "Hello World" ]
+              //   ]
+              // );
+
               var callback_data = ethers.utils.defaultAbiCoder.encode(["uint"], [msg]);
               console.log('result: '+msg);
               console.log('result.encode_abi:'+callback_data);
@@ -59,3 +65,5 @@ export default class Worker{
 }
 
   
+
+

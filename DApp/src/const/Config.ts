@@ -1,4 +1,5 @@
 export default {
     DIRECTORY_CACHE_TIMEOUT: 30*60*1000,
-    AUTOCORRELATION: 4
+    AUTOCORRELATION: 4,
+    T:10
 }
