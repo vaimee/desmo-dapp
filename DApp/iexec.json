@@ -20,5 +20,16 @@
     "type": "DOCKER",
     "multiaddr": "docker.io/thespeedghost/desmo-dapp:1.0.0",
     "checksum": "0xd496749250862b402a4e1eeb56956b7c0c510ab6d7da28712fb2e585e45e6f03"
+  },
+  "order": {
+    "apporder": {
+      "app": "0x0ad0edfDbc3946215FeA6D5231c6F8EE3f150f27",
+      "appprice": "0",
+      "volume": "1000000",
+      "tag": [],
+      "datasetrestrict": "0x0000000000000000000000000000000000000000",
+      "workerpoolrestrict": "0x0000000000000000000000000000000000000000",
+      "requesterrestrict": "0x0000000000000000000000000000000000000000"
+    }
   }
 }

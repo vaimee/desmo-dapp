@@ -36,14 +36,16 @@ function buildSyncTemporalDistributions(sources : Array<NumberSourceValues>): Ar
     //     }
     // }
     for(var x in sources){
-        const start = sources[x].getTemporalStart();
-        const end =  sources[x].getTemporalStop();
-        if(bigStart<start){
-            bigStart=start;
-        }
-        if(smallEnd>end){
-            smallEnd=end;
-        }
+        // if(!sources[x].getSource().isPunished()){
+            const start = sources[x].getTemporalStart();
+            const end =  sources[x].getTemporalStop();
+            if(bigStart<start){
+                bigStart=start;
+            }
+            if(smallEnd>end){
+                smallEnd=end;
+            }
+        // }
     }
     // console.log("bigStart",bigStart);
     // console.log("smallEnd",smallEnd);
@@ -51,7 +53,9 @@ function buildSyncTemporalDistributions(sources : Array<NumberSourceValues>): Ar
     var q =new Array<number>();
     for(let x=bigStart;x<smallEnd;x+=step){
         for(var s in sources){
-            sources[s].setSyncTemporaldistributionAt(x);
+            // if(!sources[s].getSource().isPunished()){ 
+                sources[s].setSyncTemporaldistributionAt(x);
+            // }
         }
         q.push(x);
     }
@@ -67,7 +71,9 @@ function autocorrelation(source: NumberSourceValues):number{
 function crosscorrelation(sources : Array<NumberSourceValues>,at:number):number{
     const values =new Array<number>();
     for(var s in sources){
-        values.push(sources[s].getSyncTemporalDistributionAt(at));
+        // if(!sources[s].getSource().isPunished()){
+            values.push(sources[s].getSyncTemporalDistributionAt(at));
+        // }
     }
     return sqm(values);
 }
@@ -75,21 +81,32 @@ function crosscorrelation(sources : Array<NumberSourceValues>,at:number):number{
 
 export default function consensus(sourcesAndValues : Array<NumberSourceValues>):number{
     
+    const notPunished = new Array<NumberSourceValues>();
+    for(var s in sourcesAndValues){
+        if(!sourcesAndValues[s].getSource().isPunished()){
+            notPunished.push(sourcesAndValues[s]);
+        }
+    }
+
     //#########STEP 1
     //sync values using time
-    const q = buildSyncTemporalDistributions(sourcesAndValues);
+    const q = buildSyncTemporalDistributions(notPunished);
     
     //#########STEP 2
     //autocorrelation
     //find out the standard deviation between all the captured value of the same source
     const autoC=new Array<number>();
-    for(var s in sourcesAndValues){
-        autoC.push(autocorrelation(sourcesAndValues[s]));
+    for(var s in notPunished){
+        // if(!sourcesAndValues[s].getSource().isPunished()){
+            autoC.push(autocorrelation(notPunished[s]));
+        // }
     }
+    // console.log("autoC",autoC);
     
     //#########STEP 3
-    //select the best source looking at (how much these values fluctuates)
+    //select the best source looking at how much these values fluctuates
     const fluct = media(autoC);
+    // console.log("fluct",fluct);
     var d = Infinity;
     var bestSource =0;
     for(var x=0;x<autoC.length;x++){
@@ -106,13 +123,17 @@ export default function consensus(sourcesAndValues : Array<NumberSourceValues>):
     var crossc=Infinity;
     var bestTime=0;
     for(var t=0;t<q.length;t++){
-        const crossTemp =crosscorrelation(sourcesAndValues,t);
+        const crossTemp =crosscorrelation(notPunished,t);
+        // console.log("crossTemp",crossTemp);
         if(crossTemp<crossc){
             crossc=crossTemp;
             bestTime=t;
         }
     }
+
     //Find the best "REAL" value
-    const bestMediaValue = sourcesAndValues[bestSource].getSyncTemporalDistributionAt(bestTime);
-    return sourcesAndValues[bestSource].getBestRealValueAt(q[bestTime],bestMediaValue);
+    // console.log("bestSource",bestSource);
+    // console.log("bestTime",bestTime);
+    const bestMediaValue = notPunished[bestSource].getSyncTemporalDistributionAt(bestTime);
+    return notPunished[bestSource].getBestRealValueAt(q[bestTime],bestMediaValue);
 }

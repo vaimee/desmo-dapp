@@ -6,6 +6,8 @@ Typescript service based on *iexec-sdk* in order to comunicate with the in-chain
 
 [node-wot](https://github.com/eclipse/thingweb.node-wot)
 
+[Algorithm explanation](algorithm.md)
+
 # Command
 
 ```
