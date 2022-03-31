@@ -33,7 +33,7 @@ The content of the cells is the couple **v** value and **t** time, where **t** i
 2)Construct a matrix of value with sync on data period
 
 1. **maxS** as the maximum of t0_i, i in [0,S]
-2. **mimE** as the minimum of tN_i, i in [0,S]
+2. **minE** as the minimum of tN_i, i in [0,S]
 3. **newT** as the new period in order to sync the values, **newT**=**minE** - **maxS**/**N**
 5. for each **i** in [0,S] and each **x** in [0,N] is calculate a new value:
   1. **newT_x** as the time at **x** using that new sync period **new_T**, **newT_x**=**maxS**+**newT** * **x** where **x** in [0,N]
