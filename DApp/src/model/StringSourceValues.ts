@@ -5,14 +5,12 @@ export default class StringSourceValues implements ISourceValues{
 
     source: Source;
     temporalDistribution:Array<{value:string,date:number}>;
-    syncTemporalDistribution:Array<string>;
-    _tempForSync:number;
+    distribution:Array<string>;
     
     constructor(source: Source){
         this.source=source;
         this.temporalDistribution=new Array<{value:string,date:number}>();
-        this.syncTemporalDistribution=new Array<string>();
-        this._tempForSync=0;
+        this.distribution=new Array<string>();
     }
 
     parse(v:string):string{
@@ -28,6 +26,13 @@ export default class StringSourceValues implements ISourceValues{
             value:v_str,
             date:Date.now()
         });
+        this.distribution.push(v_str);
+        /*
+            We will use just "this.distribution"
+            but in future we can use  "this.temporalDistribution"
+            in order to calculate a better "probability" for the column of the
+            matrix (look at "algorithm.md" and at "consensusForString.ts") 
+        */
         return true;
     }
 
@@ -35,13 +40,10 @@ export default class StringSourceValues implements ISourceValues{
         return this.temporalDistribution;
     }
 
-    getNumericTemporalDistribution():Array<{value:number,date:number}>{
-       const ris =new Array<{value:number,date:number}>();
-       for(var x in this.temporalDistribution){
-            this.temporalDistribution[x]
-       }
-       return ris;
+    getDistribution():Array<string>{
+        return this.distribution;
     }
+
 
     getSource():Source{
         return this.source;
@@ -64,30 +66,6 @@ export default class StringSourceValues implements ISourceValues{
         return "StringSourceValues["+this.source.getURL()+"]";
     }
 
-    setSyncTemporaldistributionAt(){
-        // var indexStart =0;
-        // var indexEnd =0;
-        // for(var x= this._tempForSync;x<this.temporalDistribution.length;x++){
-        //     if(this.temporalDistribution[x].date>=time){
-        //         indexEnd=x;
-        //         indexStart=x;
-        //         break;
-        //     }
-        // }
-        // for(var x= this._tempForSync;x<indexEnd;x++){
-        //     if(this.temporalDistribution[x].date<=time){
-        //         indexStart=x;
-        //         break;
-        //     }
-        // }
-        // this._tempForSync=indexStart;
-        // const distance_s = Math.abs(this.temporalDistribution[indexStart].date-time);
-        // const distance_e = Math.abs(this.temporalDistribution[indexEnd].date-time);
-        // if(distance_s>distance_e){
-        //     this.syncTemporalDistribution.push(this.temporalDistribution[indexEnd].value);
-        // }else{
-        //     this.syncTemporalDistribution.push(this.temporalDistribution[indexStart].value);
-        // }
-    }
+  
   
 }

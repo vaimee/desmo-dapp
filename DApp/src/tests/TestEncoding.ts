@@ -1,6 +1,6 @@
 import Encoder from "../component/encoder/encoderMix";
 
-function test_01(){
+function test_01(cb:()=>void){
      const temp =  new Encoder([
             {reward:2,sourceIndex:3},
             {reward:1,sourceIndex:1},
@@ -16,6 +16,7 @@ function test_01(){
    console.log("encoded",encoded);
    
    temp.decode(encoded);
+   cb();
 }
 
 export default {

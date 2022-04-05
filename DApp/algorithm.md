@@ -113,4 +113,20 @@ EXAMPLE)
 
 # Algorithm on stings
 
-WIP
+Each row of that table represent a source (**0 to S**), each collumn represent the requests following the period **T** (**0 to N**).
+The content of the cells is the couple **v** value and **t** time, where **t** is the date of the retriev data from the source **s**
+
+1)All data in matrix form 
+
+| r0            | r1            | rx          | rN            |
+| ------------- | ------------- | ------------- | ------------- |
+| (v0_0,t0_0)   | (v1_0,t1_0)   | (vx_0,tx_0)   |   (vN_0,tN_0) |
+| (v0_1,t0_1)   | (v1_1,t1_1)   | (vx_1,tx_1)   |   (vN_1,tN_1) |
+| (v0_i,t0_i)   | (v1_i,t1_i)   | (vx_i,tx_i)   |   (vN_i,tN_i) |
+| (v0_S,t0_S)   | (v1_S,t1_S)   | (vx_S,tx_S)   |   (vN_S,tN_S) |
+
+2)For each row and for each collumn we find the most common value with its probability: (**c**,**p**) where **c** is the common value and **p** is the number of times of the common value over the total of samples.
+
+3)Select all best values as the common value that is the same for the column and the row. If there is more than one value and they are different from each other, will be choosing the one which has the maximum probability for the column and for the row the probability closer to the avarage of the probability of the rows.
+
+(we have margin of improvement for the String algorithm)
