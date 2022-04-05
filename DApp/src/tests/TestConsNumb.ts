@@ -2,7 +2,7 @@ import NumberSourceValues from "../model/NumberSourceValues";
 import Config from "../const/Config";
 import MockSource from "./MockSource";
 import genMockSources from "./GenerateMockSources";
-import {consensus,collect} from "../component/DataCollector";
+import {consensus,collect} from "../component/dataCollector";
 
 
 //method that print a table that can be used for github readme.md

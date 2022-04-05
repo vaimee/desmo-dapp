@@ -32,7 +32,7 @@ export default class WorkerTest{
                 const real_value=await runWithPromise();
                 const precision=getPrecision(real_value);
                 const intvalue=Math.trunc(real_value*precision);
-                var callback_data = ethers.utils.defaultAbiCoder.encode(["uint","uint256"], [intvalue,precision]);
+                var callback_data = ethers.utils.defaultAbiCoder.encode(["uint","uint256","uint"], [intvalue,precision,intvalue]);
                
                 const computedJsonObj = {
                   'callback-data': callback_data

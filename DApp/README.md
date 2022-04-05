@@ -10,15 +10,16 @@ Typescript service based on *iexec-sdk* in order to comunicate with the in-chain
 
 # Command
 
-```
-npm install -g ts-node typescript '@types/node'
-```
+```npm install -g ts-node typescript '@types/node'```
 
-Run test
+Run all test
 
-```
-npm test
-```
+```npm test```
+
+Run tests
+
+1. Consensus for nubmer ```ts-node src/tests/runTests.ts cn```
+2. Encoding ```ts-node src/tests/runTests.ts encoding```
 
 # IexecSimpleApp
 
@@ -33,6 +34,11 @@ npm test
 5.  scripts\onChainDeploy.bat
 6.  scripts\runOnChain.bat
 7.  scripts\getResults.bat <task-id>
+
 8.  iexec app publish --chain viviani
-9.  iexec orderbook app 0x8661128290105EcD736E703aE7E95B23dda24271
-10. iexec app run --args "41.90 12.49" --watch --chain viviani
+9.  iexec orderbook app 0x0ad0edfDbc3946215FeA6D5231c6F8EE3f150f27
+10. iexec app run --args "arg1 arg2" --watch --chain viviani
+
+8.  iexec order sign --app && iexec order publish --app
+
+iexec app run --watch --chain viviani --trust 0 --callback 0x5e79D4ddc6a6F5D80816ABA102767a15E6685b3e
