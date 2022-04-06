@@ -2,7 +2,8 @@ import EncoderMix from "../component/encoder/encoderMix";
 import EncoderManual from "../component/encoder/encoderManual";
 
 function test_01(cb: () => void) {
-    console.log("\n########## test_01 ##########");
+    console.log("\n##########   test_01  ##########");
+    console.log("\n########## EncoderMix ##########");
     const temp = new EncoderMix([
         { reward: 2, sourceIndex: 3 },
         { reward: 1, sourceIndex: 1 },
@@ -23,7 +24,8 @@ function test_01(cb: () => void) {
 }
 
 function test_02(cb: () => void) {
-    console.log("\n########## test_02 ##########");
+    console.log("\n##########    test_02    ##########");
+    console.log("\n########## EncoderManual ##########");
     const temp = new EncoderManual([
         { reward: 2, sourceIndex: 3 },
         { reward: 1, sourceIndex: 1 },
@@ -43,7 +45,8 @@ function test_02(cb: () => void) {
 }
 
 function test_03(cb: () => void) {
-    console.log("\n########## test_03 ##########");
+    console.log("\n##########    test_03    ##########");
+    console.log("\n########## EncoderManual ##########");
     const temp = new EncoderManual([
         { reward: 2, sourceIndex: 3 },
         { reward: 2, sourceIndex: 1 },
@@ -63,7 +66,8 @@ function test_03(cb: () => void) {
 }
 
 function test_04(cb: () => void) {
-    console.log("\n########## test_04 ##########");
+    console.log("\n##########   test_04     ##########");
+    console.log("\n########## EncoderManual ##########");
     const temp = new EncoderManual([
         { reward: 2, sourceIndex: 3 },
         { reward: 1, sourceIndex: 1 },

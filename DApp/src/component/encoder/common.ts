@@ -80,7 +80,7 @@ function generalDecodeSources(hex:string):Array<number>{
     const count =parseInt(hex[0]+hex[1],16);
     // if(hex.length%2===0){
         var arr = new Array<number>();
-        for(var x =2;x<count+2;x+=2){
+        for(var x =2;x<count*2+2;x+=2){
             // console.log("parseInt(hex[x]+hex[x+1],16)",parseInt(hex[x]+hex[x+1],16));
            arr= arr.concat(unBuildUint8FromInt(parseInt(hex[x]+hex[x+1],16)));
         }

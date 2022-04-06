@@ -15,6 +15,11 @@ The following schema represent an hex string, where
 
 ![ManualEncoding](ManualEncoding.png)
 
+Example: 
+
+`0x029589025110f013`
+
+`0x028985400700072006f007600610020007100750065007300740061002000e800200075006e006100200073007400720069006e00670061`
 
 # Algorithm based on ABI
 
@@ -23,5 +28,14 @@ WIP
 # Algorithm that is a mix of manual encoding and ABI
 
 It uses the ABI encoder to encode the result and the manual encoder to encode the type of the result and the Directory reward/punishment.
-At first chars there is the size of the directories list, then there are the directories followed by the type of the result. 
-At the end of it all, there is the encoded results from ABI.
+At first chars there is the encoded results from ABI. Then there is the size of the directories list, then there are the directories followed by the type of the result. 
+
+Example: 
+
+`0x000000000000000000000000000000000000000000000000000000000145aea8000000000000000000000000000000000000000000000000000000000000000285010201`
+
+where 
+
+`0x000000000000000000000000000000000000000000000000000000000145aea80000000000000000000000000000000000000000000000000000000000000002`
+
+is the ABI encoded result and `85010201` the manual ecoded part.
