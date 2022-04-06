@@ -33,7 +33,7 @@ The content of the cells is the couple **v** value and **t** time, where **t** i
 2)Construct a matrix of value with sync on data period
 
 1. **maxS** as the maximum of t0_i, i in [0,S]
-2. **mimE** as the minimum of tN_i, i in [0,S]
+2. **minE** as the minimum of tN_i, i in [0,S]
 3. **newT** as the new period in order to sync the values, **newT**=**minE** - **maxS**/**N**
 5. for each **i** in [0,S] and each **x** in [0,N] is calculate a new value:
   1. **newT_x** as the time at **x** using that new sync period **new_T**, **newT_x**=**maxS**+**newT** * **x** where **x** in [0,N]
@@ -75,6 +75,7 @@ the result matrix is:
 EXAMPLE)
 
 6 sources and 4 request with 2 value not valid:
+```
  [
   [ 2.11, 2.2, 2.52, 2.75 ],
   [ 2.2, 2.44, 2.44, 2.8 ],
@@ -83,7 +84,7 @@ EXAMPLE)
   [ 2.14, 2.1, 2.3, 2.67 ],
   [ null, 2.66, 2.33, 2.71 ]    //Source_5 received not valid value., discarded
 ]
-
+```
 
 ###Original matrix:
 | x=0| x=1| x=2| x=3|
@@ -92,7 +93,9 @@ EXAMPLE)
 | (2.2,156)| (2.44,783)| (2.44,938)| (2.8,1477)|
 | (2.4,281)| (2.2,531)| (2.4,953)| (2.4,1308)|
 | (2.14,312)| (2.1,844)| (2.29,1232)| (2.67,1730)|
+
 ###Sync matrix with **sds_i** and **sdt_x**:
+
 | **sds_i** | x=0| x=1| x=2| x=3|
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | 0.22|(2.11,312)| (2.17,549.5)| (2.43,787)| (2.59,1024.5)|
@@ -129,4 +132,3 @@ The content of the cells is the couple **v** value and **t** time, where **t** i
 
 3)Select all best values as the common value that is the same for the column and the row. If there is more than one value and they are different from each other, will be choosing the one which has the maximum probability for the column and for the row the probability closer to the avarage of the probability of the rows.
 
-(we have margin of improvement for the String algorithm)
