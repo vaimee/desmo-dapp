@@ -21,5 +21,6 @@ credentials can be shared without any risk of information leaking.
 
 **Contents**
 1. [WAM for TDs example management](example-tds/README.md)
-2. [Consensus algorithm for TDs result](consensusAlgorithm/README.md)
-3. [DApp](DApp/README.md)
+2. [DApp](DApp/README.md)
+3. [Consensus algorithm for TDs result](DApp/docs/algorithm.md)
+4. [Econding result](DApp/docs/encoding.md)

@@ -37,6 +37,15 @@ function unBuildUint8(b: Uint8Array): Array<number> {
     return ris;
 }
 
+function unBuildUint8FromInt(b: number): Array<number> {
+    const ris = new Array<number>();
+    for (var x = 0; x < 4; x++) {
+        const r = b % 4;
+        b = Math.trunc(b / 4);
+        ris.push(r);
+    }
+    return ris;
+}
 
 function unBuild8Hex(hex: string): Array<number> {
     const arr = new Array<number>();
@@ -46,10 +55,47 @@ function unBuild8Hex(hex: string): Array<number> {
     return  unBuildUint8(new Uint8Array(arr));;
 }
 
+function generalEncodeSources(sources: Array<number>):string{
+    var ris = "";
+    const count =sources.length/4;
+    if(sources.length%4===0){
+        for(var x =0;x<sources.length;x=x+4){
+            var temp = buildUint8(sources.slice(x,x+4))[0].toString(16);
+            if(temp.length===1){
+                temp="0"+temp;
+            }
+            ris+=temp;
+            // console.log("x",x);
+        }
+        var temp =count.toString(16);
+        if(temp.length===1){
+            temp="0"+temp;
+        }
+        return temp+ris;
+    }else{
+        throw new Error("The sources need to be multiple of 4.");
+    }
+}
+function generalDecodeSources(hex:string):Array<number>{
+    const count =parseInt(hex[0]+hex[1],16);
+    // if(hex.length%2===0){
+        var arr = new Array<number>();
+        for(var x =2;x<count+2;x+=2){
+            // console.log("parseInt(hex[x]+hex[x+1],16)",parseInt(hex[x]+hex[x+1],16));
+           arr= arr.concat(unBuildUint8FromInt(parseInt(hex[x]+hex[x+1],16)));
+        }
+        return arr;
+    // }else{
+    //     throw new Error("The hex size need to be multiple of 2.");
+    // }
+}
+
 export default {
 
     unBuild8Hex:unBuild8Hex,
     buildUint8:buildUint8,
     unBuildUint8:unBuildUint8,
+    generalEncodeSources:generalEncodeSources,
+    generalDecodeSources:generalDecodeSources
 
 }

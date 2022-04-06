@@ -35,7 +35,7 @@ function append(callback_data:string,compressedSources:Uint8Array,typeAndWarn:nu
 }
 
 
-export default class Encoder implements IEncoder{
+export default class EncoderMix implements IEncoder{
 
 
 

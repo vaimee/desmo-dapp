@@ -37,6 +37,12 @@ if (process.argv[2] === "encoding" || process.argv[2] === undefined) {
     console.log("####################TEST#################");
     console.log("\n");
     TestEncoding.test_01(() => {
-
+        TestEncoding.test_02(()=>{
+            TestEncoding.test_03(()=>{
+                TestEncoding.test_04(()=>{
+            
+                })
+            })
+        })
     });
 }
