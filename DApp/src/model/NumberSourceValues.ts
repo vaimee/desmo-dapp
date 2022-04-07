@@ -1,16 +1,16 @@
-import Source from "./Source";
+import ISource from "./ISource";
 import ISourceValues from "./ISourceValues";
 
 export default class NumberSourceValues implements ISourceValues{
 
-    source: Source;
+    source: ISource;
     temporalDistribution:Array<{value:number,date:number}>;
     syncTemporalDistribution:Array<number>;
     temporalStart:number;
     temporalStop:number;
     _tempForSync:number;
 
-    constructor(source: Source){
+    constructor(source: ISource){
         this.source=source;
         this.temporalStart=Infinity;
         this.temporalStop=0;
@@ -114,7 +114,7 @@ export default class NumberSourceValues implements ISourceValues{
         }
     }
 
-    getSource():Source{
+    getSource():ISource{
         return this.source;
     }
 
@@ -178,5 +178,7 @@ export default class NumberSourceValues implements ISourceValues{
     getTemporalStop():number{
         return this.temporalStop;
     }
+
+  
 
 }

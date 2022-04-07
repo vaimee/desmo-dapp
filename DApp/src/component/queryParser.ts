@@ -1,0 +1,48 @@
+
+import Types from "../const/Types";
+
+//##################################WIP
+//##################################WIP
+//##################################WIP
+
+export default class QueryParser {
+
+    query: string;
+    valid: boolean;
+    askForType: number;
+
+    constructor(query: string) {
+        this.query = query;
+        this.valid = false;
+    }
+
+    parse() {
+        this.valid = true;
+        this.askForType = 0;
+    }
+
+    isValid(): boolean {
+        return this.valid;
+    }
+
+    isAskingForNumber(): boolean {
+        if (
+            this.askForType === Types.POS_FLOAT
+            || this.askForType === Types.NEG_FLOAT
+            || this.askForType === Types.POS_INTEGER
+            || this.askForType === Types.NEG_INTEGER
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    isAskingForString(): boolean {
+        return this.askForType === Types.STRING
+    }
+
+    getType():number{
+        return this.askForType;
+    }
+
+}

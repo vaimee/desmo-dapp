@@ -1,20 +1,31 @@
 import ISource from "./ISource";
 import ISourceValues from "./ISourceValues";
 
-export default class StringSourceValues implements ISourceValues{
+export default class BoolSourceValues implements ISourceValues{
 
     source: ISource;
-    temporalDistribution:Array<{value:string,date:number}>;
-    distribution:Array<string>;
+    temporalDistribution:Array<{value:boolean,date:number}>;
+    distribution:Array<boolean>;
     
     constructor(source: ISource){
         this.source=source;
-        this.temporalDistribution=new Array<{value:string,date:number}>();
-        this.distribution=new Array<string>();
+        this.temporalDistribution=new Array<{value:boolean,date:number}>();
+        this.distribution=new Array<boolean>();
     }
 
-    parse(v:string):string{
-        return v;
+    parse(v:string):boolean{
+        const temp_str = v.toLocaleLowerCase().trim();
+        if(temp_str==="true" || temp_str==="false" ){
+            if(temp_str==="true"){
+                return true;
+            }else{
+                return false;
+            }
+        }else if(Number(v)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     async addTemporalValue():Promise<boolean>{
@@ -22,11 +33,12 @@ export default class StringSourceValues implements ISourceValues{
         if(v_str===null){
             return false;
         }
+        const  parsed_v= this.parse(v_str);
         this.temporalDistribution.push({
-            value:v_str,
+            value:parsed_v,
             date:Date.now()
         });
-        this.distribution.push(v_str);
+        this.distribution.push(parsed_v);
         /*
             We will use just "this.distribution"
             but in future we can use  "this.temporalDistribution"
@@ -36,11 +48,11 @@ export default class StringSourceValues implements ISourceValues{
         return true;
     }
 
-    getTemporalDistribution():Array<{value:string,date:number}>{
+    getTemporalDistribution():Array<{value:boolean,date:number}>{
         return this.temporalDistribution;
     }
 
-    getDistribution():Array<string>{
+    getDistribution():Array<boolean>{
         return this.distribution;
     }
 
@@ -63,7 +75,7 @@ export default class StringSourceValues implements ISourceValues{
     }
 
     toString(): string {
-        return "StringSourceValues["+this.source.getURL()+"]";
+        return "BoolSourceValues["+this.source.getURL()+"]";
     }
 
   

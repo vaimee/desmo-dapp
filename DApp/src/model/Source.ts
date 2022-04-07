@@ -1,51 +1,57 @@
-import Conf from "../const/Config";
+// import Conf from "../const/Config";
+import ISource from "./ISource";
 
-export default class Source{
+export default class Source implements ISource {
 
-    // index: number;
+    index: number;
     source: string;
     // cached: number;
     punished: boolean;
-    
-    constructor(url:string){
-        this.source=url;
-        this.punished=false;
+    score: number;
+
+    constructor(url: string, index: number) {
+        this.source = url;
+        this.punished = false;
+        this.index = index;
+        this.score = 1;
     }
 
-    // isValid():boolean{
-    //     if(this.source===null){
-    //         return false;
-    //     }
-    //     if(this.source===null){
-    //         return (Date.now()-this.cached)<Conf.DIRECTORY_CACHE_TIMEOUT;
-    //     }
-    // }
 
-    // refresh(){
-    //     //here the code to get the sources from the chain
-    //     console.log("WIP: Source.refresh is not implemented yet");
-    //     this.source="http:\\localhost:3000";
-    //     this.cached=Date.now();
-    // }
 
-    async ask():Promise<string>{
+    async ask(): Promise<string> {
         //here the code to get the value from the Directory
         console.log("WIP: Source.ask is not implemented yet");
-        if(Math.random()>0.2){
-           return Math.trunc(Math.random()*100).toString();
+        if (Math.random() > 0.2) {
+            return Math.trunc(Math.random() * 100).toString();
         }
-        throw new Error("Not valid number getted by source: "+this.source);
+        throw new Error("Not valid number getted by source: " + this.source);
     }
 
-    getURL():string{
-       return this.source;
+    getURL(): string {
+        return this.source;
     }
 
-    punish():void{
-        this.punished=true;
+    punish(): void {
+        this.punished = true;
+        this.score = 0;
     }
 
-    isPunished():boolean{
+    setScore(s: number): void {
+        if (!this.punished) {
+            this.score = s;
+        }
+    }
+
+    getScore(): number {
+        return this.score;
+    }
+
+    isPunished(): boolean {
         return this.punished;
     }
+
+    getIndex(): number {
+        return this.index;
+    }
+
 }

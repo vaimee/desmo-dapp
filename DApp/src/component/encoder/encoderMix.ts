@@ -4,12 +4,44 @@ import Types from "../../const/Types";
 import {ethers} from "ethers-ts";
 import CommonEncoder from "./common";
 
+type TypeAndWarn = {type:number,warn:boolean}
+
+function convertTOByte (numberType:number,warn=false):number{
+    /*
+            X0, X1, X2, X3, X4, X5, X6, X7
+            
+            X0-> 1 if warn=true
+
+            X4,X5,X6,X7 -->Type
+
+            X1,X2,X3    -->FUTURE USE
+    */
+    if(warn){
+        return 128+numberType;
+    }
+    return numberType;
+};
+
+function convertFROMByte(uint256:number):TypeAndWarn{
+   var ris ={type:0,warn:true};
+   if(uint256>=128){
+        ris.warn=true;
+        ris.type=uint256-128;
+   }else{
+        ris.warn=false;
+        ris.type=uint256;
+   }
+   return ris;
+};
+
 /*
             EXAMPLE:
 
         callback_data | compressedSources | compressedSources.size | typeAndWarn 
         0x1FAD21...43   0403
 */
+
+
 function append(callback_data:string,compressedSources:Uint8Array,typeAndWarn:number):string{
     var ris =  callback_data;
     // console.log("compressedSources.length",compressedSources.length);
@@ -123,7 +155,7 @@ export default class EncoderMix implements IEncoder{
             callback_data,
             this.compressedSources,
             // this.flagSizeByte,
-            Types.convertTOByte(type,warn)
+            convertTOByte(type,warn)
         );
         return  this.encoded;
   
@@ -139,7 +171,7 @@ export default class EncoderMix implements IEncoder{
             callback_data,
             this.compressedSources,
             // this.flagSizeByte,
-            Types.convertTOByte(Types.STRING,false)
+            convertTOByte(Types.STRING,false)
         );
         return  this.encoded;
     }
@@ -150,7 +182,7 @@ export default class EncoderMix implements IEncoder{
         const hex_sc= callbackData[size-4]+""+callbackData[size-3];
         // console.log("hex_typeandWarn",hex_typeandWarn);//ok
         // console.log("hex_sc",hex_sc); //ok
-        const t=Types.convertFROMByte(parseInt(hex_typeandWarn, 16));
+        const t=convertFROMByte(parseInt(hex_typeandWarn, 16));
         const sourcesCount=parseInt(hex_sc, 16)*2; //real sources count is: sourcesCount*4
         const hex_sources= callbackData.substring(size-(4+sourcesCount),size-4);
         // console.log("hex_sources",hex_sources);

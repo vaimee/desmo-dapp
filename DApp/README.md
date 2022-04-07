@@ -20,7 +20,7 @@ Run all test
 
 Run tests
 
-1. Consensus for nubmer ```ts-node src/tests/runTests.ts cn```
+1. Consensus for nubmer ```ts-node src/tests/runTests.ts number```
 1. Consensus for string ```ts-node src/tests/runTests.ts str```
 2. Encoding ```ts-node src/tests/runTests.ts encoding```
 

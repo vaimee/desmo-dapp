@@ -9,8 +9,8 @@ export default class MockSourceStr extends Source{
     values:Array<(string | null)>;
     actual=-1;
     
-    constructor(id:string,v:Array<(string | null)>){
-        super(id);
+    constructor(id:string,index:number,v:Array<(string | null)>){
+        super(id,index);
         this.values=v;
     }
 

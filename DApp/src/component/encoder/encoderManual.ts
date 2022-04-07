@@ -52,7 +52,7 @@ export default class EncoderManual implements IEncoder{
         this.encoded=CommonEncoder.generalEncodeSources(arr);
     }
 
-    encodeNumber(numberValue: number, precision: number): string {
+    encodeNumber(numberValue: number, precision=0): string {
         // console.log("numberValue",numberValue);
         // console.log("precision",precision);
         var type = Types.POS_FLOAT;

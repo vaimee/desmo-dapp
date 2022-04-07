@@ -1,11 +1,9 @@
-import Source from "./Source";
+import ISource from "./ISource";
 
 export default interface SourceValues {
 
-    source: Source;
-
     addTemporalValue():Promise<boolean>;
-    getSource():Source;    
+    getSource():ISource;    
     toInfoString():string;
     toString():string;
     getInfo():{};

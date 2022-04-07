@@ -1,16 +1,33 @@
 import ISourceValues from "../model/ISourceValues";
 import NumberSourceValues from "../model/NumberSourceValues";
 import StringSourceValues from "../model/StringSourceValues";
+import BoolSourceValues from "../model/BoolSourceValues";
 import consensusForNumber from "./consensusForNumber";
 import consensusForString from "./consensusForString";
+import consensusForBool from "./consensusForBool";
 import Result from "../model/Result";
 import Conf from "../const/Config";
+import Types from "../const/Types";
 
 export function consensus(sources : Array<ISourceValues>): Result {
     if(sources[0] instanceof NumberSourceValues){
-        return new Result(consensusForNumber(sources as Array<NumberSourceValues>).toString(),"number");
+        return new Result(
+            consensusForNumber(sources as Array<NumberSourceValues>).toString(),
+            Types.TYPE_NUMBER,
+            sources
+        );
     }else if(sources[0] instanceof StringSourceValues){
-        return new Result(consensusForString(sources as Array<StringSourceValues>),"string");
+        return new Result(
+            consensusForString(sources as Array<StringSourceValues>),
+            Types.TYPE_STRING,
+            sources
+        );
+    }else if(sources[0] instanceof BoolSourceValues){
+        return new Result(
+            consensusForBool(sources as Array<BoolSourceValues>),
+            Types.TYPE_BOOLEAN,
+            sources
+        );
     }else{
         throw new Error("SourcesValue type not found for: "+ sources[0].constructor.name);
     }
@@ -20,12 +37,6 @@ export function collect(
     sources : Array<ISourceValues>,
     cb:(s : Array<ISourceValues>)=>void
 ):void {
-    
-    // for(var x=0;x<Conf.AUTOCORRELATION;x++){
-    //     for(var s in sources){
-    //         sources[s].addTemporalValue().then().catch();
-    //     }
-    // }
     
     const notAborted = new Map<string,ISourceValues>();
     const askTo=(cbSYnc:(np:Array<string>)=>void)=>{

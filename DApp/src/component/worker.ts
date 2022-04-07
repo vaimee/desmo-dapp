@@ -1,69 +1,91 @@
-import axios from "axios";
 import { promises as fsPromises } from 'fs';
-import {ethers} from "ethers-ts";
+import QueryParser from "./queryParser";
+import { collectDirs } from "./directoriesCollector";
+import { collect, consensus } from "./dataCollector";
 
+import ISourceValues from "../model/ISourceValues";
+import StringSourceValues from "../model/StringSourceValues";
+import NumberSourceValues from "../model/NumberSourceValues";
 
-export default class Worker{
+//##################################WIP
+//##################################WIP
+//##################################WIP
 
-      constructor(){ }
+export default class Worker {
 
-      err(err:string):void{
-        console.log("ERROR: "+err);
-        process.exit(1);
-      }
+  constructor() { }
 
-      work():void{
-          (async () => {
-            try {
-              const iexecOut = process.env.IEXEC_OUT;
-              // Do whatever you want (let's write hello world here)
-              const url = "http://www.7timer.info/bin/api.pl?lon=44.49&lat=11.34&product=astro&output=xml";
-              const message = await axios.get(url);
-              var msg = 10; 
-              
-              // Encoding complex structs (using positional properties)
-              // abiCoder.encode(
-              //   [ "uint", "tuple(uint256, string)" ],
-              //   [
-              //     1234,
-              //     [ 5678, "Hello World" ]
-              //   ]
-              // );
+  err(err: string): void {
+    console.log("ERROR: " + err);
+    process.exit(1);
+  }
 
-              var callback_data = ethers.utils.defaultAbiCoder.encode(["uint"], [msg]);
-              console.log('result: '+msg);
-              console.log('result.encode_abi:'+callback_data);
+  work(query: string, directoryesList: Array<number>): void {
+    const parser = new QueryParser(query);
+    try {
+      parser.parse();
+    } catch (e: any) {
+      this.err(e.message);
+    }
+    if (parser.isValid()) {
+      this.err("Query not valid!");
+    } else if (directoryesList.length < 4 || directoryesList.length % 4 !== 0) {
 
-            
-              if(message.status===200){
-                // Append some results in /iexec_out/
-               // await fsPromises.writeFile(`${iexecOut}/result.txt`,callback_data);
-               
-                // Declare everything is computed
-                // const computedJsonObj = {
-                //   'deterministic-output-path': `${iexecOut}/result.txt`
-                //   // 'callback-data': "0x"+md5(`CIAO`)
-                // };
-                const computedJsonObj = {
-                  //'deterministic-output-path': `${iexecOut}/result.txt`,
-                  'callback-data': callback_data
-                };
-                
-                await fsPromises.writeFile(
-                  `${iexecOut}/computed.json`,
-                  JSON.stringify(computedJsonObj),
-                );
-                console.log("computedJsonObj",computedJsonObj)
-              }else{
-                this.err("Get status code "+ message.status+ " from api.");
-              }
-            } catch (e:any) {
-                this.err(e.message);
+      this.err("Directories list must be multipler of 4 and at least 4.");
+    } else {
+      (async () => {
+        try {
+          const iexecOut = process.env.IEXEC_OUT;
+
+          //###########################Retrieve values
+          const sources = collectDirs(directoryesList);
+          var sourceValues = new Array<ISourceValues>();
+          if (parser.isAskingForNumber()) {
+            for (var x in sources) {
+              sourceValues.push(new NumberSourceValues(sources[x]));
             }
-          })();
-      }
+          } else if (parser.isAskingForString()) {
+            for (var x in sources) {
+              sourceValues.push(new StringSourceValues(sources[x]));
+            }
+          } else {
+            this.err("Result Type of the request unknow!");
+          }
+
+          collect(sourceValues,
+            async (s) => {
+
+              //###########################Compute result
+              const result = consensus(s);
+             
+              //###########################Ecode result
+              var callback_data =  result.getEncodedValue();
+
+              //###########################Write result
+              const computedJsonObj = {
+                'callback-data': callback_data
+              };
+
+              await fsPromises.writeFile(
+                `${iexecOut}/computed.json`,
+                JSON.stringify(computedJsonObj),
+              );
+
+              console.log("computedJsonObj", computedJsonObj)
+            }
+          );
+
+
+
+
+        } catch (e: any) {
+          this.err(e.message);
+        }
+      })();
+    }
+  }
 }
 
-  
+
 
 

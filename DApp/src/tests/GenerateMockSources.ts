@@ -1,10 +1,10 @@
-import MockSource from "./MockSource";
-import NumberSourceValues from "../model/NumberSourceValues";
+// import MockSource from "./MockSource";
+// import NumberSourceValues from "../model/NumberSourceValues";
 import Config from "../const/Config";
 
-function getRandom(min:number, max:number,precision=0) :number{
-    const p = 10**precision;
-    return Math.trunc((Math.random() * (max - min) + min)*p)/p;
+function getRandom(min: number, max: number, precision = 0): number {
+    const p = 10 ** precision;
+    return Math.trunc((Math.random() * (max - min) + min) * p) / p;
 }
 
 /*
@@ -17,33 +17,33 @@ ARGS:
     outOfRange:number   -> [0:100] prof of a source to return out of rage value (maxV*100)
 */
 export default function genMockSources(
-    sourcesCount:number,
-    minV:number,
-    maxV:number,
-    precision:number,
-    miss:number,
-    outOfRange:number,
+    sourcesCount: number,
+    minV: number,
+    maxV: number,
+    precision: number,
+    miss: number,
+    outOfRange: number,
 
-):(number | null)[][]{
-    
+): (number | null)[][] {
 
-    const valueMatrix =new Array<Array<number | null>>();
 
-    for(var s =0;s<sourcesCount;s++){
-        const values=[];
-        for(var x =0;x<Config.AUTOCORRELATION;x++){
-            if(miss>-1 && miss<101 && getRandom(0,100)<miss){
+    const valueMatrix = new Array<Array<number | null>>();
+
+    for (var s = 0; s < sourcesCount; s++) {
+        const values = [];
+        for (var x = 0; x < Config.AUTOCORRELATION; x++) {
+            if (miss > -1 && miss < 101 && getRandom(0, 100) < miss) {
                 values.push(null);
-            }else if(outOfRange>-1 && outOfRange<101 && getRandom(0,100)<outOfRange){
-                values.push(maxV*100);
-            }else{
-                values.push(getRandom(minV,maxV,precision));
+            } else if (outOfRange > -1 && outOfRange < 101 && getRandom(0, 100) < outOfRange) {
+                values.push(maxV * 100);
+            } else {
+                values.push(getRandom(minV, maxV, precision));
             }
         }
         valueMatrix.push(values);
     }
     return valueMatrix;
-} 
+}
 
 // export default function genMockSources(
 //     sourcesCount:number,
