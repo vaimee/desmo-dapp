@@ -12,7 +12,7 @@ const activeTemperatureSensors=()=>{
             return Math.trunc(Math.random()*maxValueT_01*100)/100;
         });
         thing.setPropertyReadHandler("latitude",async()=>{
-            return 	44.494887;
+            return 	44.494888;
         });
         thing.setPropertyReadHandler("longitude",async()=>{
             return 11.3426163;
@@ -24,10 +24,10 @@ const activeTemperatureSensors=()=>{
             return Math.trunc(Math.random()*maxValueT_02*100)/100;
         });
         thing.setPropertyReadHandler("latitude",async()=>{
-            return 	44.494887;
+            return 	44.494889;
         });
         thing.setPropertyReadHandler("longitude",async()=>{
-            return 11.3426163;
+            return 11.3426165;
         });
         thing.expose();
     });
@@ -36,10 +36,10 @@ const activeTemperatureSensors=()=>{
             return Math.trunc(Math.random()*maxValueT_03*100)/100;
         });
         thing.setPropertyReadHandler("latitude",async()=>{
-            return 	44.494887;
+            return 	44.494884;
         });
         thing.setPropertyReadHandler("longitude",async()=>{
-            return 11.3426163;
+            return 11.3426162;
         });
         thing.expose();
     });

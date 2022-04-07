@@ -1,0 +1,35 @@
+{
+    "@context": [
+        "http://www.w3.org/ns/td",
+        "https://context.dasibreaker.vaimee.it/context.jsonld"
+    ],
+    "@type": [
+        "ControlUnit"
+    ],
+    "title": "stopligth_01",
+    "securityDefinitions": {
+        "no_sec": {
+            "scheme": "nosec"
+        }
+    },
+    "security": "no_sec",
+    "actions": {},
+    "properties": {
+		"latitude": {
+            "title": "Latitude",
+            "description": "Latitude of the stopligth",
+			"@type": "xsd:float"
+		},
+		"longitude": {
+            "title": "Longitude",
+            "description": "Longitude of the stopligth",
+			"@type": "xsd:float"
+		},
+        "value":{ 
+            "title": "Stopligth value",
+            "description": "Stopligth value",
+			"@type": "xsd:string"
+        }
+    },
+    "events": {}
+}

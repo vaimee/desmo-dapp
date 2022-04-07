@@ -7,6 +7,14 @@
     "build": "wam build --typescript ./src/thing.ts ./dist/bundle.js",
     "debug": "wot-servient --inspect-brk -f servient.config.json ./dist/bundle.js",
     "start": "wot-servient -f servient.config.json ./dist/bundle.js",
+    "start_01": "wot-servient -f Directories/servient.config.01.json ./dist/bundle.js",
+    "start_02": "wot-servient -f Directories/servient.config.02.json ./dist/bundle.js",
+    "start_03": "wot-servient -f Directories/servient.config.03.json ./dist/bundle.js",
+    "start_04": "wot-servient -f Directories/servient.config.04.json ./dist/bundle.js",
+    "start_05": "wot-servient -f Directories/servient.config.05.json ./dist/bundle.js",
+    "start_06": "wot-servient -f Directories/servient.config.06.json ./dist/bundle.js",
+    "start_07": "wot-servient -f Directories/servient.config.07.json ./dist/bundle.js",
+    "start_08": "wot-servient -f Directories/servient.config.08.json ./dist/bundle.js",
     "start:dev": "nodemon -w \"src/**\" --ext \"ts,json\" --exec \"npm run build && npm run start\""
   },
   "keywords": [
