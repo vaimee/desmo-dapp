@@ -7,5 +7,6 @@ export default interface ISource {
     isPunished(): boolean;
     getScore(): number;
     getIndex(): number;
+    setScore(s: number):void;
 
 }

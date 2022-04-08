@@ -1,11 +1,11 @@
-import StringSourceValues from "../model/StringSourceValues";
+import BoolSourceValues from "../model/BoolSourceValues";
 import Config from "../const/Config";
-import MockSourceStr from "./MockSourceStr";
+import MockSourceBool from "./MockSourceBool";
 import { consensus, collect } from "../component/consensus/dataCollector";
 
 
 
-const run_test = function (sources: Array<StringSourceValues>, cb: (ris: string) => void) {
+const run_test = function (sources: Array<BoolSourceValues>, cb: (ris: string) => void) {
 
     collect(sources,
         (s) => {
@@ -35,15 +35,15 @@ const run_test = function (sources: Array<StringSourceValues>, cb: (ris: string)
     );
 }
 
-const generic_test = function (valueMatrix: (string | null)[][], cb: (ris: string) => void) {
+const generic_test = function (valueMatrix: (boolean | null)[][], cb: (ris: string) => void) {
     if (Config.AUTOCORRELATION !== valueMatrix[0].length) {
         console.log("TEST aborted! AUTOCORRELATION is not eq to the MockSource length!");
         console.log("The text matrix is " + valueMatrix.length + "x" + valueMatrix[0].length);
     } else {
         // console.log("###########TEST matrix:",valueMatrix);
-        const sources = new Array<StringSourceValues>();
+        const sources = new Array<BoolSourceValues>();
         for (var x = 0; x < valueMatrix.length; x++) {
-            sources.push(new StringSourceValues(new MockSourceStr("Source_" + x, x, valueMatrix[x])))
+            sources.push(new BoolSourceValues(new MockSourceBool("Source_" + x, x, valueMatrix[x])))
         }
         run_test(sources, cb);
     }
@@ -53,43 +53,22 @@ const test_01 = function (cb: (ris: string) => void): void {
     console.log("\n+++++++++++++++++++++TEST 01+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 01+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 01+++++++++++++++++++++");
-    console.log("Start TEST consensus on StringSourceValues 6 source (all good)");
+    console.log("Start TEST consensus on BoolSourceValues 6 source (all good)");
     //row   ->source values
     //cell  ->is a value at time "t" of the source
     const valueMatrix = [
-        ["RED", "RED", "RED", "BLACK"],
-        ["RED", "YELLOW", "RED", "RED"],
-        ["YELLOW", "GREEN", "RED", "GREEN"],
-        ["RED", "YELLOW", "GREEN", "GREEN"],
-        ["YELLOW", "YELLOW", "BLACK", "..."],
-        ["RED", "YELLOW", "BLACK", "BLACK"],
+        [true, true, true, false],
+        [true, true, true, true],
+        [false, true, false, false],
+        [true, true, false, true],
+        [false, false, false, false],
+        [false, false, true, false],
     ];
     generic_test(valueMatrix, cb);
 
 }
-
-const test_02 = function (cb: (ris: string) => void): void {
-    console.log("\n+++++++++++++++++++++TEST 02+++++++++++++++++++++");
-    console.log("\n+++++++++++++++++++++TEST 02+++++++++++++++++++++");
-    console.log("\n+++++++++++++++++++++TEST 02+++++++++++++++++++++");
-    console.log("Start TEST consensus on StringSourceValues 6 source (1 not good)");
-    //row   ->source values
-    //cell  ->is a value at time "t" of the source
-    const valueMatrix = [
-        ["RED", "RED", "RED", "BLACK"],
-        ["RED", "YELLOW", "RED", "RED"],
-        ["YELLOW", "GREEN", "RED", "GREEN"],
-        ["RED", "YELLOW", "GREEN", "GREEN"],
-        ["YELLOW", "YELLOW", "BLACK", "..."],
-        ["RED", "YELLOW", null, "BLACK"],
-    ];
-    generic_test(valueMatrix, cb);
-
-}
-
 
 
 export default {
     test_01: test_01,
-    test_02: test_02
 }

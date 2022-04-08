@@ -114,7 +114,7 @@ EXAMPLE)
 
 **best_real_value** = 2.2
 
-# Algorithm on stings
+# Algorithm on stings (V1) DEPRECATED
 
 Each row of that table represent a source (**0 to S**), each collumn represent the requests following the period **T** (**0 to N**).
 The content of the cells is the couple **v** value and **t** time, where **t** is the date of the retriev data from the source **s**
@@ -132,3 +132,12 @@ The content of the cells is the couple **v** value and **t** time, where **t** i
 
 3)Select all best values as the common value that is the same for the column and the row. If there is more than one value and they are different from each other, will be choosing the one which has the maximum probability for the column and for the row the probability closer to the avarage of the probability of the rows.
 
+# Algorithm on stings (V2)
+
+Consider all the couples of value and time of gathering of the value, then over it by the time, consider all couples from all sources. 
+After that, we build a structure to estimate the time series of values. The more a value remains unchanged over time (cross sources too), the more score it is worth. The score is also affected by the amount of time in while the value remains constant.
+At least select as a result the value with more score.
+
+# Algorithm on boolean
+
+Convert the boolean to string and then use "Algorithm on stings (V2)".

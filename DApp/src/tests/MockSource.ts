@@ -19,7 +19,7 @@ export default class MockSource extends Source{
         const temp = this.values[this.actual];
         await delay(Math.trunc((Math.random()*500)));
         if(temp===null){
-            return "null";
+            throw new Error("Not valid value getted by source: " + this.source);
         }else{
             return temp.toString();
         }

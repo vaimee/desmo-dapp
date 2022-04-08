@@ -1,6 +1,24 @@
 import TestConsNumb from "./TestConsNumb";
 import TestEncoding from "./TestEncoding";
 import TestConsStr from "./TestConsStr";
+import TestConsBool from "./TestConsBool";
+
+
+
+const consOnBoolTest = (cb = () => { }) => {
+    if (process.argv[2] === "bool" || process.argv[2] === undefined) {
+        console.log("\n");
+        console.log("\n");
+        console.log("####################TEST#################");
+        console.log("#            consensus on boolean       #");
+        console.log("####################TEST#################");
+        console.log("\n");
+        TestConsBool.test_01(() => {
+        });
+    }else{
+        cb();
+    }
+}
 
 const consOnNumberTest = (cb = () => { }) => {
     if (process.argv[2] === "number" || process.argv[2] === undefined) {
@@ -28,7 +46,9 @@ const consOnStringTest = (cb = () => { }) => {
         console.log("#            consensus on string        #");
         console.log("####################TEST#################");
         console.log("\n");
-        TestConsStr.test_01(cb);
+        TestConsStr.test_01(()=>{
+            TestConsStr.test_02(cb);
+        });
     }else{
         cb();
     }
@@ -57,8 +77,10 @@ const ecnodingTest = (cb = () => { }) => {
 
 consOnNumberTest(()=>{
     consOnStringTest(()=>{
-        ecnodingTest(()=>{
-            
+        consOnBoolTest(()=>{
+            ecnodingTest(()=>{
+                
+            })
         })
     })
 })

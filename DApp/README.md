@@ -22,6 +22,7 @@ Run tests
 
 1. Consensus for nubmer ```ts-node src/tests/runTests.ts number```
 1. Consensus for string ```ts-node src/tests/runTests.ts str```
+1. Consensus for boolean ```ts-node src/tests/runTests.ts bool```
 2. Encoding ```ts-node src/tests/runTests.ts encoding```
 
 # IexecSimpleApp

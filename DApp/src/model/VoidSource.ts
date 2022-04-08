@@ -11,7 +11,7 @@ export default class VoidSource implements ISource {
     }
 
     async ask(): Promise<string> {
-        return null;
+        throw new Error("This is a VoidSource, will not return values with ask method.");
     }
 
     getURL(): string {

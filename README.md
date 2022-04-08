@@ -18,6 +18,7 @@ credentials can be shared without any risk of information leaking.
 
 ![FlowChart](docs/imgs/FlowChart.jpg)
 [FlowChart link](https://miro.com/app/board/uXjVODIdhHI=/?invite_link_id=916009864260)
+[Linksmart](https://github.com/linksmart/thing-directory)
 
 **Contents**
 1. [WAM for TDs example management](example-tds/README.md)

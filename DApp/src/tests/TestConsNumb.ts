@@ -2,7 +2,7 @@ import NumberSourceValues from "../model/NumberSourceValues";
 import Config from "../const/Config";
 import MockSource from "./MockSource";
 import genMockSources from "./GenerateMockSources";
-import { consensus, collect } from "../component/dataCollector";
+import { consensus, collect } from "../component/consensus/dataCollector";
 
 
 //method that print a table that can be used for github readme.md
@@ -90,7 +90,16 @@ const run_test = function (sources: Array<NumberSourceValues>, cb: (ris: number)
 
             printMatrixs(s as Array<NumberSourceValues>, dateOffset);
 
-            console.log("################################################\n");
+            
+            var scoreSources = "| ";
+            for (var x in sources) {
+                const index = sources[x].getSource().getIndex();
+                const score = sources[x].getSource().getScore();
+                scoreSources+=index+": "+score+" | ";
+            }
+
+            console.log("################################################\n"); 
+            console.log("ScoreSources: " + scoreSources);
             console.log("Value: " + value);
             cb(Number(value));
         }

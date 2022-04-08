@@ -1,13 +1,13 @@
-import ISourceValues from "../model/ISourceValues";
-import NumberSourceValues from "../model/NumberSourceValues";
-import StringSourceValues from "../model/StringSourceValues";
-import BoolSourceValues from "../model/BoolSourceValues";
+import ISourceValues from "../../model/ISourceValues";
+import NumberSourceValues from "../../model/NumberSourceValues";
+import StringSourceValues from "../../model/StringSourceValues";
+import BoolSourceValues from "../../model/BoolSourceValues";
 import consensusForNumber from "./consensusForNumber";
 import consensusForString from "./consensusForString";
 import consensusForBool from "./consensusForBool";
-import Result from "../model/Result";
-import Conf from "../const/Config";
-import Types from "../const/Types";
+import Result from "../../model/Result";
+import Conf from "../../const/Config";
+import Types from "../../const/Types";
 
 export function consensus(sources : Array<ISourceValues>): Result {
     if(sources[0] instanceof NumberSourceValues){
@@ -24,7 +24,7 @@ export function consensus(sources : Array<ISourceValues>): Result {
         );
     }else if(sources[0] instanceof BoolSourceValues){
         return new Result(
-            consensusForBool(sources as Array<BoolSourceValues>),
+            consensusForBool(sources as Array<BoolSourceValues>).toString(),
             Types.TYPE_BOOLEAN,
             sources
         );

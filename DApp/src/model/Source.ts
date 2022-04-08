@@ -24,7 +24,7 @@ export default class Source implements ISource {
         if (Math.random() > 0.2) {
             return Math.trunc(Math.random() * 100).toString();
         }
-        throw new Error("Not valid number getted by source: " + this.source);
+        throw new Error("Not valid value getted by source: " + this.source);
     }
 
     getURL(): string {

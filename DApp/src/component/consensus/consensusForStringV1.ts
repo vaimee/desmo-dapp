@@ -1,5 +1,5 @@
-import StringSourceValues from "../model/StringSourceValues";
-import Conf from "../const/Config";
+import StringSourceValues from "../../model/StringSourceValues";
+import Conf from "../../const/Config";
 
 
 type CommmonAndProb = { common: string, prob: number }

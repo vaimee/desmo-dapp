@@ -1,5 +1,5 @@
-import NumberSourceValues from "../model/NumberSourceValues";
-import Conf from "../const/Config";
+import NumberSourceValues from "../../model/NumberSourceValues";
+import Conf from "../../const/Config";
 
 function media(values: Array<number>): number {
     if (values.length < 1) {
@@ -131,9 +131,19 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
         }
     }
 
-    //Find the best "REAL" value
     // console.log("bestSource",bestSource);
     // console.log("bestTime",bestTime);
+
+    //reward sources not punished
+    for (var x = 0; x < autoC.length; x++) {
+        if(x===bestSource){
+            notPunished[bestSource].getSource().setScore(3);
+        }else if(Math.abs(autoC[x]-fluct)<(fluct*2)){
+            notPunished[x].getSource().setScore(2);
+        }
+    }
+    
+    //Find the best "REAL" value
     const bestMediaValue = notPunished[bestSource].getSyncTemporalDistributionAt(bestTime);
     return notPunished[bestSource].getBestRealValueAt(q[bestTime], bestMediaValue);
 }
