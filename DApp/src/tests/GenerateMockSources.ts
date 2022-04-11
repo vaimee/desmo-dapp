@@ -1,4 +1,4 @@
-// import MockSource from "./MockSource";
+// import MockSourceNumb from "./MockSourceNumb";
 // import NumberSourceValues from "../model/NumberSourceValues";
 import Config from "../const/Config";
 
@@ -68,7 +68,7 @@ export default function genMockSources(
 //                 values.push(getRandom(minV,maxV,precision));
 //             }
 //         }
-//         sources.push(new NumberSourceValues(new MockSource("Source_"+s,values)))
+//         sources.push(new NumberSourceValues(new MockSourceNumb("Source_"+s,values)))
 //     }
 //     return sources;
 // } 

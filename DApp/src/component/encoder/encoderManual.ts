@@ -1,4 +1,4 @@
-import IEncoder from "./iEncoder";
+import IEncoder from "./IEncoder";
 import Conf from "../../const/Config";
 import Types from "../../const/Types";
 import CommonEncoder from "./common";
@@ -33,7 +33,10 @@ export default class EncoderManual implements IEncoder{
     sources: Array<{ sourceIndex: number, reward: number }>;
     encoded:string;
 
-    constructor(sources: Array<{ sourceIndex: number, reward: number }>) {
+    constructor() {
+    }
+
+    setSources(sources: { reward: number; sourceIndex: number; }[]): void {
         this.sources = sources;
         if (this.sources.length > Conf.MAX_DIRECTORY_LIST_SIZE) {
             this.sources = this.sources.splice(0, Conf.MAX_DIRECTORY_LIST_SIZE);

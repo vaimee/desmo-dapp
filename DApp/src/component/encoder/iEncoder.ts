@@ -5,4 +5,6 @@ export default interface IEncoder {
     encodeString(stringValue: String): string;
 
     decode(callbackData: string): void;
+
+    setSources(sources:Array<{ reward: number, sourceIndex: number }>):void;
 }

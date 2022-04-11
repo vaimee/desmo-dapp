@@ -37,7 +37,7 @@ const run_test = function (sources: Array<StringSourceValues>, cb: (ris: string)
 
 const generic_test = function (valueMatrix: (string | null)[][], cb: (ris: string) => void) {
     if (Config.AUTOCORRELATION !== valueMatrix[0].length) {
-        console.log("TEST aborted! AUTOCORRELATION is not eq to the MockSource length!");
+        console.log("TEST aborted! AUTOCORRELATION is not eq to the MockSourceStr length!");
         console.log("The text matrix is " + valueMatrix.length + "x" + valueMatrix[0].length);
     } else {
         // console.log("###########TEST matrix:",valueMatrix);

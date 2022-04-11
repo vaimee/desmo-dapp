@@ -1,4 +1,4 @@
-import IEncoder from "./iEncoder";
+import IEncoder from "./IEncoder";
 import Conf from "../../const/Config";
 import Types from "../../const/Types";
 import {ethers} from "ethers-ts";
@@ -77,7 +77,9 @@ export default class EncoderMix implements IEncoder{
     // flagSizeByte: number;
     actual:Array<number>;
 
-    constructor(sources: Array<{ sourceIndex: number, reward: number }>) {
+    constructor() {}
+
+    setSources(sources: { reward: number; sourceIndex: number; }[]): void {
         this.sources = sources;
         if (this.sources.length > Conf.MAX_DIRECTORY_LIST_SIZE) {
             this.sources = this.sources.splice(0, Conf.MAX_DIRECTORY_LIST_SIZE);
@@ -112,7 +114,7 @@ export default class EncoderMix implements IEncoder{
         // console.log("this.ecnodedByte",this.ecnodedByte);//ok
     }
 
-    encodeNumber(numberValue: number, precision: number): string {
+    encodeNumber(numberValue: number, precision=0): string {
         // if(this.actual.length!==3){
         //     throw new Error("The size of the Directory list must be a number multiples of 4 less one. (example: 15,31,63,...,255)");
         // }

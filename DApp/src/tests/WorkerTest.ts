@@ -1,6 +1,7 @@
 import { promises as fsPromises } from 'fs';
 import {ethers} from "ethers-ts";
-import TestConsNumb from "../tests/TestConsNumb";
+import TestConsNumb from "./TestConsNumb";
+import IWorker from "../component/IWorker";
 
 const runWithPromise=function():Promise<number>{
   return new Promise(function(resolve, reject){
@@ -15,7 +16,7 @@ function getPrecision(a:number):number {
   return p;
 }
 
-export default class WorkerTest{
+export default class WorkerTest implements IWorker{
 
       constructor(){ }
 

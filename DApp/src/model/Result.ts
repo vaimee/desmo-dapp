@@ -1,6 +1,7 @@
-import EncoderManual from "../component/encoder/encoderManual";
+import IEncoder from "../component/encoder/IEncoder";
 import Types from "../const/Types";
 import ISourceValues from "./ISourceValues";
+import IResult from "./IResult";
 
 
 function getPrecision(a: number): number {
@@ -10,7 +11,7 @@ function getPrecision(a: number): number {
     return p;
 }
 
-export default class Result {
+export default class Result implements IResult {
 
     value: string;
     type: string;
@@ -36,9 +37,10 @@ export default class Result {
     }
 
 
-    getEncodedValue(): string {
+    getEncodedValue(encoder:IEncoder): string {
         //###########################Econde result
-        const encoder = new EncoderManual(this.sources);
+        // const _encoder = new EncoderManual(this.sources);
+        encoder.setSources(this.sources);
         if (this.type === Types.TYPE_NUMBER) {
             const num = Number(this.value);
             const precision = getPrecision(num);
@@ -46,7 +48,7 @@ export default class Result {
                 const intvalue = Math.trunc(num * (precision**10));
                 return encoder.encodeNumber(intvalue, precision);
             }else{
-                return encoder.encodeNumber(num);
+                return encoder.encodeNumber(num,0);
             }
         } else if (this.type === Types.TYPE_STRING) {
             return encoder.encodeString(this.value);

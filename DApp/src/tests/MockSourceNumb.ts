@@ -4,7 +4,7 @@ function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
-export default class MockSource extends Source{
+export default class MockSourceNumb extends Source{
 
     values:Array<(number | null)>;
     actual=-1;

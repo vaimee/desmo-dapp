@@ -1,5 +1,5 @@
 import StringSourceValues from "../../model/StringSourceValues";
-import ScoreStruture from "./scoreStruture";
+import ScoreStruture from "./ScoreStruture";
 
 export default function consensus(sourcesAndValues: Array<StringSourceValues>): string {
 

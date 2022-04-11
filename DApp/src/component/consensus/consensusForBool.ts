@@ -1,5 +1,5 @@
 import BoolSourceValues from "../../model/BoolSourceValues";
-import ScoreStruture from "./scoreStruture";
+import ScoreStruture from "./ScoreStruture";
 import VoidSource from "../../model/VoidSource";
 
 export default function consensus(sourcesAndValues: Array<BoolSourceValues>): boolean {

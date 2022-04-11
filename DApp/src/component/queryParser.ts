@@ -1,5 +1,6 @@
 
 import Types from "../const/Types";
+import IQueryParser from "./IQueryParser";
 
 //##################################WIP
 //##################################WIP
@@ -36,6 +37,11 @@ export default class QueryParser {
         }
         return false;
     }
+
+    isAskingForBoolean(): boolean {
+        return  this.askForType === Types.BOOLEAN;
+    }
+
 
     isAskingForString(): boolean {
         return this.askForType === Types.STRING

@@ -1,6 +1,6 @@
 import NumberSourceValues from "../model/NumberSourceValues";
 import Config from "../const/Config";
-import MockSource from "./MockSource";
+import MockSourceNumb from "./MockSourceNumb";
 import genMockSources from "./GenerateMockSources";
 import { consensus, collect } from "../component/consensus/dataCollector";
 
@@ -108,13 +108,13 @@ const run_test = function (sources: Array<NumberSourceValues>, cb: (ris: number)
 
 const generic_test = function (valueMatrix: (number | null)[][], cb: (ris: number) => void) {
     if (Config.AUTOCORRELATION !== valueMatrix[0].length) {
-        console.log("TEST aborted! AUTOCORRELATION is not eq to the MockSource length!");
+        console.log("TEST aborted! AUTOCORRELATION is not eq to the MockSourceNumb length!");
         console.log("The text matrix is " + valueMatrix.length + "x" + valueMatrix[0].length);
     } else {
         console.log("###########TEST matrix:", valueMatrix);
         const sources = new Array<NumberSourceValues>();
         for (var x = 0; x < valueMatrix.length; x++) {
-            sources.push(new NumberSourceValues(new MockSource("Source_" + x, x, valueMatrix[x])))
+            sources.push(new NumberSourceValues(new MockSourceNumb("Source_" + x, x, valueMatrix[x])))
         }
         run_test(sources, cb);
     }
