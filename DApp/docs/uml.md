@@ -1,6 +1,6 @@
 # UML
 
-![UML Legend](UML_legenda.jpg)
+<img src="UML_legenda.jpg" width="400">
 
 ![UML](UML.jpg)
 
