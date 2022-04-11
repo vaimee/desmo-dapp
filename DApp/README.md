@@ -10,6 +10,8 @@ Typescript service based on *iexec-sdk* in order to comunicate with the in-chain
 
 [Encoding explanation](docs/encoding.md)
 
+[UML](docs/uml.md)
+
 # Command
 
 ```npm install -g ts-node typescript '@types/node'```

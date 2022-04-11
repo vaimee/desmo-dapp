@@ -1,5 +1,7 @@
 # UML
 
+![UML Legend](UML_legenda.jpg)
+
 ![UML](UML.jpg)
 
 # Components
