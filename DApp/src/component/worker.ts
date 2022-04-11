@@ -2,7 +2,7 @@ import { promises as fsPromises } from 'fs';
 import QueryParser from "./QueryParser";
 import IWorker from "./IWorker";
 import { collectDirs } from "./directoriesCollector";
-import { collect, consensus } from "./dataCollector";
+import { collect, consensus } from "./consensus/dataCollector";
 
 import EncoderManual from "./encoder/EncoderManual";
 
@@ -39,14 +39,14 @@ export default class Worker implements IWorker {
           const iexecOut = process.env.IEXEC_OUT;
 
           //###########################Retrieve values
-          const sources = collectDirs(directoriesList);
+          const sources = collectDirs(directoriesList,parser);
           var sourceValues = new Array<ISourceValues>();
           for (var x in sources) {
             if (parser.isAskingForNumber()) {
                 sourceValues.push(new NumberSourceValues(sources[x]));
             } else if (parser.isAskingForString()) {
                 sourceValues.push(new StringSourceValues(sources[x]));
-            } else if (parser.is()) {
+            } else if (parser.isAskingForBoolean()) {
               sourceValues.push(new BoolSourceValues(sources[x]));
             } else {
               this.err("Result Type of the request unknow!");

@@ -6,7 +6,7 @@ import IQueryParser from "./IQueryParser";
 //##################################WIP
 //##################################WIP
 
-export default class QueryParser {
+export default class QueryParser implements IQueryParser {
 
     query: string;
     valid: boolean;
@@ -20,6 +20,7 @@ export default class QueryParser {
     parse() {
         this.valid = true;
         this.askForType = 0;
+        throw new Error("Not implemented YET");
     }
 
     isValid(): boolean {
