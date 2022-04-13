@@ -70,14 +70,18 @@ function append(callback_data:string,compressedSources:Uint8Array,typeAndWarn:nu
 export default class EncoderMix implements IEncoder{
 
 
-
     sources: Array<{ sourceIndex: number, reward: number }>;
     encoded: string;
     compressedSources: Uint8Array;
     // flagSizeByte: number;
     actual:Array<number>;
 
-    constructor() {}
+    constructor() {
+        this.sources= new Array<{ sourceIndex: number, reward: number }>();
+        this.actual= new Array<number>();
+        this.encoded = "";
+        this.compressedSources = new Uint8Array();
+    }
 
     setSources(sources: { reward: number; sourceIndex: number; }[]): void {
         this.sources = sources;
@@ -87,7 +91,7 @@ export default class EncoderMix implements IEncoder{
         // if (this.sources.length % 4 !== 3) {
         //    throw new Error("The size of the Directory list must be a number multiples of 4 less one. (example: 15,31,63,...,255)");
         // }
-        this.encoded = "";
+        // this.encoded = "";
         const arr= new Array<number>();
         /*
             1byte to represent the number of sources
@@ -95,7 +99,7 @@ export default class EncoderMix implements IEncoder{
             in total: ((S)/4+1)Byte where S is the number of source
         */
         // this.flagSizeByte=this.sources.length;
-        this.actual = new Array<number>();
+        // this.actual = new Array<number>();
         this.sources.sort((a, b) => {
             return a.sourceIndex - b.sourceIndex;
         }).map((a) => {

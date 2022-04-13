@@ -34,6 +34,8 @@ export default class EncoderManual implements IEncoder{
     encoded:string;
 
     constructor() {
+        this.sources= new Array<{ sourceIndex: number, reward: number }>();
+        this.encoded="";
     }
 
     setSources(sources: { reward: number; sourceIndex: number; }[]): void {

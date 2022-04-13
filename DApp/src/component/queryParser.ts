@@ -51,5 +51,6 @@ export default class QueryParser implements IQueryParser {
     getType():number{
         return this.askForType;
     }
+    
 
 }
