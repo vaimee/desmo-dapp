@@ -1,3 +1,5 @@
+![DESMO-LD](https://github.com/vaimee/desmo/blob/8a741e1542162dd4517a90a2ab37f42a58a8fd7f/imgs/desmo-logo.png)
+
 # DESMO-LD Oracle DApp
 
 **Overview** 
@@ -29,3 +31,4 @@ credentials can be shared without any risk of information leaking.
     1. [Consensus algorithm for TDs result](DApp/docs/algorithm.md)
     2. [Econding result](DApp/docs/encoding.md)
     3. [UML](docs/uml.md)
+
