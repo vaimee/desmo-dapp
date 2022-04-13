@@ -1,6 +1,6 @@
 import ISource from "./ISource";
 
-export default interface SourceValues {
+export default interface ISourceValues {
 
     addTemporalValue():Promise<boolean>;
     getSource():ISource;    

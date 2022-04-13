@@ -17,11 +17,15 @@ credentials can be shared without any risk of information leaking.
 ![Architecture](docs/imgs/schema.jpg)
 
 ![FlowChart](docs/imgs/FlowChart.jpg)
+
 [FlowChart link](https://miro.com/app/board/uXjVODIdhHI=/?invite_link_id=916009864260)
-[Linksmart](https://github.com/linksmart/thing-directory)
+
+
 
 **Contents**
 1. [WAM for TDs example management](example-tds/README.md)
-2. [DApp](DApp/README.md)
-3. [Consensus algorithm for TDs result](DApp/docs/algorithm.md)
-4. [Econding result](DApp/docs/encoding.md)
+2. [Linksmart Directory for Directories example](linksmart-directory/README.md)
+3. [DApp](DApp/README.md)
+    1. [Consensus algorithm for TDs result](DApp/docs/algorithm.md)
+    2. [Econding result](DApp/docs/encoding.md)
+    3. [UML](docs/uml.md)
