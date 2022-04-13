@@ -32,3 +32,43 @@ credentials can be shared without any risk of information leaking.
     2. [Econding result](DApp/docs/encoding.md)
     3. [UML](docs/uml.md)
 
+
+
+# LOCAL TEST
+
+**SETUP**
+
+1. WAM
+    1. `cd ./example-tds`
+    2. `npm install`
+    3. `npm run build`
+    4. `npm start`
+2. `cd ..`
+3. Directory
+    1. `cd ./linksmart-directory` 
+    2. Download and install GO [go.dev](https://go.dev/dl/)
+    3. `./downloadRepo.sh`
+    5. `cd ./directoryManager` 
+    6. `npm install` 
+    7. `npm start` 
+4. `cd ../../`
+5. DApp
+    1. `cd ./DApp` 
+    2. `npm install -g ts-node typescript '@types/node'`
+
+**RUN TEST**
+
+1. WAM
+    1. `cd ./example-tds`
+    4. `npm start`
+2. `cd ..`
+3. Directory
+    1. `cd ./linksmart-directory`
+    4. `./buildAndRun.sh`
+    5. `cd ./directoryManager`
+    7. `npm start` 
+4. `cd ../../`
+5. DApp
+    1. `cd ./DApp` 
+    2. `ts-node src/tests/runTests.ts usecase`
+
