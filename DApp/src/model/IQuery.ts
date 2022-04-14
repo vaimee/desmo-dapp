@@ -11,15 +11,15 @@ export interface IGeoPosition {
 };
 
 export interface IGeoCircle {
-    center?: IGeoPosition;
-    maxDistanceFromCenter?: {
+    center: IGeoPosition;
+    maxDistanceFromCenter: {
         value: number;
         unit: string;
     };
 };
 
 export interface IGeoPolygon {
-    vertices?: IGeoPosition[];
+    vertices: IGeoPosition[];
 };
 
 export interface IPrefix {
@@ -45,7 +45,7 @@ export default interface IQuery {
         };
     };
     timeFilter?: {
-        until: string;
+        until: Date;
         interval: string;
         aggregation: string;
     };
