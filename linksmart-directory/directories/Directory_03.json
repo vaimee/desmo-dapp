@@ -1,0 +1,59 @@
+{
+    "description": "LinkSmart Thing Directory 03",
+    "validation": {
+      "jsonSchemas": []
+    },
+    "storage": {
+      "type": "leveldb",
+      "dsn": "../../directories/storages/data_03"
+    },
+    "dnssd": {
+      "publish": {
+        "enabled": false,
+        "instance": "LinkSmart Thing Directory 03",
+        "domain": "local.",
+        "interfaces": []
+      }
+    },
+    "serviceCatalog": null,
+    "http": {
+      "publicEndpoint": "http://fqdn-of-the-host:8083",
+      "bindAddr": "0.0.0.0",
+      "bindPort": 8083,
+      "tls": {
+        "enabled": false,
+        "keyFile": "./tls/key.pem",
+        "certFile": "./tls/cert.pem"
+      },
+      "auth": {
+        "enabled": false,
+        "provider": "keycloak",
+        "providerURL": "https://provider-url",
+        "clientID": "sampleTD",
+        "basicEnabled": false,
+        "authorization": {
+          "enabled": false,
+          "rules": [
+            {
+              "paths": ["/td"],
+              "methods": ["GET","POST", "PUT", "DELETE"],
+              "users": ["admin"],
+              "groups": [],
+              "roles": [],
+              "clients": [],
+              "excludePathSubstrings": []
+            },
+            {
+              "paths": ["/td"],
+              "methods": ["GET"],
+              "users": [],
+              "groups": ["anonymous"],
+              "roles": [],
+              "clients": [],
+              "excludePathSubstrings": []
+            }
+          ]
+        }
+      }
+    }
+  }

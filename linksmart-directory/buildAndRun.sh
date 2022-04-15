@@ -1,2 +1,2 @@
 cd ./repository/thing-directory
-go run . --conf=../../thing-directory.json
+go run . --conf=../../directories/Directory_01.json

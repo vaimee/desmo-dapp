@@ -10,3 +10,25 @@ That part of the project uses the *thing-directory* repository as a simulator of
 1. Download and install GO [go.dev](https://go.dev/dl/)
 2. Download the original repository `./downloadRepo.sh`
 3. Build and run `./buildAndRun.sh`
+
+
+# Details
+
+In the "./directories" folder there are the configuration files and the stores of some Directories.
+In the "./directoryManager" folder there is a node.js application that can be used to manage the TD of all the Directories, it uses the [WAM](../example-tds/README.md) project as a simulator of Directories.
+
+
+The script `buildAndRun.sh` runs just one Directory, and the script `setup.sh` will set the TDs just for that Directory (WAM needs to be up).
+The script `buildAndRunMultiple.sh` runs more than one Directory, and the script `setupMultiple.sh` will set the TDs for all of that Directories (WAM needs to be up).
+
+**directoryManager**
+
+Using `node setup.js` just one directory will manage.
+
+Using `node setup.js --m` all the directories will manage.
+
+Using `node setup.js --m X` all the directories will manage and "X" is the probability of NOT registering a TD on a Directory.
+"X" must be:  `0 < X < 1`.
+For example, `node setup.js --m 0.5` will register just half of the TD in each Directory.
+
+

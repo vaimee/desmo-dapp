@@ -1,7 +1,7 @@
 import EncoderMix from "../component/encoder/encoderMix";
 import EncoderManual from "../component/encoder/encoderManual";
 
-function test_01(cb: () => void) {
+const test_01 = async function() {
     console.log("\n##########   test_01  ##########");
     console.log("\n########## EncoderMix ##########");
     const temp = new EncoderMix();
@@ -21,10 +21,10 @@ function test_01(cb: () => void) {
     console.log("encoded", encoded);
 
     temp.decode(encoded);
-    cb();
+    return;
 }
 
-function test_02(cb: () => void) {
+const test_02 = async function() {
     console.log("\n##########    test_02    ##########");
     console.log("\n########## EncoderManual ##########");
     const temp = new EncoderManual();
@@ -43,10 +43,10 @@ function test_02(cb: () => void) {
     const encoded = temp.encodeNumber(21343912, 2);
     console.log("encoded", encoded);
     temp.decode(encoded);
-    cb();
+    return;
 }
 
-function test_03(cb: () => void) {
+const test_03 = async function() {
     console.log("\n##########    test_03    ##########");
     console.log("\n########## EncoderManual ##########");
     const temp = new EncoderManual();
@@ -65,10 +65,10 @@ function test_03(cb: () => void) {
     const encoded = temp.encodeString(toEncode);
     console.log("encoded", encoded);
     temp.decode(encoded);
-    cb();
+    return;
 }
 
-function test_04(cb: () => void) {
+const test_04 = async function() {
     console.log("\n##########   test_04     ##########");
     console.log("\n########## EncoderManual ##########");
     const temp = new EncoderManual();
@@ -87,12 +87,12 @@ function test_04(cb: () => void) {
     const encoded = temp.encodeNumber(9949999123, 0);
     console.log("encoded", encoded);
     temp.decode(encoded);
-    cb();
+    return;
 }
 
-export default {
-    test_01: test_01,
-    test_02: test_02,
-    test_03: test_03,
-    test_04: test_04,
-}
+export default [
+     test_01,
+     test_02,
+     test_03,
+     test_04,
+]

@@ -1,25 +1,25 @@
 {
-    "description": "LinkSmart Thing Directory",
+    "description": "LinkSmart Thing Directory 10",
     "validation": {
       "jsonSchemas": []
     },
     "storage": {
       "type": "leveldb",
-      "dsn": "./data"
+      "dsn": "../../directories/storages/data_10"
     },
     "dnssd": {
       "publish": {
         "enabled": false,
-        "instance": "LinkSmart Thing Directory",
+        "instance": "LinkSmart Thing Directory 10",
         "domain": "local.",
         "interfaces": []
       }
     },
     "serviceCatalog": null,
     "http": {
-      "publicEndpoint": "http://fqdn-of-the-host:8081",
+      "publicEndpoint": "http://fqdn-of-the-host:8090",
       "bindAddr": "0.0.0.0",
-      "bindPort": 8081,
+      "bindPort": 8090,
       "tls": {
         "enabled": false,
         "keyFile": "./tls/key.pem",

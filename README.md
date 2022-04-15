@@ -64,9 +64,8 @@ credentials can be shared without any risk of information leaking.
 2. `cd ..`
 3. Directory
     1. `cd ./linksmart-directory`
-    4. `./buildAndRun.sh`
-    5. `cd ./directoryManager`
-    7. `npm start` 
+    4. `./buildAndRunMultiple.sh`
+    7. `./setupMultiple.sh` 
 4. `cd ../../`
 5. DApp
     1. `cd ./DApp` 

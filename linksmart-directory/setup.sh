@@ -1,0 +1,2 @@
+cd directoryManager
+npm start

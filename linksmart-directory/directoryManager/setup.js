@@ -5,7 +5,8 @@ const axios = require('axios');
 const {
     DIRECTORY_URL,
     TD_LIST,
-    WAM_URL
+    WAM_URL,
+    DIRECTORIES_PORT
 } = require('./config');
 
 function replaceIP(url, replacewith = "localhost") {
@@ -88,12 +89,18 @@ function getThingFormWAM(url, cbok, cberr, useOnlyLocalhost = true) {
         });
 }
 
-function registerTD(td_url, cbok, cberr, forceCreate = false) {
+function registerTD(
+    directory = DIRECTORY_URL + ":" + DIRECTORIES_PORT[0],
+    td_url,
+    cbok = () => { },
+    cberr = () => { },
+    forceCreate = false
+) {
     const headers = { 'Content-Type': 'application/ld+json' };
     getThingFormWAM(
         td_url,
         (jsonTD) => {
-            // console.log(DIRECTORY_URL+"/things",DIRECTORY_URL+"/things")
+            // console.log("directory",directory+"/things")
             // console.log("jsonTD",jsonTD)
             // console.log("headers",headers)
             if (forceCreate || jsonTD.id === undefined) {
@@ -104,7 +111,7 @@ function registerTD(td_url, cbok, cberr, forceCreate = false) {
                 const jsonTD_withNoID = jsonTD;
                 delete jsonTD_withNoID.id;
                 axios.post(
-                    DIRECTORY_URL + "/things",
+                    directory + "/things",
                     jsonTD_withNoID,
                     headers
                 ).then((ris) => {
@@ -125,7 +132,7 @@ function registerTD(td_url, cbok, cberr, forceCreate = false) {
                 */
                 const id = jsonTD.id;
                 axios.put(
-                    DIRECTORY_URL + "/things/" + id,
+                    directory + "/things/" + id,
                     jsonTD,
                     headers
                 ).then((ris) => {
@@ -166,28 +173,55 @@ function getTDListFromWAM(url, cbok, cberr, useOnlyLocalhost = true) {
         })
 }
 
-
-function registerALlTDs(list) {
+/*
+"randomMiss" is the prob to not register a TD into a Directory "actualDir"
+randomMiss >=0 && randomMiss<1
+*/
+function registerALlTDs(actualDir, list, cb = () => { }, randomMiss = 0) {
     const avoidDup = [];
+    var barrier = 0;
+    var registeredCount = 0;
+    const count = list.length;
+    const hit = () => {
+        barrier++;
+        if (barrier >= count) {
+            cb(registeredCount);
+        }
+    }
     for (var x in list) {
         const td_url = list[x];
         if (!avoidDup.includes(td_url)) {
             avoidDup.push(td_url);
-            registerTD(
-                td_url,
-                (ris) => {
-                    console.log("TD registered for: " + td_url, ris);
-                },
-                (err) => {
-                    console.log(err);
-                }
-            );
+            if (randomMiss > 0 && Math.random() < randomMiss) {
+                console.log("TD NOT REGISTERED (random-miss): " + td_url + ", fro Directory: " + actualDir);
+                hit();
+            } else {
+                registerTD(
+                    actualDir,
+                    td_url,
+                    (ris) => {
+                        registeredCount++;
+                        console.log("TD REGISTERED: " + td_url + ", fro Directory: " + actualDir);
+                        hit();
+                    },
+                    (err) => {
+                        console.log(err);
+                        hit();
+                    }
+                );
+            }
+        } else {
+            hit();
         }
     }
 }
 
-function getAllThingsID(cbok, cberr) {
-    axios.get(DIRECTORY_URL + "/things")
+function getAllThingsID(
+    directory = DIRECTORY_URL + ":" + DIRECTORIES_PORT[0],
+    cbok = () => { },
+    cberr = () => { }
+) {
+    axios.get(directory + "/things")
         .then((ris) => {
             if (ris.status === 200) {
                 const list = ris.data;
@@ -207,10 +241,15 @@ function getAllThingsID(cbok, cberr) {
         })
 }
 
-function removeAll(idLIST, cbok, cberr) {
+function removeAll(
+    directory = DIRECTORY_URL + ":" + DIRECTORIES_PORT[0],
+    idLIST,
+    cbok = () => { },
+    cberr = () => { }
+) {
     for (var x in idLIST) {
         const id = idLIST[x];
-        axios.delete(DIRECTORY_URL + "/things/" +id)
+        axios.delete(directory + "/things/" + id)
             .then((ris) => {
                 if (ris.status === 204) {
                     cbok(id);
@@ -224,47 +263,141 @@ function removeAll(idLIST, cbok, cberr) {
     }
 }
 
-function run() {
 
-    console.log("DROP ALL TDs");
+function dropAllAndRegisterThings(actualDir, cb = () => { }, randomMiss = 0) {
+    console.log("DROP ALL TDs and register things for Directory: " + actualDir);
     getAllThingsID(
+        actualDir,
         (tds) => {
             const count = tds.length;
-            var barrier = 0;
-            removeAll(tds,
-                (id) => {
-                    console.log("TD dropped: " + id);
-                    barrier++;
-                    if (barrier >= count) {
-                        if (TD_LIST.length > 0) {
-                            console.log("###################");
-                            console.log("USING  TD_LIST    #");
-                            console.log("###################");
-                            registerALlTDs(TD_LIST);
-                        } else {
-                            console.log("###################");
-                            console.log("USING  WAM URL    #");
-                            console.log("###################");
-                            getTDListFromWAM(
-                                WAM_URL,
-                                registerALlTDs,
-                                (err) => {
-                                    console.log(err);
-                                }
-                            )
-
+            const next = ()=>{
+                if (TD_LIST.length > 0) {
+                    registerALlTDs(
+                        actualDir,
+                        TD_LIST,
+                        cb,
+                        randomMiss
+                    );
+                } else {
+                    getTDListFromWAM(
+                        WAM_URL,
+                        (list_td) => {
+                            registerALlTDs(
+                                actualDir,
+                                list_td,
+                                cb,
+                                randomMiss
+                            );
+                        },
+                        (err) => {
+                            console.log(err);
                         }
-                    }
-                },
-                (err) => {
-                    console.log(err);
+                    )
+
                 }
-            )
+            }
+            if (count < 1) {
+                next();
+            } else {
+                var barrier = 0;
+                removeAll(
+                    actualDir,
+                    tds,
+                    (id) => {
+                        console.log("TD DROPPED: " + id + ", for Directory: " + actualDir);
+                        barrier++;
+                        if (barrier >= count) {
+                            next();
+                        }
+                    },
+                    (err) => {
+                        barrier++;
+                        console.log(err);
+                    }
+                )
+            }
         },
         (err) => {
             console.log(err);
         }
     )
+}
+
+function isDirectoryAlive(url, cb) {
+    axios.get(url)
+        .then((ris) => {
+            cb(ris.status === 200);
+        })
+        .catch((err) => {
+            cb(false)
+        });
+}
+
+function run() {
+
+
+    if (TD_LIST.length > 0) {
+        console.log("###################");
+        console.log("USING  TD_LIST    #");
+        console.log("###################");
+    } else {
+        console.log("###################");
+        console.log("USING  WAM URL    #");
+        console.log("###################");
+    }
+
+    const justFirstDirectory = process.argv[2] !== "--m";
+    const missRandom = (
+        process.argv[3] !== undefined &&
+        !isNaN(Number(process.argv[3])) &&
+        Number(process.argv[3]) < 1 &&
+        Number(process.argv[3]) > 0
+    ) ? Number(process.argv[3]) : 0;
+    var totalRegistered = 0;
+    var directoriesSetted = 0;
+    var directoriesToSetup = 0;
+    const hit = (TDregistered) => {
+        totalRegistered += TDregistered;
+        directoriesSetted++;
+        if (directoriesSetted >= directoriesToSetup) {
+            console.log("#############################");
+            console.log("####     SETUP FINISHED!    #");
+            console.log("#############################");
+            console.log("Total TD registered: "+ totalRegistered);
+        }
+    }
+    if (justFirstDirectory) {
+        directoriesToSetup = 1;
+        const directory_url = DIRECTORY_URL + ":" + DIRECTORIES_PORT[0];
+        console.log("Setup just the first Directory: " + directory_url);
+        isDirectoryAlive(directory_url,
+            (alive) => {
+                if (alive) {
+                    dropAllAndRegisterThings(directory_url, hit, missRandom);
+                } else {
+                    console.log("WARNING: The Directory is down: " + directory_url + ". IGNORED.");
+                    hit(0);
+                }
+            }
+        );
+    } else {
+        directoriesToSetup = DIRECTORIES_PORT.length;
+        console.log("Setup all the Directories.");
+        for (var x = 0; x < DIRECTORIES_PORT.length; x++) {
+            const directory_url = DIRECTORY_URL + ":" + DIRECTORIES_PORT[x];
+            isDirectoryAlive(directory_url,
+                (alive) => {
+                    if (alive) {
+                        dropAllAndRegisterThings(directory_url, hit, missRandom);
+                    } else {
+                        console.log("WARNING: The Directory is down: " + directory_url + ". IGNORED.");
+                        hit(0);
+                    }
+                }
+            );
+        }
+    }
+
 
 
 }
