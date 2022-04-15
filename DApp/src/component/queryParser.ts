@@ -17,12 +17,12 @@ export default class QueryParser implements IQueryParser {
 
     constructor(query: string) {
         this.query = query;
-        this.valid = true;
+        this.parsedQuery = JSON.parse(this.query) as IQuery;
+        this.valid = false;
+        this.parse();
     }
 
     parse() {
-        this.parsedQuery = JSON.parse(this.query) as IQuery;
-
         //The prefix list is optional
         if (this.parsedQuery.prefixList != null) {
             //check if the prefix list is valid
@@ -34,6 +34,7 @@ export default class QueryParser implements IQueryParser {
             this.parsedQuery.property.identifier == "" ||
             this.parsedQuery.property.unit == null ||
             this.parsedQuery.property.unit == "" ||
+            validateUnit(this.parsedQuery.property.unit)==false ||
             this.parsedQuery.property.datatype == null) { this.valid == false; return; }
 
         //The static filter is optional
@@ -55,7 +56,8 @@ export default class QueryParser implements IQueryParser {
                 if (this.parsedQuery.geoFilter.altitudeRange.min == null ||
                     this.parsedQuery.geoFilter.altitudeRange.max == null ||
                     this.parsedQuery.geoFilter.altitudeRange.unit == null ||
-                    this.parsedQuery.geoFilter.altitudeRange.unit == "") { this.valid == false; return; }
+                    this.parsedQuery.geoFilter.altitudeRange.unit == "" ||
+                    validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit)==false) { this.valid == false; return; }
             }
         }
 
@@ -69,7 +71,6 @@ export default class QueryParser implements IQueryParser {
         }
 
         this.valid = true;
-        throw new Error("Not implemented YET");
     }
 
     isValid(): boolean {
@@ -95,6 +96,10 @@ export default class QueryParser implements IQueryParser {
 
     getType(): number {
         return this.parsedQuery.property.datatype;
+    }
+
+    getParsedQuery(): IQuery {
+        return this.parsedQuery;
     }
 
 
