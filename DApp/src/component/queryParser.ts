@@ -1,6 +1,6 @@
 
 import Types from "../const/Types";
-import IQuery, { IGeoCircle, IGeoPolygon, RequestedDataType } from "../model/IQuery";
+import IQuery, { IGeoCircle, IGeoPolygon, IPrefix, RequestedDataType } from "../model/IQuery";
 import IQueryParser from "./IQueryParser";
 
 //##################################WIP
@@ -24,23 +24,31 @@ export default class QueryParser implements IQueryParser {
 
     parse() {
         //The prefix list is optional
-        if (this.parsedQuery.prefixList != null) {
-            //check if the prefix list is valid
+        if (this.parsedQuery.prefixList !== undefined) {
+        }
+        if (this.parsedQuery.prefixList != null && this.parsedQuery.prefixList.length > 0) {
+            for (let prefix of this.parsedQuery.prefixList) {
+                if (prefix.abbreviation == null || prefix.abbreviation == "" || prefix.completeURI == null || prefix.completeURI == "") {
+                    this.valid = false;
+                    return;
+                }
+            }
         }
 
         //The property to be read is mandatory
-        if (this.parsedQuery.property == null) { this.valid == false; return; }
+        if (this.parsedQuery.property == null) { this.valid = false; return; }
         if (this.parsedQuery.property.identifier == null ||
             this.parsedQuery.property.identifier == "" ||
             this.parsedQuery.property.unit == null ||
             this.parsedQuery.property.unit == "" ||
-            validateUnit(this.parsedQuery.property.unit)==false ||
-            this.parsedQuery.property.datatype == null) { this.valid == false; return; }
+            validateUnit(this.parsedQuery.property.unit, this.parsedQuery.prefixList) == false ||
+            this.parsedQuery.property.datatype == null) { this.valid = false; return; }
+
 
         //The static filter is optional
         if (this.parsedQuery.staticFilter != null && this.parsedQuery.staticFilter != "") {
             //The static filter must be a valid JSON-path query
-            if (JsonPathValidator(this.parsedQuery.staticFilter) == false) { this.valid == false; return; }
+            if (JsonPathValidator(this.parsedQuery.staticFilter) == false) { this.valid = false; return; }
 
         }
 
@@ -57,7 +65,7 @@ export default class QueryParser implements IQueryParser {
                     this.parsedQuery.geoFilter.altitudeRange.max == null ||
                     this.parsedQuery.geoFilter.altitudeRange.unit == null ||
                     this.parsedQuery.geoFilter.altitudeRange.unit == "" ||
-                    validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit)==false) { this.valid == false; return; }
+                    validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList)==false) { this.valid = false; return; }
             }
         }
 
@@ -67,7 +75,7 @@ export default class QueryParser implements IQueryParser {
                 this.parsedQuery.timeFilter.interval == null ||
                 this.parsedQuery.timeFilter.interval == "" ||
                 this.parsedQuery.timeFilter.aggregation == null ||
-                this.parsedQuery.timeFilter.aggregation == "") { this.valid == false; return; }
+                this.parsedQuery.timeFilter.aggregation == "") { this.valid = false; return; }
         }
 
         this.valid = true;
@@ -91,7 +99,7 @@ export default class QueryParser implements IQueryParser {
 
 
     isAskingForString(): boolean {
-        return this.parsedQuery.property.datatype === RequestedDataType.Boolean;
+        return this.parsedQuery.property.datatype === RequestedDataType.String;
     }
 
     getType(): number {
@@ -115,8 +123,39 @@ function geofilterValidator(geoFilter: IGeoCircle | IGeoPolygon) {
     return true;
 }
 
-function validateUnit(unit: string) {
-    //TODO
+function validateUnit(unit: string, prefixList: IPrefix[] | undefined): boolean {
+
+    unit = unit.trim();
+    // if it's an URL, it's valid
+    //check if it is a valid URI
+    if (isValidHttpUrl(unit)) {
+        return true;
+    }
+
+
+    const slices : string[] = unit.split(":") as string[];
+    if (slices.length != 2) { return false; }
+    const abbreviationList: string[] = [];
+    if (prefixList !== undefined) {
+    for (let i=0; i<Object.keys(prefixList).length; i++) {
+        abbreviationList.push(Object.keys(prefixList)[i]);
+    }
+}
+    if (!(abbreviationList.includes(slices[0]))) { return false; }
+
     return true;
 }
+
+
+function isValidHttpUrl(string : string) {
+    let url;
+    
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;  
+    }
+  
+    return url.protocol === "http:" || url.protocol === "https:";
+  }
 

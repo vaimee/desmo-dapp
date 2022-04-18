@@ -38,7 +38,7 @@ const test_01 =async function(){
 
 
 const test_02 =async function(){
-    console.log("\n##########   test_01: Testing invalid queries  ##########");
+    console.log("\n##########   test_02: Testing invalid queries  ##########");
 
     const parser1_invalid : QueryParser= new QueryParser(query_invalid_01);
     if (!parser1_invalid.isValid()) console.log ("Passed query_1");

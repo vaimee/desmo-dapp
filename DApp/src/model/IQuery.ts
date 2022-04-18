@@ -28,7 +28,7 @@ export interface IPrefix {
 };
 
 export default interface IQuery {
-    prefixList?: Record<string, string>[];
+    prefixList?: Array<IPrefix>;
     property: {
         identifier: string;
         unit: string;
@@ -45,7 +45,7 @@ export default interface IQuery {
         };
     };
     timeFilter?: {
-        until: Date;
+        until: string;
         interval: string;
         aggregation: string;
     };
