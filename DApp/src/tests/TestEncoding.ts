@@ -1,5 +1,5 @@
-import EncoderMix from "../component/encoder/encoderMix";
-import EncoderManual from "../component/encoder/encoderManual";
+import EncoderMix from "../component/encoder/EncoderMix";
+import EncoderManual from "../component/encoder/EncoderManual";
 
 const test_01 = async function() {
     console.log("\n##########   test_01  ##########");

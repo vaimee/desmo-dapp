@@ -1,6 +1,6 @@
 //All the test MUST be async function without args
 
-import QueryParser from "../component/queryParser";
+import QueryParser from "../component/QueryParser";
 import { 
     query_invalid_01,  query_invalid_02,  query_invalid_03,
     query_valid_01, query_valid_02, query_valid_03, query_valid_04,
