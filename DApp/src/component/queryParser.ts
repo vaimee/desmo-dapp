@@ -25,16 +25,17 @@ export default class QueryParser implements IQueryParser {
 
     parse() {
         //The prefix list is optional
-        if (this.parsedQuery.prefixList !== undefined) {
-        }
-        if (this.parsedQuery.prefixList != null && this.parsedQuery.prefixList.length > 0) {
-            for (let prefix of this.parsedQuery.prefixList) {
-                if (prefix.abbreviation == null || prefix.abbreviation == "" || prefix.completeURI == null || prefix.completeURI == "") {
-                    this.valid = false;
-                    return;
+        if (this.parsedQuery.prefixList != undefined) {
+            if (this.parsedQuery.prefixList != null && this.parsedQuery.prefixList.length > 0) {
+                for (let prefix of this.parsedQuery.prefixList) {
+                    if (prefix.abbreviation == null || prefix.abbreviation == "" || prefix.completeURI == null || prefix.completeURI == "") {
+                        this.valid = false;
+                        return;
+                    }
                 }
             }
         }
+
 
         //The property to be read is mandatory
         if (this.parsedQuery.property == null) { this.valid = false; return; }
@@ -60,7 +61,7 @@ export default class QueryParser implements IQueryParser {
 
         //The geo filter is optional
         if (this.parsedQuery.geoFilter != null) {
-            if (this.parsedQuery.geoFilter.region != null && geofilterValidator(this.parsedQuery.geoFilter.region) == false) { this.valid == false; return; }
+            if (this.parsedQuery.geoFilter.region != null && geofilterValidator(this.parsedQuery.geoFilter.region, this.parsedQuery.prefixList) == false) { this.valid == false; return; }
             if (this.parsedQuery.geoFilter.altitudeRange != null) {
                 if (this.parsedQuery.geoFilter.altitudeRange.min == null ||
                     this.parsedQuery.geoFilter.altitudeRange.max == null ||
@@ -116,7 +117,7 @@ export default class QueryParser implements IQueryParser {
 
 function JsonPathValidator(staticFilter: string) {
     staticFilter = staticFilter.trim();
-    try{
+    try {
         const parsedFilter = jp.parse(staticFilter);
         //only filter expression
         if (parsedFilter.length != 2 ||
@@ -130,9 +131,23 @@ function JsonPathValidator(staticFilter: string) {
     return true;
 
 }
-function geofilterValidator(geoFilter: IGeoCircle | IGeoPolygon) {
-    //TODO
-    return true;
+function geofilterValidator(geoFilter: IGeoCircle | IGeoPolygon, prefixList: IPrefix[] | undefined) {
+    const geoFilterCircle = geoFilter as IGeoCircle;
+    const geoFilterPolygon = geoFilter as IGeoPolygon;
+    if (geoFilterCircle.center != null && geoFilterCircle.radius != null && geoFilterCircle.center.latitude != null &&
+        geoFilterCircle.center.longitude != null && geoFilterCircle.radius.value != null && geoFilterCircle.radius.unit != null &&
+        geoFilterCircle.radius.unit != "" && validateUnit(geoFilterCircle.radius.unit, prefixList) == true) {
+        return true;
+    }
+    else if (geoFilterPolygon.vertices != null && geoFilterPolygon.vertices != null && geoFilterPolygon.vertices.length > 0) {
+        for (let coordinate of geoFilterPolygon.vertices) {
+            if (coordinate.latitude == null || coordinate.longitude == null) { return false; }
+        }
+        return true;
+
+    }
+    return false
+
 }
 
 function validateUnit(unit: string, prefixList: IPrefix[] | undefined): boolean {

@@ -12,7 +12,7 @@ export interface IGeoPosition {
 
 export interface IGeoCircle {
     center: IGeoPosition;
-    maxDistanceFromCenter: {
+    radius: {
         value: number;
         unit: string;
     };

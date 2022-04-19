@@ -56,7 +56,7 @@ export const query_valid_04: string = `{
         "latitude": 41.9109,
         "longitude": 12.4818
       },
-      "maxDistanceFromCenter": {
+      "radius": {
         "value": 50.0,
         "unit": "qudt:KiloM"
       }
@@ -105,7 +105,7 @@ export const query_valid_06: string = `{
         "latitude": 41.9109,
         "longitude": 12.4818
       },
-      "maxDistanceFromCenter": {
+      "radius": {
         "value": 50.0,
         "unit": "qudt:KiloM"
       }
@@ -131,6 +131,41 @@ export const query_valid_07: string = `{
     "unit": "http://qudt.org/schema/qudt/DEG_C",
     "datatype": 1
   }
+}`;
+
+//invalid geoFilter 
+export const query_valid_08: string = `{
+  "prefixList": {
+    "desmo": "https://desmo.vaimee.it/",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  },
+  "geoFilter": {
+    "region": {
+      "vertices": [{
+        "latitude": 41.9109,
+        "longitude": 12.4818
+      },
+      {
+        "latitude": 45.9109,
+        "longitude": 12.4818
+      },
+      {
+        "latitude": 41.9109,
+        "longitude": 17.4818
+      }
+    ],
+    "altitudeRange": {
+      "min": 0,
+      "max": 500,
+      "unit": "qudt:M"
+    }
+  }
+}
 }`;
 
 
@@ -210,4 +245,93 @@ export const query_invalid_06: string = `{
     "datatype": 1
   },
   "staticFilter": "$.store.book[0].title"
+}`;
+
+//invalid geoFilter (missing center)
+export const query_invalid_07: string = `{
+  "prefixList": {
+    "desmo": "https://desmo.vaimee.it/",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  },
+  "geoFilter": {
+    "region": {
+      "radius": {
+        "value": 50.0,
+        "unit": "qudt:KiloM"
+      }
+    },
+    "altitudeRange": {
+      "min": 0,
+      "max": 500,
+      "unit": "qudt:M"
+    }
+  }
+}`;
+
+//invalid geoFilter (missing value from latitude)
+export const query_invalid_08: string = `{
+  "prefixList": {
+    "desmo": "https://desmo.vaimee.it/",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  },
+  "geoFilter": {
+    "region": {
+      "center": {
+        "longitude": 12.4818
+      },
+      "radius": {
+        "value": 50.0,
+        "unit": "qudt:KiloM"
+      }
+    },
+    "altitudeRange": {
+      "min": 0,
+      "max": 500,
+      "unit": "qudt:M"
+    }
+  }
+}`;
+
+//invalid geoFilter  (missing one latitude)
+export const query_invalid_09: string = `{
+  "prefixList": {
+    "desmo": "https://desmo.vaimee.it/",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  },
+  "geoFilter": {
+    "region": {
+      "vertices": [{
+        "longitude": 12.4818
+      },
+      {
+        "latitude": 45.9109,
+        "longitude": 12.4818
+      },
+      {
+        "latitude": 41.9109,
+        "longitude": 17.4818
+      }
+    ],
+    "altitudeRange": {
+      "min": 0,
+      "max": 500,
+      "unit": "qudt:M"
+    }
+  }
+}
 }`;
