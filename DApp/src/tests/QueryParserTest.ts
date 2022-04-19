@@ -1,7 +1,11 @@
 //All the test MUST be async function without args
 
 import QueryParser from "../component/queryParser";
-import { query_invalid_01,  query_invalid_02,  query_invalid_03, query_valid_01, query_valid_02, query_valid_03, query_valid_04,query_valid_05,query_valid_06 } from "../const/queries";
+import { 
+    query_invalid_01,  query_invalid_02,  query_invalid_03,
+    query_valid_01, query_valid_02, query_valid_03, query_valid_04,
+    query_valid_05,query_valid_06 
+} from "./TestQueries";
 
 
 
