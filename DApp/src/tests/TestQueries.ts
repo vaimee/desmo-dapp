@@ -124,6 +124,15 @@ export const query_valid_06: string = `{
   }
 }`;
 
+//unit is identified with an URI
+export const query_valid_07: string = `{
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "http://qudt.org/schema/qudt/DEG_C",
+    "datatype": 1
+  }
+}`;
+
 
 
 
@@ -160,4 +169,45 @@ export const query_invalid_03: string = `{
     "unit": "qudt:DEG_C",
     "datatype": 1
   }
+}`;
+
+//unit prefix not in prefix list
+export const query_invalid_04: string = `{
+  "prefixList": {
+    "desmo": "https://desmo.vaimee.it/",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "notin:DEG_C",
+    "datatype": 1
+  }
+}`;
+
+//invalid staticFilter (wrong JsonPath syntax: missing $ in the beginning)
+export const query_invalid_05: string = `{
+  "prefixList": {
+    "desmo": "https://desmo.vaimee.it/",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  },
+  "staticFilter": "[?((@.title != 'test' && @.type == 'onto:Sensor') || @.actions.moveLeft)]"
+}`;
+
+//invalid staticFilter (valid JsonPath syntax but it's not a filter)
+export const query_invalid_06: string = `{
+  "prefixList": {
+    "desmo": "https://desmo.vaimee.it/",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  },
+  "staticFilter": "$.store.book[0].title"
 }`;

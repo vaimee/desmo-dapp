@@ -2,6 +2,7 @@
 import Types from "../const/Types";
 import IQuery, { IGeoCircle, IGeoPolygon, IPrefix, RequestedDataType } from "../model/IQuery";
 import IQueryParser from "./IQueryParser";
+var jp = require('jsonpath');
 
 //##################################WIP
 //##################################WIP
@@ -65,7 +66,7 @@ export default class QueryParser implements IQueryParser {
                     this.parsedQuery.geoFilter.altitudeRange.max == null ||
                     this.parsedQuery.geoFilter.altitudeRange.unit == null ||
                     this.parsedQuery.geoFilter.altitudeRange.unit == "" ||
-                    validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList)==false) { this.valid = false; return; }
+                    validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList) == false) { this.valid = false; return; }
             }
         }
 
@@ -114,7 +115,18 @@ export default class QueryParser implements IQueryParser {
 }
 
 function JsonPathValidator(staticFilter: string) {
-    //TODO
+    staticFilter = staticFilter.trim();
+    try{
+        const parsedFilter = jp.parse(staticFilter);
+        //only filter expression
+        if (parsedFilter.length != 2 ||
+            parsedFilter[0].expression.type != "root" ||
+            parsedFilter[0].expression.value != "$" ||
+            parsedFilter[1].expression.type != "filter_expression") { return false; }
+    }
+    catch (_) {
+        return false;
+    }
     return true;
 
 }
@@ -132,30 +144,28 @@ function validateUnit(unit: string, prefixList: IPrefix[] | undefined): boolean 
         return true;
     }
 
-
-    const slices : string[] = unit.split(":") as string[];
+    const slices: string[] = unit.split(":") as string[];
     if (slices.length != 2) { return false; }
     const abbreviationList: string[] = [];
     if (prefixList !== undefined) {
-    for (let i=0; i<Object.keys(prefixList).length; i++) {
-        abbreviationList.push(Object.keys(prefixList)[i]);
+        for (let i = 0; i < Object.keys(prefixList).length; i++) {
+            abbreviationList.push(Object.keys(prefixList)[i]);
+        }
     }
-}
     if (!(abbreviationList.includes(slices[0]))) { return false; }
-
     return true;
 }
 
 
-function isValidHttpUrl(string : string) {
+function isValidHttpUrl(string: string) {
     let url;
-    
+
     try {
-      url = new URL(string);
+        url = new URL(string);
     } catch (_) {
-      return false;  
+        return false;
     }
-  
+
     return url.protocol === "http:" || url.protocol === "https:";
-  }
+}
 

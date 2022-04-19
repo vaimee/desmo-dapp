@@ -2,9 +2,9 @@
 
 import QueryParser from "../component/QueryParser";
 import { 
-    query_invalid_01,  query_invalid_02,  query_invalid_03,
+    query_invalid_01,  query_invalid_02,  query_invalid_03, query_invalid_04, query_invalid_05, query_invalid_06,
     query_valid_01, query_valid_02, query_valid_03, query_valid_04,
-    query_valid_05,query_valid_06 
+    query_valid_05,query_valid_06, query_valid_07
 } from "./TestQueries";
 
 
@@ -37,6 +37,10 @@ const test_01 =async function(){
     if (parser6_valid.isValid()) console.log ("Passed query_6");
     else console.log ("Failed query_6");
 
+    const parser7_valid : QueryParser= new QueryParser(query_valid_07);
+    if (parser7_valid.isValid()) console.log ("Passed query_7");
+    else console.log ("Failed query_7");
+
     return;
 }
 
@@ -55,6 +59,20 @@ const test_02 =async function(){
     const parser3_invalid : QueryParser= new QueryParser(query_invalid_03);
     if (!parser3_invalid.isValid()) console.log ("Passed query_3");
     else console.log ("Failed query_3");
+
+    const parser4_invalid : QueryParser= new QueryParser(query_invalid_04);
+    if (!parser4_invalid.isValid()) console.log ("Passed query_4");
+    else console.log ("Failed query_4");
+
+    const parser5_invalid : QueryParser= new QueryParser(query_invalid_05);
+    if (!parser5_invalid.isValid()) console.log ("Passed query_5");
+    else console.log ("Failed query_5");
+
+    const parser6_invalid : QueryParser= new QueryParser(query_invalid_06);
+    if (!parser6_invalid.isValid()) console.log ("Passed query_6");
+    else console.log ("Failed query_6");
+
+
 
     return;
 }
