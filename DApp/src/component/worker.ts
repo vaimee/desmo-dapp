@@ -31,7 +31,6 @@ export default class Worker implements IWorker {
     if (parser.isValid()) {
       this.err("Query not valid!");
     } else if (directoriesList.length < 4 || directoriesList.length % 4 !== 0) {
-
       this.err("Directories list must be multipler of 4 and at least 4.");
     } else {
       (async () => {
