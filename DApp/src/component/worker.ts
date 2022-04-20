@@ -10,6 +10,7 @@ import ISourceValues from "../model/ISourceValues";
 import StringSourceValues from "../model/StringSourceValues";
 import NumberSourceValues from "../model/NumberSourceValues";
 import BoolSourceValues from "../model/BoolSourceValues";
+import ISource from '../model/ISource';
 
 
 export default class Worker implements IWorker {
@@ -28,7 +29,7 @@ export default class Worker implements IWorker {
     } catch (e: any) {
       this.err(e.message);
     }
-    if (parser.isValid()) {
+    if (!parser.isValid()) {
       this.err("Query not valid!");
     } else if (directoriesList.length < 4 || directoriesList.length % 4 !== 0) {
       this.err("Directories list must be multipler of 4 and at least 4.");
@@ -38,48 +39,46 @@ export default class Worker implements IWorker {
           const iexecOut = process.env.IEXEC_OUT;
 
           //###########################Retrieve values
-          const sources = collectDirs(directoriesList,parser);
-          var sourceValues = new Array<ISourceValues>();
-          for (var x in sources) {
-            if (parser.isAskingForNumber()) {
-                sourceValues.push(new NumberSourceValues(sources[x]));
-            } else if (parser.isAskingForString()) {
-                sourceValues.push(new StringSourceValues(sources[x]));
-            } else if (parser.isAskingForBoolean()) {
-              sourceValues.push(new BoolSourceValues(sources[x]));
-            } else {
-              this.err("Result Type of the request unknow!");
-              // break; //no need, this.err will exit 
-            }
-          }
+          collectDirs(directoriesList, parser, (sources: Array<ISource>) => {
+            
+              var sourceValues = new Array<ISourceValues>();
+              for (var x in sources) {
+                if (parser.isAskingForNumber()) {
+                  sourceValues.push(new NumberSourceValues(sources[x]));
+                } else if (parser.isAskingForString()) {
+                  sourceValues.push(new StringSourceValues(sources[x]));
+                } else if (parser.isAskingForBoolean()) {
+                  sourceValues.push(new BoolSourceValues(sources[x]));
+                } else {
+                  this.err("Result Type of the request unknow!");
+                  // break; //no need, this.err will exit 
+                }
+              }
 
 
-          collect(sourceValues,
-            async (s) => {
+              collect(sourceValues,
+                async (s) => {
 
-              //###########################Compute result
-              const result = consensus(s);
+                  //###########################Compute result
+                  const result = consensus(s);
 
-              //###########################Ecode result
-              var callback_data = result.getEncodedValue(new EncoderManual());
+                  //###########################Ecode result
+                  var callback_data = result.getEncodedValue(new EncoderManual());
 
-              //###########################Write result
-              const computedJsonObj = {
-                'callback-data': callback_data
-              };
+                  //###########################Write result
+                  const computedJsonObj = {
+                    'callback-data': callback_data
+                  };
 
-              await fsPromises.writeFile(
-                `${iexecOut}/computed.json`,
-                JSON.stringify(computedJsonObj),
-              );
+                  await fsPromises.writeFile(
+                    `${iexecOut}/computed.json`,
+                    JSON.stringify(computedJsonObj),
+                  );
 
-              console.log("computedJsonObj", computedJsonObj)
-            }
-          );
-
-
-
-
+                  console.log("computedJsonObj", computedJsonObj)
+                }
+            );
+          });
         } catch (e: any) {
           this.err(e.message);
         }

@@ -55,7 +55,7 @@ export default class QueryParser implements IQueryParser {
         }
 
         //The dynamic filter is optional
-        if (this.parsedQuery.dynamicFilter != null && this.parsedQuery.dynamicFilter != "") {
+        if (this.parsedQuery.dynamicFilter != null && this.parsedQuery.dynamicFilter.trim() != "") {
             //check if the dynamic filter is valid
         }
 
@@ -110,6 +110,14 @@ export default class QueryParser implements IQueryParser {
 
     getParsedQuery(): IQuery {
         return this.parsedQuery;
+    }
+
+    getJsonPath():string|null{
+        if(this.parsedQuery.staticFilter!==undefined && this.parsedQuery.staticFilter !== null && this.parsedQuery.staticFilter.trim() !== ""){
+            return this.parsedQuery.staticFilter;
+        }else{
+            return null;
+        }
     }
 
 

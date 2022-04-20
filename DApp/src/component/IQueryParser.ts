@@ -15,4 +15,5 @@ export default interface IQueryParser {
 
     getType():number;
 
+    getJsonPath():string|null;
 }
