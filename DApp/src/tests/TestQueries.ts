@@ -126,6 +126,10 @@ export const query_valid_06: string = `{
 
 //unit is identified with an URI
 export const query_valid_07: string = `{
+  "prefixList": {
+    "desmo": "https://desmo.vaimee.it/",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "http://qudt.org/schema/qudt/DEG_C",

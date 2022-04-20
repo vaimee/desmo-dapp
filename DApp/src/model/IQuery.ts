@@ -27,6 +27,18 @@ export interface IPrefix {
     completeURI: string;
 };
 
+export interface IGeoAltitudeRange {
+    min: number;
+    max: number;
+    unit: string;
+}
+
+export interface ITimeFilter {
+    until: string;
+    interval: string;
+    aggregation: string;
+}
+
 export default interface IQuery {
     prefixList?: Array<IPrefix>;
     property: {
@@ -38,15 +50,7 @@ export default interface IQuery {
     dynamicFilter?: string;
     geoFilter?: {
         region?: IGeoCircle | IGeoPolygon;
-        altitudeRange?: {
-            min: number;
-            max: number;
-            unit: string;
-        };
+        altitudeRange?: IGeoAltitudeRange;
     };
-    timeFilter?: {
-        until: string;
-        interval: string;
-        aggregation: string;
-    };
+    timeFilter?: ITimeFilter;
 };

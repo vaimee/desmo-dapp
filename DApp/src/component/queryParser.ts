@@ -1,6 +1,6 @@
 
 import Types from "../const/Types";
-import IQuery, { IGeoCircle, IGeoPolygon, IPrefix, RequestedDataType } from "../model/IQuery";
+import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IPrefix, ITimeFilter, RequestedDataType } from "../model/IQuery";
 import IQueryParser from "./IQueryParser";
 var jp = require('jsonpath');
 
@@ -40,15 +40,16 @@ export default class QueryParser implements IQueryParser {
         //The property to be read is mandatory
         if (this.parsedQuery.property == null) { this.valid = false; return; }
         if (this.parsedQuery.property.identifier == null ||
-            this.parsedQuery.property.identifier == "" ||
+            this.parsedQuery.property.identifier.trim() == "" ||
+            validateUnit(this.parsedQuery.property.identifier, this.parsedQuery.prefixList ) == false ||
             this.parsedQuery.property.unit == null ||
-            this.parsedQuery.property.unit == "" ||
+            this.parsedQuery.property.unit.trim() == "" ||
             validateUnit(this.parsedQuery.property.unit, this.parsedQuery.prefixList) == false ||
             this.parsedQuery.property.datatype == null) { this.valid = false; return; }
 
 
         //The static filter is optional
-        if (this.parsedQuery.staticFilter != null && this.parsedQuery.staticFilter != "") {
+        if (this.parsedQuery.staticFilter != null && this.parsedQuery.staticFilter.trim() != "") {
             //The static filter must be a valid JSON-path query
             if (JsonPathValidator(this.parsedQuery.staticFilter) == false) { this.valid = false; return; }
 
@@ -66,7 +67,7 @@ export default class QueryParser implements IQueryParser {
                 if (this.parsedQuery.geoFilter.altitudeRange.min == null ||
                     this.parsedQuery.geoFilter.altitudeRange.max == null ||
                     this.parsedQuery.geoFilter.altitudeRange.unit == null ||
-                    this.parsedQuery.geoFilter.altitudeRange.unit == "" ||
+                    this.parsedQuery.geoFilter.altitudeRange.unit.trim() == "" ||
                     validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList) == false) { this.valid = false; return; }
             }
         }
@@ -75,9 +76,9 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery.timeFilter != null) {
             if (this.parsedQuery.timeFilter.until == null ||
                 this.parsedQuery.timeFilter.interval == null ||
-                this.parsedQuery.timeFilter.interval == "" ||
+                this.parsedQuery.timeFilter.interval.trim() == "" ||
                 this.parsedQuery.timeFilter.aggregation == null ||
-                this.parsedQuery.timeFilter.aggregation == "") { this.valid = false; return; }
+                this.parsedQuery.timeFilter.aggregation.trim() == "") { this.valid = false; return; }
         }
 
         this.valid = true;
@@ -112,13 +113,71 @@ export default class QueryParser implements IQueryParser {
         return this.parsedQuery;
     }
 
-    getJsonPath():string|null{
-        if(this.parsedQuery.staticFilter!==undefined && this.parsedQuery.staticFilter !== null && this.parsedQuery.staticFilter.trim() !== ""){
+    //getter methods
+
+    getJsonPath(): string | null {
+        if (this.parsedQuery.staticFilter !== undefined && this.parsedQuery.staticFilter !== null && this.parsedQuery.staticFilter.trim() !== "") {
             return this.parsedQuery.staticFilter;
-        }else{
+        } else {
             return null;
         }
     }
+
+    getPrefixList(): IPrefix[] | null {
+        if (this.parsedQuery.prefixList !== undefined && this.parsedQuery.prefixList !== null && this.parsedQuery.prefixList.length > 0) {
+            return this.parsedQuery.prefixList;
+        } else {
+            return null;
+        }
+    }
+
+    getPropertyIdentifier(): string {
+        return this.parsedQuery.property.identifier;
+    }
+
+    getPropertyUnit(): string {
+        return this.parsedQuery.property.unit;
+    }
+
+    getPropertyDatatype(): number {
+        return this.parsedQuery.property.datatype;
+    }
+
+    getDynamicFilter(): string | null {
+        if (this.parsedQuery.dynamicFilter !== undefined && this.parsedQuery.dynamicFilter !== null && this.parsedQuery.dynamicFilter.trim() !== "") {
+            return this.parsedQuery.dynamicFilter;
+        } else {
+            return null;
+        }
+    }
+
+    getGeoFilterRegion(): IGeoCircle | IGeoPolygon | null {
+        if (this.parsedQuery.geoFilter !== undefined && this.parsedQuery.geoFilter !== null && this.parsedQuery.geoFilter.region !== undefined && this.parsedQuery.geoFilter.region !== null) {
+            return this.parsedQuery.geoFilter.region;
+        } else {
+            return null;
+        }
+    }
+
+
+    getGeoFilterAltitudeRange(): IGeoAltitudeRange | null {
+        if (this.parsedQuery.geoFilter !== undefined && this.parsedQuery.geoFilter !== null && this.parsedQuery.geoFilter.altitudeRange !== undefined && this.parsedQuery.geoFilter.altitudeRange !== null) {
+            return this.parsedQuery.geoFilter.altitudeRange;
+        } else {
+            return null;
+        }
+    }
+
+
+    getTimeFilter(): ITimeFilter | null {
+        if (this.parsedQuery.timeFilter !== undefined && this.parsedQuery.timeFilter !== null) {
+            return this.parsedQuery.timeFilter;
+        } else {
+            return null;
+        }
+    }
+
+
 
 
 }
@@ -136,6 +195,7 @@ function JsonPathValidator(staticFilter: string) {
     catch (_) {
         return false;
     }
+    
     return true;
 
 }
