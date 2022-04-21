@@ -23,6 +23,20 @@ export default class QueryParser implements IQueryParser {
         this.parse();
     }
 
+    resolvePrefix(toResolve: string): string|null {
+        if(toResolve.includes(":")){
+            const prefix = toResolve.split(":")[0];
+            console.log("toResolve-->",this.getPrefixList()); //THIS IS NULL
+            if(this.getPrefixList()!==null){
+                const tempList = this.getPrefixList();
+                for(var x in tempList){
+
+                }
+            }
+        }
+        return null;
+    }
+
     parse() {
         //The prefix list is optional
         if (this.parsedQuery.prefixList != undefined) {

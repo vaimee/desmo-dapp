@@ -36,7 +36,7 @@ export default interface IQueryParser {
 
     getTimeFilter(): ITimeFilter | null;
 
-    
+    resolvePrefix(toResolve:string):string|null;   
 
 
 }

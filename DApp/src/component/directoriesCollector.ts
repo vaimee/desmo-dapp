@@ -25,26 +25,28 @@ import axios from "axios";
 //   )
 
 const getThingFromDir =function(dir:string,dirIndex:number,parser:IQueryParser,cb:(s:ISource)=>void){
-    const jsonpath = '$[?(@.title=="stopligth_01")]';//parser.getJsonPath();
-    if(jsonpath!==null){
-        axios.get(dir+"/search/jsonpath?query="+jsonpath)
-        .then((ris) => {
-            if (ris.status === 200) {
-                console.log(dir+"/search/jsonpath?query="+jsonpath,ris.data);
-                cb(new VoidSource(dir,dirIndex));
-            } else {
-                cb(new VoidSource(dir,dirIndex));
-            }
-        })
-        .catch(function (error) {  
-            cb(new VoidSource(dir,dirIndex));
-            console.log(dir+"/search/jsonpath?query="+jsonpath);
-            console.log('DirectoriesCollector error on Directory index:' + dirIndex + " Error: "+error);
-        });
-    }else{
-        console.log('getThingFromDir NOT IMPLEMENTED YET');
-        cb(new VoidSource(dir,dirIndex));
-    }
+    const jsonpath =parser.getJsonPath();
+    console.log("getPrefixList-->",parser.getPrefixList());
+    parser.resolvePrefix("qudt:DEG_C");
+    // if(jsonpath!==null){
+    //     axios.get(dir+"/search/jsonpath?query="+jsonpath)
+    //     .then((ris) => {
+    //         if (ris.status === 200) {
+    //             //console.log(dir+"/search/jsonpath?query="+jsonpath,ris.data);
+    //             cb(new VoidSource(dir,dirIndex));
+    //         } else {
+    //             cb(new VoidSource(dir,dirIndex));
+    //         }
+    //     })
+    //     .catch(function (error) {  
+    //         cb(new VoidSource(dir,dirIndex));
+    //         console.log(dir+"/search/jsonpath?query="+jsonpath);
+    //         console.log('DirectoriesCollector error on Directory index:' + dirIndex + " Error: "+error);
+    //     });
+    // }else{
+    //     console.log('getThingFromDir NOT IMPLEMENTED YET');
+    //     cb(new VoidSource(dir,dirIndex));
+    // }
 }
 
 
