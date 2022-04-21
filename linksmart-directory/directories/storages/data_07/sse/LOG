@@ -6,3 +6,81 @@
 12:16:16.799346 db@open done T·275.1643ms
 12:42:12.198195 db@close closing
 12:42:12.198839 db@close done T·644.1µs
+=============== Apr 20, 2022 (CEST) ===============
+12:22:09.197791 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:22:09.198342 version@stat F·[] S·0B[] Sc·[]
+12:22:09.198342 db@open opening
+12:22:09.198342 journal@recovery F·1
+12:22:09.267039 journal@recovery recovering @1
+12:22:09.767257 memdb@flush created L0@2 N·21 S·8KiB "\x00\x00\x00\x00\x00\x00\x00\x01,v1":"\x00\x00\x00\x00\x00\x00\x00\x15,v20"
+12:22:09.832125 version@stat F·[1] S·8KiB[8KiB] Sc·[0.25]
+12:22:10.711408 db@janitor F·3 G·0
+12:22:10.711408 db@open done T·1.5130658s
+13:50:23.275713 db@close closing
+13:50:23.275713 db@close done T·0s
+=============== Apr 21, 2022 (CEST) ===============
+11:21:00.008466 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:21:00.057038 version@stat F·[1] S·8KiB[8KiB] Sc·[0.25]
+11:21:00.059454 db@open opening
+11:21:00.082196 journal@recovery F·1
+11:21:00.174387 journal@recovery recovering @3
+11:21:00.367786 version@stat F·[1] S·8KiB[8KiB] Sc·[0.25]
+11:21:01.403315 db@janitor F·3 G·0
+11:21:01.523935 db@open done T·1.4417397s
+16:19:47.835171 db@close closing
+16:19:47.836556 db@close done T·1.3848ms
+=============== Apr 21, 2022 (CEST) ===============
+16:20:04.389339 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:20:04.595713 version@stat F·[1] S·8KiB[8KiB] Sc·[0.25]
+16:20:04.705957 db@open opening
+16:20:04.707797 journal@recovery F·1
+16:20:04.711792 journal@recovery recovering @5
+16:20:05.275932 memdb@flush created L0@7 N·14 S·5KiB "\x00\x00\x00\x00\x00\x00\x00\x16,v23":"\x00\x00\x00\x00\x00\x00\x00#,v33"
+16:20:05.396726 version@stat F·[2] S·13KiB[13KiB] Sc·[0.50]
+16:20:06.005442 db@janitor F·4 G·0
+16:20:06.073071 db@open done T·1.3652737s
+16:35:41.090800 db@close closing
+16:35:41.091847 db@close done T·1.047ms
+=============== Apr 21, 2022 (CEST) ===============
+16:36:34.524226 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:36:34.643866 version@stat F·[2] S·13KiB[13KiB] Sc·[0.50]
+16:36:34.688713 db@open opening
+16:36:34.689324 journal@recovery F·1
+16:36:34.691109 journal@recovery recovering @8
+16:36:34.692193 version@stat F·[2] S·13KiB[13KiB] Sc·[0.50]
+=============== Apr 21, 2022 (CEST) ===============
+16:37:35.806449 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:37:36.345331 remove CURRENT.11: remove ..\..\directories\storages\data_07\sse\CURRENT.11: Impossibile trovare il file specificato.
+16:37:36.366932 version@stat F·[2] S·13KiB[13KiB] Sc·[0.50]
+16:37:36.524783 db@open opening
+16:37:36.605377 journal@recovery F·1
+16:37:36.607550 journal@recovery recovering @10
+16:37:36.657580 version@stat F·[2] S·13KiB[13KiB] Sc·[0.50]
+16:37:37.126927 db@janitor F·6 G·2
+16:37:37.166126 db@janitor removing journal-8
+16:37:37.166867 db@janitor removing manifest-9
+16:37:37.167396 db@open done T·562.5457ms
+16:38:03.030048 db@close closing
+16:38:03.031094 db@close done T·1.0457ms
+=============== Apr 21, 2022 (CEST) ===============
+16:40:04.360764 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:40:04.555016 version@stat F·[2] S·13KiB[13KiB] Sc·[0.50]
+16:40:04.562926 db@open opening
+16:40:04.564984 journal@recovery F·1
+16:40:04.567211 journal@recovery recovering @12
+16:40:04.673244 version@stat F·[2] S·13KiB[13KiB] Sc·[0.50]
+16:40:05.186337 db@janitor F·4 G·0
+16:40:05.259543 db@open done T·694.7679ms
+16:40:25.805441 db@close closing
+16:40:25.807211 db@close done T·1.7698ms
+=============== Apr 21, 2022 (CEST) ===============
+16:41:36.078080 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:41:36.337602 version@stat F·[2] S·13KiB[13KiB] Sc·[0.50]
+16:41:36.339310 db@open opening
+16:41:36.341786 journal@recovery F·1
+16:41:36.344535 journal@recovery recovering @14
+16:41:36.454152 version@stat F·[2] S·13KiB[13KiB] Sc·[0.50]
+16:41:36.912694 db@janitor F·4 G·0
+16:41:36.976421 db@open done T·634.7715ms
+16:42:42.357214 db@close closing
+16:42:42.358879 db@close done T·1.6646ms

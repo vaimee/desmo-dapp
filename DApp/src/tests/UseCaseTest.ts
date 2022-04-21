@@ -40,14 +40,16 @@ const q6 = JSON.stringify({
 const query: string = JSON.stringify({
   "prefixList": {
     "monas": "https://pod.dasibreaker.vaimee.it/monas/",
-    "xsd": "http://www.w3.org/2001/XMLSchema/"
+    "xsd": "http://www.w3.org/2001/XMLSchema/",
+    "desmo": "http://www.desmo.org/Schema/",
+    "qudt": "http://qudt.org/schema/qudt/"
   },
   "property": {
-    "identifier": "value",
-    "unit": "xsd:string",
-    "datatype": 2
+    "identifier": "desmo:OutdoorTemperature", //skip --> va a modificare "staticFilter"
+    "unit": "qudt:DEG_C",                     //skip
+    "datatype": 1
   },
-  "staticFilter": "$[?(@.title=='stopligth_01')]",
+  "staticFilter": "$[?(@.title=='sensorTemp')]",
   //"dynamicFilter": "(READ desmo:WindSpeed UNIT qudt:KiloM_PER_HR) >= 20.0 || (READ desmo:Status UNIT xsd:string) == 'Activated'",
   // "geoFilter": {
   //   "region": {

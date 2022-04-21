@@ -6,3 +6,82 @@
 12:16:15.280726 db@open done T·137.1063ms
 12:42:12.206343 db@close closing
 12:42:12.206343 db@close done T·0s
+=============== Apr 20, 2022 (CEST) ===============
+12:22:07.328219 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:22:07.329792 version@stat F·[] S·0B[] Sc·[]
+12:22:07.329792 db@open opening
+12:22:07.329792 journal@recovery F·1
+12:22:07.344027 journal@recovery recovering @1
+12:22:07.732163 memdb@flush created L0@2 N·21 S·7KiB "urn..e1b,v19":"urn..bf7,v3"
+12:22:07.789265 version@stat F·[1] S·7KiB[7KiB] Sc·[0.25]
+12:22:09.197791 db@janitor F·3 G·0
+12:22:09.197791 db@open done T·1.8679984s
+13:50:24.131938 db@close closing
+13:50:24.131938 db@close done T·0s
+=============== Apr 21, 2022 (CEST) ===============
+11:20:59.918025 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:21:00.040915 version@stat F·[1] S·7KiB[7KiB] Sc·[0.25]
+11:21:00.051544 db@open opening
+11:21:00.054227 journal@recovery F·1
+11:21:00.058853 journal@recovery recovering @3
+11:21:00.082196 version@stat F·[1] S·7KiB[7KiB] Sc·[0.25]
+11:21:01.403315 db@janitor F·3 G·0
+11:21:01.524467 db@open done T·1.4702405s
+16:19:46.300703 db@close closing
+16:19:46.301768 db@close done T·1.0652ms
+=============== Apr 21, 2022 (CEST) ===============
+16:20:00.566967 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:20:00.668954 version@stat F·[1] S·7KiB[7KiB] Sc·[0.25]
+16:20:00.708954 db@open opening
+16:20:00.774956 journal@recovery F·1
+16:20:00.805954 journal@recovery recovering @5
+16:20:01.525035 memdb@flush created L0@7 N·14 S·5KiB "urn..e1b,d25":"urn..bf7,d29"
+16:20:01.552034 version@stat F·[2] S·12KiB[12KiB] Sc·[0.50]
+16:20:02.026802 db@janitor F·4 G·0
+16:20:02.028801 db@open done T·1.2538454s
+16:35:47.896393 db@close closing
+16:35:47.896920 db@close done T·526.6µs
+=============== Apr 21, 2022 (CEST) ===============
+16:36:32.236152 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:36:32.337152 version@stat F·[2] S·12KiB[12KiB] Sc·[0.50]
+16:36:32.376154 db@open opening
+16:36:32.432154 journal@recovery F·1
+16:36:32.433152 journal@recovery recovering @8
+16:36:32.435154 version@stat F·[2] S·12KiB[12KiB] Sc·[0.50]
+16:36:32.712798 db@janitor F·4 G·0
+16:36:32.832834 db@open done T·401.6799ms
+16:36:36.314502 db@close closing
+16:36:36.314502 db@close done T·0s
+=============== Apr 21, 2022 (CEST) ===============
+16:37:33.564597 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:37:33.610596 version@stat F·[2] S·12KiB[12KiB] Sc·[0.50]
+16:37:33.665599 db@open opening
+16:37:33.665599 journal@recovery F·1
+16:37:33.668599 journal@recovery recovering @10
+16:37:33.670600 version@stat F·[2] S·12KiB[12KiB] Sc·[0.50]
+16:37:33.990596 db@janitor F·4 G·0
+16:37:34.035597 db@open done T·369.9982ms
+16:38:10.826882 db@close closing
+16:38:10.829108 db@close done T·2.219ms
+=============== Apr 21, 2022 (CEST) ===============
+16:40:01.671725 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:40:02.127512 version@stat F·[2] S·12KiB[12KiB] Sc·[0.50]
+16:40:02.164612 db@open opening
+16:40:02.234196 journal@recovery F·1
+16:40:02.236574 journal@recovery recovering @12
+16:40:02.237832 version@stat F·[2] S·12KiB[12KiB] Sc·[0.50]
+16:40:02.572452 db@janitor F·4 G·0
+16:40:02.608908 db@open done T·374.7117ms
+16:40:25.811462 db@close closing
+16:40:25.815690 db@close done T·4.2284ms
+=============== Apr 21, 2022 (CEST) ===============
+16:41:33.583629 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+16:41:33.960904 version@stat F·[2] S·12KiB[12KiB] Sc·[0.50]
+16:41:34.023338 db@open opening
+16:41:34.024419 journal@recovery F·1
+16:41:34.026855 journal@recovery recovering @14
+16:41:34.057492 version@stat F·[2] S·12KiB[12KiB] Sc·[0.50]
+16:41:34.486219 db@janitor F·4 G·0
+16:41:34.583755 db@open done T·558.8677ms
+16:42:42.362915 db@close closing
+16:42:42.365942 db@close done T·3.0122ms

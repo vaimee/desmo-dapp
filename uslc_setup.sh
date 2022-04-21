@@ -1,6 +1,9 @@
 cd ./example-tds
+echo "Start WAT"
 start npm start
-sleep 2000
+echo "Wait 2s"
+sleep 2
+echo "START Directories"
 cd ../linksmart-directory
 ./buildAndRunMultiple.sh
 ./setupMultiple.sh 
