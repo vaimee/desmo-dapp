@@ -138,7 +138,7 @@ export default class QueryParser implements IQueryParser {
     }
 
     getPrefixList(): IPrefix[] | null {
-        if (this.parsedQuery.prefixList !== undefined && this.parsedQuery.prefixList !== null && this.parsedQuery.prefixList.length > 0) {
+        if (this.parsedQuery.prefixList !== undefined && this.parsedQuery.prefixList !== null && Object.keys(this.parsedQuery.prefixList).length > 0) {
             return this.parsedQuery.prefixList;
         } else {
             return null;
@@ -209,7 +209,7 @@ function JsonPathValidator(staticFilter: string) {
     catch (_) {
         return false;
     }
-    
+
     return true;
 
 }
