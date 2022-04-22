@@ -106,3 +106,4 @@ dist
 # linksmart-directory
 
 linksmart-directory/repository/*
+linksmart-directory/directories/storages/*
