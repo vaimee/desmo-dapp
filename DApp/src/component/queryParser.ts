@@ -26,7 +26,7 @@ export default class QueryParser implements IQueryParser {
     resolvePrefix(toResolve: string): string|null {
         if(toResolve.includes(":")){
             const prefix = toResolve.split(":")[0];
-            console.log("toResolve-->",this.getPrefixList()); //THIS IS NULL
+            console.log("toResolve-->",this.getPrefixList());
             if(this.getPrefixList()!==null){
                 const tempList = this.getPrefixList();
                 for(var x in tempList){
@@ -65,7 +65,7 @@ export default class QueryParser implements IQueryParser {
         //The static filter is optional
         if (this.parsedQuery.staticFilter != null && this.parsedQuery.staticFilter.trim() != "") {
             //The static filter must be a valid JSON-path query
-            if (JsonPathValidator(this.parsedQuery.staticFilter) == false) { this.valid = false; return; }
+            if (JsonPathValidator(this.parsedQuery.staticFilter, this.parsedQuery.prefixList) == false ) { this.valid = false; return; }
 
         }
 
@@ -196,7 +196,7 @@ export default class QueryParser implements IQueryParser {
 
 }
 
-function JsonPathValidator(staticFilter: string) {
+function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefined): boolean {
     staticFilter = staticFilter.trim();
     try {
         const parsedFilter = jp.parse(staticFilter);
@@ -209,6 +209,28 @@ function JsonPathValidator(staticFilter: string) {
     catch (_) {
         return false;
     }
+
+    //check prefixes inside the JsonPath
+
+    const abbreviationList: string[] = [];
+    if (prefixList !== undefined) {
+        for (let i = 0; i < Object.keys(prefixList).length; i++) {
+            abbreviationList.push(Object.keys(prefixList)[i]);
+        }
+    }
+
+    const statiFilterSplitted = staticFilter.split(/(\s+)/);
+    for (let i = 0; i < statiFilterSplitted.length; i++) {
+        let word = statiFilterSplitted[i];
+        if (word.includes(":")) {
+            word = word.replace (/\'+|\(+|\)+/g, "");
+            const prefix = word.split(":")[0];
+            if (abbreviationList.includes(prefix) == false) {
+                return false;
+            }
+        }
+    }
+
 
     return true;
 

@@ -16,7 +16,8 @@ export const query_valid_01: string = `{
 export const query_valid_02: string = `{
   "prefixList": {
     "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
+    "qudt": "http://qudt.org/schema/qudt/",
+    "onto": "http://onto.org/ontologies/base/"
   },
   "property": {
     "identifier": "desmo:OutdoorTemperature",
@@ -90,7 +91,8 @@ export const query_valid_05: string = `{
 export const query_valid_06: string = `{
   "prefixList": {
     "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
+    "qudt": "http://qudt.org/schema/qudt/",
+    "onto": "http://onto.org/ontologies/base/"
   },
   "property": {
     "identifier": "desmo:OutdoorTemperature",
@@ -227,7 +229,8 @@ export const query_invalid_04: string = `{
 export const query_invalid_05: string = `{
   "prefixList": {
     "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
+    "qudt": "http://qudt.org/schema/qudt/",
+    "onto": "http://onto.org/ontologies/base/"
   },
   "property": {
     "identifier": "desmo:OutdoorTemperature",
