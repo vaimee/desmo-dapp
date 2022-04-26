@@ -3,9 +3,7 @@
         "http://www.w3.org/ns/td",
         "https://context.dasibreaker.vaimee.it/context.jsonld"
     ],
-    "@type": [
-        "Sensor"
-    ],
+    "@type":"Sensor",
     "title": "temp_03",
     "securityDefinitions": {
         "no_sec": {

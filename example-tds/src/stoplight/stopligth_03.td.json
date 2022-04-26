@@ -3,9 +3,7 @@
         "http://www.w3.org/ns/td",
         "https://context.dasibreaker.vaimee.it/context.jsonld"
     ],
-    "@type": [
-        "ControlUnit"
-    ],
+    "@type":"ControlUnit",
     "title": "stopligth_03",
     "securityDefinitions": {
         "no_sec": {
