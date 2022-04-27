@@ -40,7 +40,7 @@ export interface ITimeFilter {
 }
 
 export default interface IQuery {
-    prefixList?: Array<IPrefix>;
+    prefixList?: IPrefix[];
     property: {
         identifier: string;
         unit: string;

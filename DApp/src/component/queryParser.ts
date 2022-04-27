@@ -23,13 +23,13 @@ export default class QueryParser implements IQueryParser {
         this.parse();
     }
 
-    resolvePrefix(toResolve: string): string|null {
-        if(toResolve.includes(":")){
+    resolvePrefix(toResolve: string): string | null {
+        if (toResolve.includes(":")) {
             const prefix = toResolve.split(":")[0];
-            console.log("toResolve-->",this.getPrefixList());
-            if(this.getPrefixList()!==null){
+            console.log("toResolve-->", this.getPrefixList());
+            if (this.getPrefixList() !== null) {
                 const tempList = this.getPrefixList();
-                for(var x in tempList){
+                for (var x in tempList) {
 
                 }
             }
@@ -42,7 +42,7 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery.prefixList != undefined) {
             if (this.parsedQuery.prefixList != null && this.parsedQuery.prefixList.length > 0) {
                 for (let prefix of this.parsedQuery.prefixList) {
-                    if (prefix.abbreviation == null || prefix.abbreviation == "" || prefix.completeURI == null || prefix.completeURI == "") {
+                    if (prefix.abbreviation == null || prefix.abbreviation.trim() == "" || prefix.completeURI == null || prefix.completeURI.trim() == "") {
                         this.valid = false;
                         return;
                     }
@@ -55,7 +55,7 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery.property == null) { this.valid = false; return; }
         if (this.parsedQuery.property.identifier == null ||
             this.parsedQuery.property.identifier.trim() == "" ||
-            validateUnit(this.parsedQuery.property.identifier, this.parsedQuery.prefixList ) == false ||
+            validateUnit(this.parsedQuery.property.identifier, this.parsedQuery.prefixList) == false ||
             this.parsedQuery.property.unit == null ||
             this.parsedQuery.property.unit.trim() == "" ||
             validateUnit(this.parsedQuery.property.unit, this.parsedQuery.prefixList) == false ||
@@ -65,7 +65,7 @@ export default class QueryParser implements IQueryParser {
         //The static filter is optional
         if (this.parsedQuery.staticFilter != null && this.parsedQuery.staticFilter.trim() != "") {
             //The static filter must be a valid JSON-path query
-            if (JsonPathValidator(this.parsedQuery.staticFilter, this.parsedQuery.prefixList) == false ) { this.valid = false; return; }
+            if (JsonPathValidator(this.parsedQuery.staticFilter, this.parsedQuery.prefixList) == false) { this.valid = false; return; }
 
         }
 
@@ -127,7 +127,6 @@ export default class QueryParser implements IQueryParser {
         return this.parsedQuery;
     }
 
-    //getter methods
 
     getJsonPath(): string | null {
         if (this.parsedQuery.staticFilter !== undefined && this.parsedQuery.staticFilter !== null && this.parsedQuery.staticFilter.trim() !== "") {
@@ -138,7 +137,8 @@ export default class QueryParser implements IQueryParser {
     }
 
     getPrefixList(): IPrefix[] | null {
-        if (this.parsedQuery.prefixList !== undefined && this.parsedQuery.prefixList !== null && Object.keys(this.parsedQuery.prefixList).length > 0) {
+        const ResultPrefix: IPrefix[] = [];
+        if (this.parsedQuery.prefixList !== undefined && this.parsedQuery.prefixList !== null && this.parsedQuery.prefixList.length > 0) {
             return this.parsedQuery.prefixList;
         } else {
             return null;
@@ -214,8 +214,8 @@ function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefin
 
     const abbreviationList: string[] = [];
     if (prefixList !== undefined) {
-        for (let i = 0; i < Object.keys(prefixList).length; i++) {
-            abbreviationList.push(Object.keys(prefixList)[i]);
+        for (let i = 0; i < prefixList.length; i++) {
+            abbreviationList.push(prefixList[i].abbreviation);
         }
     }
 
@@ -223,7 +223,7 @@ function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefin
     for (let i = 0; i < statiFilterSplitted.length; i++) {
         let word = statiFilterSplitted[i];
         if (word.includes(":")) {
-            word = word.replace (/\'+|\(+|\)+/g, "");
+            word = word.replace(/\'+|\(+|\)+/g, "");
             const prefix = word.split(":")[0];
             if (abbreviationList.includes(prefix) == false) {
                 return false;
@@ -267,8 +267,8 @@ function validateUnit(unit: string, prefixList: IPrefix[] | undefined): boolean 
     if (slices.length != 2) { return false; }
     const abbreviationList: string[] = [];
     if (prefixList !== undefined) {
-        for (let i = 0; i < Object.keys(prefixList).length; i++) {
-            abbreviationList.push(Object.keys(prefixList)[i]);
+        for (let i = 0; i < prefixList.length; i++) {
+            abbreviationList.push(prefixList[i].abbreviation);
         }
     }
     if (!(abbreviationList.includes(slices[0]))) { return false; }
