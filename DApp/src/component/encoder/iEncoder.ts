@@ -6,5 +6,5 @@ export default interface IEncoder {
 
     decode(callbackData: string): void;
 
-    setSources(sources:Array<{ reward: number, sourceIndex: number }>):void;
+    setSources(sources:Map<number,number>):void;
 }

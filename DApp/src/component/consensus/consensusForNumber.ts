@@ -136,10 +136,13 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
 
     //reward sources not punished
     for (var x = 0; x < autoC.length; x++) {
+        console.log("X["+x+"]bestSource["+bestSource+"]");
         if(x===bestSource){
             notPunished[bestSource].getSource().setScore(3);
         }else if(Math.abs(autoC[x]-fluct)<(fluct*2)){
             notPunished[x].getSource().setScore(2);
+        }else{
+            notPunished[x].getSource().setScore(1);
         }
     }
     

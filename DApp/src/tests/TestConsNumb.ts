@@ -85,8 +85,8 @@ const run_test = function (sources: Array<NumberSourceValues>, cb: (ris: number)
             }
             */
 
-
-            const value = consensus(s).getValue();
+            const ris = consensus(s);
+            const value = ris.getValue();
 
             printMatrixs(s as Array<NumberSourceValues>, dateOffset);
 
@@ -99,7 +99,8 @@ const run_test = function (sources: Array<NumberSourceValues>, cb: (ris: number)
             }
 
             console.log("################################################\n"); 
-            console.log("ScoreSources: " + scoreSources);
+            console.log("ScoreSources TDs: " + scoreSources);
+            console.log("ScoreSources Directory: ", ris.getScores());
             console.log("Value: " + value);
             cb(Number(value));
         }
@@ -113,7 +114,7 @@ const generic_test = function (valueMatrix: (number | null)[][], cb: (ris: numbe
     } else {
         console.log("###########TEST matrix:", valueMatrix);
         const sources = new Array<NumberSourceValues>();
-        for (var x = 0; x < valueMatrix.length; x++) {
+        for (let x = 0; x < valueMatrix.length; x++) {
             sources.push(new NumberSourceValues(new MockSourceNumb("Source_" + x, x, valueMatrix[x])))
         }
         run_test(sources, cb);
@@ -170,9 +171,58 @@ const test_03 = function (cb: (ris: number) => void): void {
 
 }
 
+const test_04 = function (cb: (ris: number) => void): void {
+    console.log("\n+++++++++++++++++++++TEST 04+++++++++++++++++++++");
+    console.log("\n+++++++++++++++++++++TEST 04+++++++++++++++++++++");
+    console.log("\n+++++++++++++++++++++TEST 04+++++++++++++++++++++");
+    const sources = new Array<NumberSourceValues>();
+    const s1 = new MockSourceNumb("Source_0", 0,[1.0,1.0,1.0,0.0,]);
+    const s2 = new MockSourceNumb("Source_1", 1,[1.0,2.0,1.0,4.0,]);
+    const s1_bis = new MockSourceNumb("Source_0", 0,[1.0,2.0,null,4.0,]);
+    const s3 = new MockSourceNumb("Source_2", 2,[1.0,10.0,null,4.0,]);
+    sources.push(new NumberSourceValues(s1)); //same source different TD
+    sources.push(new NumberSourceValues(s2));
+    sources.push(new NumberSourceValues(s1_bis)); //same source different TD
+    sources.push(new NumberSourceValues(s3)); 
+
+    //expected:
+    //S2 will win, S1 and S3 will discarded
+    run_test(sources, cb);
+}
+
+const test_05 = function (cb: (ris: number) => void): void {
+    console.log("\n+++++++++++++++++++++TEST 05+++++++++++++++++++++");
+    console.log("\n+++++++++++++++++++++TEST 05+++++++++++++++++++++");
+    console.log("\n+++++++++++++++++++++TEST 05+++++++++++++++++++++");
+    const sources = new Array<NumberSourceValues>();
+    const s1 = new MockSourceNumb("Source_0", 0,[1.1,2.2,1.5,0.9,]);
+    const s2 = new MockSourceNumb("Source_1", 1,[1.0,2.0,1.0,4.0,]);
+    const s1_bis = new MockSourceNumb("Source_0", 0,[1.8,1.5,1.1,1.7,]);
+    const s3 = new MockSourceNumb("Source_2", 2,[1.3,0.9,1.1,1.2,]);
+    const s1_bis_bis = new MockSourceNumb("Source_0", 0,[null,1.5,1.1,1.7,]);
+    const s4 = new MockSourceNumb("Source_3", 3,[1.2,1.5,0.9,0.9,]);
+    const s5 = new MockSourceNumb("Source_4", 4,[1.1,10.1,0.1,4.1,]);
+    const s3_bis = new MockSourceNumb("Source_3",3,[1.2,1.5,0.9,0.9,]);
+
+    sources.push(new NumberSourceValues(s1)); 
+    sources.push(new NumberSourceValues(s2));
+    sources.push(new NumberSourceValues(s1_bis));
+    sources.push(new NumberSourceValues(s3)); 
+    sources.push(new NumberSourceValues(s1_bis_bis));
+    sources.push(new NumberSourceValues(s4));
+    sources.push(new NumberSourceValues(s5)); 
+    sources.push(new NumberSourceValues(s3_bis)); 
+
+    //expected:
+    //S2 and S2 Discarded, 
+
+    run_test(sources, cb);
+}
 
 export default {
     test_01: test_01,
     test_02: test_02,
-    test_03: test_03
+    test_03: test_03,
+    test_04: test_04,
+    test_05: test_05
 }

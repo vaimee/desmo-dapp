@@ -39,18 +39,27 @@ export default class Worker implements IWorker {
           const iexecOut = process.env.IEXEC_OUT;
 
           //###########################Retrieve values
-          collectDirs(directoriesList, parser, (sources: Array<ISource>) => {
+          collectDirs(directoriesList, parser, (sources: Map<number,Array<ISource>>) => {
             
               var sourceValues = new Array<ISourceValues>();
-              for (var x in sources) {
-                if (parser.isAskingForNumber()) {
-                  sourceValues.push(new NumberSourceValues(sources[x]));
-                } else if (parser.isAskingForString()) {
-                  sourceValues.push(new StringSourceValues(sources[x]));
-                } else if (parser.isAskingForBoolean()) {
-                  sourceValues.push(new BoolSourceValues(sources[x]));
-                } else {
-                  this.err("Result Type of the request unknow!");
+              const keys = sources.keys();
+              for (let key of keys) {
+                const tds = sources.get(key);
+                if(tds!==undefined){
+                  for(var y=0;y<tds.length;y++){
+                    if (parser.isAskingForNumber()) {
+                      sourceValues.push(new NumberSourceValues(tds[y]));
+                    } else if (parser.isAskingForString()) {
+                      sourceValues.push(new StringSourceValues(tds[y]));
+                    } else if (parser.isAskingForBoolean()) {
+                      sourceValues.push(new BoolSourceValues(tds[y]));
+                    } else {
+                      this.err("Result Type of the request unknow!");
+                      // break; //no need, this.err will exit 
+                    }
+                  }
+                }else {
+                  this.err("TDs undefined for Directory index: "+ key);
                   // break; //no need, this.err will exit 
                 }
               }

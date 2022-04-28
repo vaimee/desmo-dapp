@@ -16,6 +16,7 @@ export default class MockSourceNumb extends Source{
 
     async ask():Promise<string>{
         this.actual++;
+        //console.log("ASK["+this.source+"]: "+ this.actual);
         const temp = this.values[this.actual];
         await delay(Math.trunc((Math.random()*500)));
         if(temp===null){

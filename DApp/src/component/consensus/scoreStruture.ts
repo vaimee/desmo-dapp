@@ -91,12 +91,14 @@ class ScoreStruture {
 
             for (let x = 0; x < this.list.length; x++) {
 
-                if (
+                if(
                     this.list[x].source.getIndex() !== this.best.source.getIndex() &&
                     (this.list[x].score * 2) > this.best.score &&
                     this.list[x].value === this.best.value
                 ) {
                     this.list[x].source.setScore(2);
+                }else if(this.list[x].source.getIndex() !== this.best.source.getIndex()){
+                    this.list[x].source.setScore(1);
                 }
 
             }

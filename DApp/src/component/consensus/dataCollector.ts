@@ -38,56 +38,71 @@ export function collect(
     cb:(s : Array<ISourceValues>)=>void
 ):void {
     
-    const notAborted = new Map<string,ISourceValues>();
-    const askTo=(cbSYnc:(np:Array<string>)=>void)=>{
+    const notAborted = new Set<number>();
+    const askTo=(cbSYnc:(np:Array<number>)=>void)=>{
         // const keys= notAborted.keys();
-        const needPunishment = new Array<string>();
+        const needPunishment = new Array<number>();
         var barier=0;
-        const sourcesCount = notAborted.size;
+        const sourcesCount = sources.length;
         // console.log("notAborted",notAborted);
         // console.log("notAborted.size",notAborted.size);
-        notAborted.forEach((actualSource: ISourceValues, key: string) => {
-            // console.log("key",key);
-            actualSource.addTemporalValue()
-            .then((ok)=>{
-                if(!ok){
+        for(var s in sources){
+            const actualSource= sources[s];
+            const key =actualSource.getSource().getIndex();
+            if(notAborted.has(key)){
+                actualSource.addTemporalValue()
+                .then((ok)=>{
+                    if(!ok){
+                        needPunishment.push(key);
+                        console.log("Source["+key+"] ask, received not valid value.");
+                    }
+                    barier++;
+                    if(barier>=sourcesCount){
+                        cbSYnc(needPunishment);
+                    }
+                })
+                .catch((err)=>{
                     needPunishment.push(key);
-                    console.log("Source["+key+"] ask, received not valid value.");
-                }
+                    console.log("Source["+key+"] ask, ERROR: "+ err.message);
+                    barier++;
+                    if(barier>=sourcesCount){
+                        cbSYnc(needPunishment);
+                    }
+                });
+            }else{
                 barier++;
                 if(barier>=sourcesCount){
                     cbSYnc(needPunishment);
                 }
-            })
-            .catch((err)=>{
-                needPunishment.push(key);
-                console.log("Source["+key+"] ask, ERROR: "+ err.message);
-                barier++;
-                if(barier>=sourcesCount){
-                    cbSYnc(needPunishment);
-                }
-            });
-        });
+            }
+        }
     }
+
     for(var s in sources){
-        notAborted.set(sources[s].getSource().getURL(),sources[s]);
+        const index = sources[s].getSource().getIndex();
+        notAborted.add(index);
     }
     var countRequest=0;
     const recursive = ()=>{
         countRequest++;
         if(countRequest>Conf.AUTOCORRELATION){
+            //punish all the sources of the same Directory
+            // that has at least one Source already punished
+            for(var s in sources){
+                const  index = sources[s].getSource().getIndex();
+                if(!notAborted.has(index)){
+                    sources[s].getSource().punish();
+                }
+            }
+            //console.log("DataCollectorOutput: ", sources); //ok
             cb(sources);
-        }else{
+        }else{  
             // console.log("recursive CALL"); //ok
-            askTo((needPunishment:Array<string>)=>{
+            askTo((needPunishment:Array<number>)=>{
                 for(var x in needPunishment){
                    const key= needPunishment[x];
-                   const source = notAborted.get(key);
-                   if(source!==undefined){
-                        source.getSource().punish();
-                        notAborted.delete(key);
-                   }else{
-                       console.log("Warning: the source is missing for key: "+key);
+                   if(notAborted.has(key)){
+                     notAborted.delete(key);
                    }
                 }
                 setTimeout(recursive,Conf.T);

@@ -29,7 +29,11 @@ const consOnNumberTest = (cb = () => { }) => {
         console.log("\n");
         TestConsNumb.test_01(() => {
             TestConsNumb.test_02(() => {
-                TestConsNumb.test_03(cb)
+                TestConsNumb.test_03(()=>{
+                    TestConsNumb.test_04(()=>{
+                        TestConsNumb.test_05(cb);
+                    });                    
+                })
             });
         });
     } else {
@@ -45,7 +49,9 @@ const consOnStringTest = (cb = () => { }) => {
         console.log("####################TEST#################");
         console.log("\n");
         TestConsStr.test_01(() => {
-            TestConsStr.test_02(cb);
+            TestConsStr.test_02(() => {
+                TestConsStr.test_03(cb);
+            });
         });
     } else {
         cb();

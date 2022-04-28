@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/vaimee/desmo-dapp#readme",
   "dependencies": {
+    "@node-wot/binding-http": "^0.8.0",
+    "@node-wot/core": "^0.8.0",
     "axios": "^0.26.0",
     "ethers": "^5.6.0",
     "ethers-ts": "^5.5.3",

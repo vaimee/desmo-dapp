@@ -9,10 +9,7 @@ import IEncoder from "./IEncoder";
 
 export default class EncoderABI implements IEncoder{
 
-    setSources(sources: {
-        reward: number 
-        ; sourceIndex: number;
-    }[]): void {
+    setSources(sources: Map<number,number>): void {
         throw new Error("Method not implemented.");
     }
     

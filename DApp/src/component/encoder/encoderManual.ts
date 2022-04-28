@@ -38,8 +38,14 @@ export default class EncoderManual implements IEncoder{
         this.encoded="";
     }
 
-    setSources(sources: { reward: number; sourceIndex: number; }[]): void {
-        this.sources = sources;
+    setSources(sources: Map<number,number>): void {
+        for(let key of sources.keys()){
+            var score = sources.get(key);
+            if(score===null || score===undefined){
+                score=0;
+            }
+            this.sources.push({sourceIndex:key,reward:score});
+        }
         if (this.sources.length > Conf.MAX_DIRECTORY_LIST_SIZE) {
             this.sources = this.sources.splice(0, Conf.MAX_DIRECTORY_LIST_SIZE);
         }

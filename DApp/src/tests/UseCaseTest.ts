@@ -49,7 +49,7 @@ const query: string = JSON.stringify({
     "unit": "qudt:DEG_C",                     //skip
     "datatype": 1
   },
-  "staticFilter": "$[?(@.title=='sensorTemp')]",
+  "staticFilter": "$[?(@.'@type'=='ControlUnit')]",
   //"dynamicFilter": "(READ desmo:WindSpeed UNIT qudt:KiloM_PER_HR) >= 20.0 || (READ desmo:Status UNIT xsd:string) == 'Activated'",
   // "geoFilter": {
   //   "region": {

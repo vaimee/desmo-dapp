@@ -13,7 +13,9 @@ export default class Source implements ISource {
         this.source = url;
         this.punished = false;
         this.index = index;
-        this.score = 1;
+        //start with the max of score
+        //because the score can only decrease
+        this.score = 3; 
     }
 
 
@@ -37,7 +39,7 @@ export default class Source implements ISource {
     }
 
     setScore(s: number): void {
-        if (!this.punished) {
+        if (!this.punished && this.score>s) {
             this.score = s;
         }
     }

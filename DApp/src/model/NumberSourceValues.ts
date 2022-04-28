@@ -80,6 +80,7 @@ export default class NumberSourceValues implements ISourceValues{
     }
 
     getBestRealValueAt(time:number,value:number):number{
+        //console.log("getBestRealValueAt for source: "+ this.source.getIndex());
         var indexStart =0;
         var indexEnd =0;
         for(var x=0;x<this.temporalDistribution.length;x++){

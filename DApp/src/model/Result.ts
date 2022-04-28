@@ -15,16 +15,23 @@ export default class Result implements IResult {
 
     value: string;
     type: string;
-    sources: Array<{ reward: number, sourceIndex: number }>;
+    sources: Map<number,number>;
 
     constructor(value: string, type: string, sources: Array<ISourceValues>) {
         this.value = value;
         this.type = type;
-        this.sources = new Array<{ reward: number, sourceIndex: number }>();
+        this.sources = new Map<number,number>();
         for (var s in sources) {
             const score = sources[s].getSource().getScore();
             const index = sources[s].getSource().getIndex();
-            this.sources.push({ reward: score, sourceIndex: index });
+            if(this.sources.has(index)){
+                const _reward = this.sources.get(index);
+                if(_reward!==undefined &&  _reward>score){
+                    this.sources.set(index,score);
+                }
+            }else{
+                this.sources.set(index,score);
+            }
         }
     }
 
@@ -36,6 +43,9 @@ export default class Result implements IResult {
         return this.type;
     }
 
+    getScores(): Map<number,number> {
+        return this.sources;
+    }
 
     getEncodedValue(encoder:IEncoder): string {
         //###########################Econde result

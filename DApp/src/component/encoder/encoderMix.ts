@@ -83,8 +83,14 @@ export default class EncoderMix implements IEncoder{
         this.compressedSources = new Uint8Array();
     }
 
-    setSources(sources: { reward: number; sourceIndex: number; }[]): void {
-        this.sources = sources;
+    setSources(sources:Map<number,number>): void {
+        for(let key of sources.keys()){
+            var score = sources.get(key);
+            if(score===null || score===undefined){
+                score=0;
+            }
+            this.sources.push({sourceIndex:key,reward:score});
+        }
         if (this.sources.length > Conf.MAX_DIRECTORY_LIST_SIZE) {
             this.sources = this.sources.splice(0, Conf.MAX_DIRECTORY_LIST_SIZE);
         }

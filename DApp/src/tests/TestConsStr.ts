@@ -12,13 +12,15 @@ const run_test = function (sources: Array<StringSourceValues>, cb: (ris: string)
 
             var matrix = "";
             for (var x in sources) {
+                matrix +=  "index["+sources[x].getSource().getIndex()+"]\t";
                 for (var y in sources[x].distribution) {
                     matrix += "|\t" + sources[x].distribution[y] + "\t";
                 }
                 matrix += "|\n";
             }
             console.log(matrix);
-            const value = consensus(s).getValue();
+            const ris = consensus(s);
+            const value = ris.getValue();
 
             var scoreSources = "| ";
             for (var x in sources) {
@@ -29,6 +31,7 @@ const run_test = function (sources: Array<StringSourceValues>, cb: (ris: string)
 
             console.log("################################################\n");
             console.log("ScoreSources: " + scoreSources);
+            console.log("ScoreSources Directory: ", ris.getScores());
             console.log("Value: " + value);
             cb(value);
         }
@@ -88,8 +91,40 @@ const test_02 = function (cb: (ris: string) => void): void {
 }
 
 
+const test_03 = function (cb: (ris: string) => void): void {
+    console.log("\n+++++++++++++++++++++TEST 03+++++++++++++++++++++");
+    console.log("\n+++++++++++++++++++++TEST 03+++++++++++++++++++++");
+    console.log("\n+++++++++++++++++++++TEST 03+++++++++++++++++++++");
+    const sources = new Array<StringSourceValues>();
+    const s1 = new MockSourceStr("Source_0", 0,[null,"A","B","C",]);
+    const s2 = new MockSourceStr("Source_1", 1,["A","A","B","C",]);
+    const s1_bis = new MockSourceStr("Source_0", 0,["A","B","B","C",]);
+    const s3 = new MockSourceStr("Source_2", 2,["A","B",null,"C",]);
+    const s1_bis_bis = new MockSourceStr("Source_0", 0,["A","B","B","Z",]);
+    const s4 = new MockSourceStr("Source_3", 3,["B","C","B","Z"]);
+    const s5 = new MockSourceStr("Source_4", 4,["Z","X","T","K"]);
+    const s3_bis = new MockSourceStr("Source_3",3,["A","O","B","Z"]);
+
+    sources.push(new StringSourceValues(s1)); 
+    sources.push(new StringSourceValues(s2));
+    sources.push(new StringSourceValues(s1_bis));
+    sources.push(new StringSourceValues(s3)); 
+    sources.push(new StringSourceValues(s1_bis_bis));
+    sources.push(new StringSourceValues(s4));
+    sources.push(new StringSourceValues(s5)); 
+    sources.push(new StringSourceValues(s3_bis)); 
+
+    //expected:
+    //S2 and S2 Discarded, 
+
+    run_test(sources, cb);
+
+}
+
+
 
 export default {
     test_01: test_01,
-    test_02: test_02
+    test_02: test_02,
+    test_03: test_03
 }
