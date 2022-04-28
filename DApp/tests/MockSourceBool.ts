@@ -1,4 +1,4 @@
-import Source from "../model/Source";
+import Source from "../src/model/Source";
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );

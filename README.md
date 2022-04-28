@@ -69,5 +69,5 @@ credentials can be shared without any risk of information leaking.
 4. `cd ../../`
 5. DApp
     1. `cd ./DApp` 
-    2. `ts-node src/tests/runTests.ts usecase`
+    2. `ts-node tests/runTests.ts usecase`
 

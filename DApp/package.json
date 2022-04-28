@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node src/app.ts",
     "lint": "eslint . --ext .ts",
-    "test": "ts-node src/tests/runTests.ts"
+    "test": "ts-node tests/runTests.ts"
   },
   "repository": {
     "type": "git",

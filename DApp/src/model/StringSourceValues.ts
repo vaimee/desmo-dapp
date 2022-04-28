@@ -63,7 +63,7 @@ export default class StringSourceValues implements ISourceValues{
     }
 
     toString(): string {
-        return "StringSourceValues["+this.source.getURL()+"]";
+        return "StringSourceValues["+this.source.getIndex()+"]";
     }
 
   

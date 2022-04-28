@@ -1,5 +1,5 @@
 
-import Worker from "../component/Worker";
+import Worker from "../src/component/Worker";
 
 const q6 = JSON.stringify({
   "prefixList": {
@@ -38,14 +38,14 @@ const q6 = JSON.stringify({
   }
 });
 const query: string = JSON.stringify({
-  "prefixList": {
-    "monas": "https://pod.dasibreaker.vaimee.it/monas/",
-    "xsd": "http://www.w3.org/2001/XMLSchema/",
-    "desmo": "http://www.desmo.org/Schema/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"xsd", "completeURI":"http://www.w3.org/2001/XMLSchema/"},
+    {"abbreviation":"monas", "completeURI":"https://pod.dasibreaker.vaimee.it/monas/"},
+  ],
   "property": {
-    "identifier": "desmo:OutdoorTemperature", //skip --> va a modificare "staticFilter"
+    "identifier": "desmo:OutdoorTemperature", //--->value<--- this need pass
     "unit": "qudt:DEG_C",                     //skip
     "datatype": 1
   },

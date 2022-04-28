@@ -1,7 +1,7 @@
 //All the test MUST be async function without args
 
-import QueryParser from "../component/QueryParser";
-import { IPrefix } from "../model/IQuery";
+import QueryParser from "../src/component/QueryParser";
+import { IPrefix } from "../src/model/IQuery";
 import {
     query_getter_01,
     query_getter_02,

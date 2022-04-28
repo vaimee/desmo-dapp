@@ -1,7 +1,7 @@
-import BoolSourceValues from "../model/BoolSourceValues";
-import Config from "../const/Config";
+import BoolSourceValues from "../src/model/BoolSourceValues";
+import Config from "../src/const/Config";
 import MockSourceBool from "./MockSourceBool";
-import { consensus, collect } from "../component/consensus/dataCollector";
+import { consensus, collect } from "../src/component/consensus/dataCollector";
 
 
 

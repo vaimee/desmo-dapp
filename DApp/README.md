@@ -22,12 +22,12 @@ Run all test
 
 Run tests
 
-1. Consensus for nubmer ```ts-node src/tests/runTests.ts number```
-2. Consensus for string ```ts-node src/tests/runTests.ts str```
-3. Consensus for boolean ```ts-node src/tests/runTests.ts bool```
-4. Encoding ```ts-node src/tests/runTests.ts encoding```
-5. RealExample ```ts-node src/tests/runTests.ts usecase```
-6. Query parser ```ts-node src/tests/runTests.ts parser```
+1. Consensus for nubmer ```ts-node tests/runTests.ts number```
+2. Consensus for string ```ts-node tests/runTests.ts str```
+3. Consensus for boolean ```ts-node tests/runTests.ts bool```
+4. Encoding ```ts-node tests/runTests.ts encoding```
+5. RealExample ```ts-node tests/runTests.ts usecase```
+6. Query parser ```ts-node tests/runTests.ts parser```
 
 
 # IexecSimpleApp

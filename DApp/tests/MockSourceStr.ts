@@ -1,22 +1,21 @@
-import Source from "../model/Source";
+import Source from "../src/model/Source";
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
-export default class MockSourceNumb extends Source{
+export default class MockSourceStr extends Source{
 
-    values:Array<(number | null)>;
+    values:Array<(string | null)>;
     actual=-1;
     
-    constructor(id:string,index:number,v:Array<(number | null)>){
+    constructor(id:string,index:number,v:Array<(string | null)>){
         super(id,index);
         this.values=v;
     }
 
     async ask():Promise<string>{
         this.actual++;
-        //console.log("ASK["+this.source+"]: "+ this.actual);
         const temp = this.values[this.actual];
         await delay(Math.trunc((Math.random()*500)));
         if(temp===null){

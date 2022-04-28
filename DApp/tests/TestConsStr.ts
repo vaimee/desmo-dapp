@@ -1,7 +1,7 @@
-import StringSourceValues from "../model/StringSourceValues";
-import Config from "../const/Config";
+import StringSourceValues from "../src/model/StringSourceValues";
+import Config from "../src/const/Config";
 import MockSourceStr from "./MockSourceStr";
-import { consensus, collect } from "../component/consensus/dataCollector";
+import { consensus, collect } from "../src/component/consensus/dataCollector";
 
 
 

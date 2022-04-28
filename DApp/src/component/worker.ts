@@ -1,7 +1,7 @@
 import { promises as fsPromises } from 'fs';
 import QueryParser from "./QueryParser";
 import IWorker from "./IWorker";
-import { collectDirs } from "./directoriesCollector";
+import DirectoriesCollector from "./DirectoriesCollector";
 import { collect, consensus } from "./consensus/dataCollector";
 
 import EncoderManual from "./encoder/EncoderManual";
@@ -15,7 +15,11 @@ import ISource from '../model/ISource';
 
 export default class Worker implements IWorker {
 
-  constructor() { }
+  collector:DirectoriesCollector;
+
+  constructor() { 
+    this.collector = new DirectoriesCollector();
+  }
 
   err(err: string): void {
     console.log("ERROR: " + err);
@@ -37,9 +41,9 @@ export default class Worker implements IWorker {
       (async () => {
         try {
           const iexecOut = process.env.IEXEC_OUT;
-
+          await this.collector.init();
           //###########################Retrieve values
-          collectDirs(directoriesList, parser, (sources: Map<number,Array<ISource>>) => {
+          this.collector.collectDirs(directoriesList, parser, (sources: Map<number,Array<ISource>>) => {
             
               var sourceValues = new Array<ISourceValues>();
               const keys = sources.keys();

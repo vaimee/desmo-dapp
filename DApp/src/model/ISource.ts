@@ -2,7 +2,7 @@ export default interface ISource {
 
 
     ask(): Promise<string>;
-    getURL(): string;
+    //getURL(): string;
     punish(): void;
     isPunished(): boolean;
     getScore(): number;

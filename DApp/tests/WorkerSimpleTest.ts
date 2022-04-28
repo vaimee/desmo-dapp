@@ -1,6 +1,6 @@
 import { promises as fsPromises } from 'fs';
 import {ethers} from "ethers-ts";
-import IWorker from "../component/IWorker";
+import IWorker from "../src/component/IWorker";
 
 export default class WorkerSimpleTest implements IWorker{
 

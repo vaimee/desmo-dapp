@@ -34,7 +34,7 @@ export default class NumberSourceValues implements ISourceValues{
     }
 
     toString(): string {
-        return "NumberSourceValues["+this.source.getURL()+"]";
+        return "NumberSourceValues["+this.source.getIndex()+"]";
     }
 
     parse(v:string):number|null{ 

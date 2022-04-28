@@ -1,6 +1,6 @@
 // import MockSourceNumb from "./MockSourceNumb";
 // import NumberSourceValues from "../model/NumberSourceValues";
-import Config from "../const/Config";
+import Config from "../src/const/Config";
 
 function getRandom(min: number, max: number, precision = 0): number {
     const p = 10 ** precision;

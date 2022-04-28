@@ -1,7 +1,7 @@
 import { promises as fsPromises } from 'fs';
 import {ethers} from "ethers-ts";
 import TestConsNumb from "./TestConsNumb";
-import IWorker from "../component/IWorker";
+import IWorker from "../src/component/IWorker";
 
 const runWithPromise=function():Promise<number>{
   return new Promise(function(resolve, reject){

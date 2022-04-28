@@ -1,5 +1,5 @@
-import EncoderMix from "../component/encoder/EncoderMix";
-import EncoderManual from "../component/encoder/EncoderManual";
+import EncoderMix from "../src/component/encoder/EncoderMix";
+import EncoderManual from "../src/component/encoder/EncoderManual";
 
 const convertToMap=function(arr:Array<{reward: number, sourceIndex:number}>):Map<number,number>{
     const ris = new Map<number,number>();

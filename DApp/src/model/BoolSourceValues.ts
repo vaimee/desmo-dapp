@@ -75,7 +75,7 @@ export default class BoolSourceValues implements ISourceValues{
     }
 
     toString(): string {
-        return "BoolSourceValues["+this.source.getURL()+"]";
+        return "BoolSourceValues["+this.source.getIndex()+"]";
     }
 
   
