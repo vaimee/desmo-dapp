@@ -2,10 +2,11 @@
 
 
 export const query_valid_01: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -14,11 +15,11 @@ export const query_valid_01: string = `{
 }`;
 
 export const query_valid_02: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/",
-    "onto": "http://onto.org/ontologies/base/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -28,10 +29,11 @@ export const query_valid_02: string = `{
 }`;
 
 export const query_valid_03: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -42,10 +44,11 @@ export const query_valid_03: string = `{
 
 
 export const query_valid_04: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -71,10 +74,11 @@ export const query_valid_04: string = `{
 }`;
 
 export const query_valid_05: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -89,11 +93,11 @@ export const query_valid_05: string = `{
 
 
 export const query_valid_06: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/",
-    "onto": "http://onto.org/ontologies/base/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -128,10 +132,11 @@ export const query_valid_06: string = `{
 
 //unit is identified with an URI
 export const query_valid_07: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "http://qudt.org/schema/qudt/DEG_C",
@@ -141,10 +146,11 @@ export const query_valid_07: string = `{
 
 //invalid geoFilter 
 export const query_valid_08: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -181,18 +187,20 @@ export const query_valid_08: string = `{
 
 //miss property
 export const query_invalid_01: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  }
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ]
 }`;
 
 //miss one field of property
 export const query_invalid_02: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "unit": "qudt:DEG_C",
     "datatype": 1
@@ -201,10 +209,11 @@ export const query_invalid_02: string = `{
 
 // a field of property is an empty string
 export const query_invalid_03: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "",
     "unit": "qudt:DEG_C",
@@ -214,10 +223,10 @@ export const query_invalid_03: string = `{
 
 //unit prefix not in prefix list
 export const query_invalid_04: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "notin:DEG_C",
@@ -227,11 +236,11 @@ export const query_invalid_04: string = `{
 
 //invalid staticFilter (wrong JsonPath syntax: missing $ in the beginning)
 export const query_invalid_05: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/",
-    "onto": "http://onto.org/ontologies/base/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -242,10 +251,11 @@ export const query_invalid_05: string = `{
 
 //invalid staticFilter (valid JsonPath syntax but it's not a filter)
 export const query_invalid_06: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -256,10 +266,11 @@ export const query_invalid_06: string = `{
 
 //invalid geoFilter (missing center)
 export const query_invalid_07: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -282,10 +293,11 @@ export const query_invalid_07: string = `{
 
 //invalid geoFilter (missing value from latitude)
 export const query_invalid_08: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -311,10 +323,11 @@ export const query_invalid_08: string = `{
 
 //invalid geoFilter  (missing one latitude)
 export const query_invalid_09: string = `{
-  "prefixList": {
-    "desmo": "https://desmo.vaimee.it/",
-    "qudt": "http://qudt.org/schema/qudt/"
-  },
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
@@ -341,4 +354,72 @@ export const query_invalid_09: string = `{
     }
   }
 }
+}`;
+
+//############################### VALID QUERIES TO TEST GETTERS FUNCTIONS ####################################
+
+export const query_getter_01: string = `{
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  }
+}`;
+
+export const query_getter_02: string = `{
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 0
+  }
+}`;
+
+export const query_getter_03: string = `{
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 2
+  }
+}`;
+
+export const query_getter_04: string = `{
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 3
+  }
+}`;
+
+export const query_getter_05: string = `{
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  },
+  "staticFilter": "$[?((@.title != 'test' && @.type == 'onto:Sensor') || @.actions.moveLeft)]"
 }`;
