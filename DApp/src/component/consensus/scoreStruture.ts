@@ -107,6 +107,10 @@ class ScoreStruture {
 
     }
 
+    getSize():number{
+        return this.list.length;
+    }
+
 }
 
 export default ScoreStruture;

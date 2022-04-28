@@ -88,6 +88,10 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
         }
     }
 
+    if(notPunished.length<1){
+        throw new Error("Impossible to reach consensus code[01]: no sources.");
+    }
+
     //#########STEP 1
     //sync values using time
     const q = buildSyncTemporalDistributions(notPunished);
@@ -102,6 +106,10 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
         // }
     }
     // console.log("autoC",autoC);
+
+    if(autoC.length<1){
+        throw new Error("Impossible to reach consensus code[02]: no autocorrelation.");
+    }
 
     //#########STEP 3
     //select the best source looking at how much these values fluctuates
@@ -122,6 +130,9 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
     //get the time with the min standard deviation based on time
     var crossc = Infinity;
     var bestTime = 0;
+    if(q.length<1){
+        throw new Error("Impossible to reach consensus code[03]: no crosscorrelation.");
+    }
     for (var t = 0; t < q.length; t++) {
         const crossTemp = crosscorrelation(notPunished, t);
         // console.log("crossTemp",crossTemp);
@@ -135,6 +146,9 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
     // console.log("bestTime",bestTime);
 
     //reward sources not punished
+    if(autoC.length!==notPunished.length){
+        throw new Error("Impossible to reach consensus code[04]: correlation and valid source must have the same cardinality.");
+    }
     for (var x = 0; x < autoC.length; x++) {
         console.log("X["+x+"]bestSource["+bestSource+"]");
         if(x===bestSource){
@@ -147,6 +161,9 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
     }
     
     //Find the best "REAL" value
+    if(notPunished[bestSource]!==undefined){
+        throw new Error("Impossible to reach consensus code[05]: no best value found.");
+    }
     const bestMediaValue = notPunished[bestSource].getSyncTemporalDistributionAt(bestTime);
     return notPunished[bestSource].getBestRealValueAt(q[bestTime], bestMediaValue);
 }

@@ -15,9 +15,9 @@ import ISource from '../model/ISource';
 
 export default class Worker implements IWorker {
 
-  collector:DirectoriesCollector;
+  collector: DirectoriesCollector;
 
-  constructor() { 
+  constructor() {
     this.collector = new DirectoriesCollector();
   }
 
@@ -43,53 +43,58 @@ export default class Worker implements IWorker {
           const iexecOut = process.env.IEXEC_OUT;
           await this.collector.init();
           //###########################Retrieve values
-          this.collector.collectDirs(directoriesList, parser, (sources: Map<number,Array<ISource>>) => {
-            
-              var sourceValues = new Array<ISourceValues>();
-              const keys = sources.keys();
-              for (let key of keys) {
-                const tds = sources.get(key);
-                if(tds!==undefined){
-                  for(var y=0;y<tds.length;y++){
-                    if (parser.isAskingForNumber()) {
-                      sourceValues.push(new NumberSourceValues(tds[y]));
-                    } else if (parser.isAskingForString()) {
-                      sourceValues.push(new StringSourceValues(tds[y]));
-                    } else if (parser.isAskingForBoolean()) {
-                      sourceValues.push(new BoolSourceValues(tds[y]));
-                    } else {
-                      this.err("Result Type of the request unknow!");
-                      // break; //no need, this.err will exit 
-                    }
+          this.collector.collectDirs(directoriesList, parser, (sources: Map<number, Array<ISource>>) => {
+
+            var sourceValues = new Array<ISourceValues>();
+            const keys = sources.keys();
+            for (let key of keys) {
+              const tds = sources.get(key);
+              if (tds !== undefined) {
+                for (var y = 0; y < tds.length; y++) {
+                  if (parser.isAskingForNumber()) {
+                    sourceValues.push(new NumberSourceValues(tds[y]));
+                  } else if (parser.isAskingForString()) {
+                    sourceValues.push(new StringSourceValues(tds[y]));
+                  } else if (parser.isAskingForBoolean()) {
+                    sourceValues.push(new BoolSourceValues(tds[y]));
+                  } else {
+                    this.err("Result Type of the request unknow!");
+                    // break; //no need, this.err will exit 
                   }
-                }else {
-                  this.err("TDs undefined for Directory index: "+ key);
-                  // break; //no need, this.err will exit 
                 }
+              } else {
+                this.err("TDs undefined for Directory index: " + key);
+                // break; //no need, this.err will exit 
               }
+            }
 
 
-              collect(sourceValues,
-                async (s) => {
+            collect(sourceValues,
+              async (s) => {
 
-                  //###########################Compute result
-                  const result = consensus(s);
+                //###########################Compute result
+                try {
+                    const result = consensus(s);
+                    //###########################Ecode result
+                    var callback_data = result.getEncodedValue(new EncoderManual());
 
-                  //###########################Ecode result
-                  var callback_data = result.getEncodedValue(new EncoderManual());
+                    //###########################Write result
+                    const computedJsonObj = {
+                      'callback-data': callback_data
+                    };
 
-                  //###########################Write result
-                  const computedJsonObj = {
-                    'callback-data': callback_data
-                  };
+                    await fsPromises.writeFile(
+                      `${iexecOut}/computed.json`,
+                      JSON.stringify(computedJsonObj),
+                    );
 
-                  await fsPromises.writeFile(
-                    `${iexecOut}/computed.json`,
-                    JSON.stringify(computedJsonObj),
-                  );
+                    console.log("computedJsonObj", computedJsonObj);
 
-                  console.log("computedJsonObj", computedJsonObj)
+                } catch (e:any) {
+                  this.err(e.message);
                 }
+
+              }
             );
           });
         } catch (e: any) {

@@ -201,7 +201,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
 
     WoThelpers:Helpers;
     servient:Servient;
-    wot:any;
+    wot?:typeof WoT;
 
     constructor(){
         this.servient = new Servient();
@@ -226,16 +226,21 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
     }
 
     async resolveTD(td: any, propertyName: string): Promise<InteractionOutput | null> {
-        try {
-            const thing = await this.wot.consume(td as ThingDescription);
-            // console.info("=== TD ===");
-            // console.info(td);
-            // console.info("==========");
-
-            return await thing.readProperty(propertyName);
-        } catch (err) {
-            console.error("ResolveTD error:", err);
+        if(this.wot===undefined){
+            console.error("ResolveTD error: wot is still undefined!");
             return null;
+        }else{
+            try {
+                const thing = await this.wot.consume(td as ThingDescription);
+                // console.info("=== TD ===");
+                // console.info(td);
+                // console.info("==========");
+    
+                return await thing.readProperty(propertyName);
+            } catch (err) {
+                console.error("ResolveTD error:", err);
+                return null;
+            }
         }
     }
 
