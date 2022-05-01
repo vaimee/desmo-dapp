@@ -144,7 +144,7 @@ export const query_valid_07: string = `{
   }
 }`;
 
-//invalid geoFilter 
+
 export const query_valid_08: string = `{
   "prefixList": [
     {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
@@ -178,6 +178,69 @@ export const query_valid_08: string = `{
     }
   }
 }
+}`;
+
+//valid query without the identifier being bound to be an URI
+export const query_valid_09: string = `{
+  "prefixList": [
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"}
+  ],
+  "property": {
+    "identifier": "Temperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  }
+}`;
+
+//valid query without the property unit being bound to be an URI
+export const query_valid_10: string = `{
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"}
+  ],
+  "property": {
+    "identifier": "desmo:Temperature",
+    "unit": "DEG_C",
+    "datatype": 1
+  }
+}`;
+
+//valid query without the geoFilter's units being bound to be an URI
+export const query_valid_11: string = `{
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+  },
+  "staticFilter": "$[?((@.title != 'test' && @.type == 'onto:Sensor') || @.actions.moveLeft)]",
+  "dynamicFilter": "(READ desmo:WindSpeed UNIT qudt:KiloM_PER_HR) >= 20.0 || (READ desmo:Status UNIT xsd:string) == 'Activated'",
+  "geoFilter": {
+    "region": {
+      "center": {
+        "latitude": 41.9109,
+        "longitude": 12.4818
+      },
+      "radius": {
+        "value": 50.0,
+        "unit": "KiloM"
+      }
+    },
+    "altitudeRange": {
+      "min": 0,
+      "max": 500,
+      "unit": "M"
+    }
+  },
+  
+  "timeFilter": {
+    "until": "2022-12-31T23:59:59Z",
+    "interval": "PT10M",
+    "aggregation": "desmo:Average"
+  }
 }`;
 
 
