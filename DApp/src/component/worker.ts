@@ -67,13 +67,13 @@ export default class Worker implements IWorker {
                 // break; //no need, this.err will exit 
               }
             }
-
-
+            //console.log("sourceValues",sourceValues);
             collect(sourceValues,
               async (s) => {
 
                 //###########################Compute result
                 try {
+                    console.log("--------<>-------");
                     const result = consensus(s);
                     //###########################Ecode result
                     var callback_data = result.getEncodedValue(new EncoderManual());

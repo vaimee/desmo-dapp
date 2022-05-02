@@ -17,7 +17,7 @@ export default class StringSourceValues implements ISourceValues{
         return v;
     }
 
-    async addTemporalValue():Promise<boolean>{
+    async addTemporalValue():Promise<boolean>{        
         const v_str =await this.source.ask();
         if(v_str===null){
             return false;

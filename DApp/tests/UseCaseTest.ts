@@ -45,7 +45,7 @@ const query: string = JSON.stringify({
     {"abbreviation":"monas", "completeURI":"https://pod.dasibreaker.vaimee.it/monas/"},
   ],
   "property": {
-    "identifier": "desmo:OutdoorTemperature", //--->value<--- this need pass
+    "identifier": "value",
     "unit": "qudt:DEG_C",                     //skip
     "datatype": 1
   },

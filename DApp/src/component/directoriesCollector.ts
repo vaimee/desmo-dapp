@@ -14,7 +14,7 @@ import IDirectoriesCollector from "./IDirectoriesCollector";
 
 
 const path_jsonPathQuery = "/search/jsonpath?query=";
-const path_getAll = "/thing";
+const path_getAll = "/things";
 // let WoThelpers: Helpers;
 // //for retrieve the TD from the url of the TD
 // const resolveTDUrl = function (url: string, cbOk: (td: any) => void, okErr: () => void) {
@@ -235,7 +235,6 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 // console.info("=== TD ===");
                 // console.info(td);
                 // console.info("==========");
-    
                 return await thing.readProperty(propertyName);
             } catch (err) {
                 console.error("ResolveTD error:", err);
@@ -246,9 +245,6 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
 
 
     resolveToISourceArr (tds: [any], parser: IQueryParser, index: number, cb: (r: Array<ISource>) => void): void {
-        //################ WIP
-        //################ WIP
-        //################ WIP
         // console.log(tds,tds);
         const ris = new Array<ISource>();
         const barier = tds.length;
@@ -308,6 +304,11 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         //console.log("getPrefixList-->",parser.getPrefixList());
         //parser.resolvePrefix("qudt:DEG_C");
     
+        ////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////
+        //          HERE THE CODE to pass query params (json-path, geo, time ...) to the Directory
+        ////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////
     
         var request_path = dir + path_getAll;
         if (jsonpath !== null) {
@@ -352,20 +353,22 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         const count = sources.length;
         const hit = () => {
             barrier++;
-            if (barrier >= count - 1) {
+            if (barrier >= count) {
                 cb(ris);
             }
         }
-        for (var s in sources) {
-            if (Directories[sources[s]] !== undefined) {
-                this.getThingFromDir(Directories[sources[s]], sources[s], parser, (tds: Array<ISource>) => {
-                    ris.set(sources[s], tds);
+        for (let s=0;s<sources.length;s++) {
+            const realDirURL = Directories[sources[s]];
+            const indexDir = sources[s];
+            if ( realDirURL !== undefined) {
+                this.getThingFromDir(realDirURL, indexDir, parser, (tds: Array<ISource>) => {
+                    ris.set(indexDir, tds);
                     hit();
                 });
             } else {
                 const noTDs = new Array<ISource>();
-                noTDs.push(new VoidSource(Directories[sources[s]], sources[s]));
-                ris.set(sources[s], noTDs);
+                noTDs.push(new VoidSource(realDirURL, indexDir));
+                ris.set(indexDir, noTDs);
                 console.log('DirectoriesCollector miss a Directory for index:' + sources[s]);
                 hit();
             }

@@ -1,6 +1,6 @@
 //All the test MUST be async function without args
-
-import QueryParser, { GEOFILTER_UNIT_IS_URI, PROPERTY_IDENTIFIER_IS_URI, PROPERTY_UNIT_IS_URI } from "../src/component/QueryParser";
+import Config from "../src/const/Config";
+import QueryParser from "../src/component/QueryParser";
 import { IPrefix } from "../src/model/IQuery";
 import {
     query_getter_01,
@@ -14,7 +14,9 @@ import {
     query_valid_05, query_valid_06, query_valid_07, query_valid_08, query_valid_09, query_valid_10, query_valid_11
 } from "./TestQueries";
 
-
+const GEOFILTER_UNIT_IS_URI = Config.GEOFILTER_UNIT_IS_URI;
+const PROPERTY_IDENTIFIER_IS_URI = Config.PROPERTY_IDENTIFIER_IS_URI;
+const PROPERTY_UNIT_IS_URI = Config.PROPERTY_UNIT_IS_URI;
 
 const test_01 = async function () {
     console.log("\n##########   test_01: Testing valid queries  ##########");

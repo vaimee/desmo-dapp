@@ -17,6 +17,14 @@ export default {
         (Remember: if a TD will retrieve correctly form the Directory, but the Thing of the TD will 
         no response or will retrieve a not valid value all the Directory will be punished anyway)
     */
-    IGNORE_TD_COLLECTION_ERROR:false
+    IGNORE_TD_COLLECTION_ERROR:false,
+
+    /*
+        PARSER CONFIGURATION
+        if "true" it means a MUST HAVE
+    */
+    PROPERTY_IDENTIFIER_IS_URI: false,
+    PROPERTY_UNIT_IS_URI:  true,
+    GEOFILTER_UNIT_IS_URI:  true,
 
 }

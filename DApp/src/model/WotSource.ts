@@ -21,8 +21,9 @@ export default class Source implements ISource {
 
 
     async ask(): Promise<string> {
+        console.log("START");
         const ris = await this.reader.value();
-        //console.log("ris",ris);
+        console.log("ask-->",ris);
         if(ris===null){
             throw new Error("Not valid value getted by source: " + this.index);
         }

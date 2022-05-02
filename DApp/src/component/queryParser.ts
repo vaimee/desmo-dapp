@@ -2,20 +2,8 @@
 import Types from "../const/Types";
 import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IPrefix, ITimeFilter, RequestedDataType } from "../model/IQuery";
 import IQueryParser from "./IQueryParser";
+import Config from "../const/Config";
 var jp = require('jsonpath');
-
-//##################################WIP
-//##################################WIP
-//##################################WIP
-
-//const
-export const PROPERTY_IDENTIFIER_IS_URI: boolean = true;
-export const PROPERTY_UNIT_IS_URI: boolean = true;
-export const GEOFILTER_UNIT_IS_URI: boolean = true;
-
-
-
-
 
 export default class QueryParser implements IQueryParser {
 
@@ -61,10 +49,10 @@ export default class QueryParser implements IQueryParser {
 
         //The property to be read is mandatory
         if (!this.parsedQuery.property) { console.log("missing property"); this.valid = false; return; }
-        if (!this.parsedQuery?.property?.identifier || (this.parsedQuery?.property?.identifier && this.parsedQuery?.property?.identifier.trim() == "") || (PROPERTY_IDENTIFIER_IS_URI &&
+        if (!this.parsedQuery?.property?.identifier || (this.parsedQuery?.property?.identifier && this.parsedQuery?.property?.identifier.trim() == "") || (Config.PROPERTY_IDENTIFIER_IS_URI &&
             !validateUnit(this.parsedQuery.property.identifier, this.parsedQuery.prefixList)) || !this.parsedQuery?.property?.unit ||
             (this.parsedQuery?.property?.unit &&
-                this.parsedQuery?.property?.unit?.trim() == "") || (PROPERTY_UNIT_IS_URI &&
+                this.parsedQuery?.property?.unit?.trim() == "") || (Config.PROPERTY_UNIT_IS_URI &&
                     !validateUnit(this.parsedQuery.property.unit, this.parsedQuery.prefixList)) ||
             this.parsedQuery?.property?.datatype == null) { console.log("invalid property"); this.valid = false; return; }
 
@@ -85,7 +73,7 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery?.geoFilter && this.parsedQuery?.geoFilter?.region && !geofilterValidator(this.parsedQuery.geoFilter.region, this.parsedQuery.prefixList)) { console.log("invalid region inside the geo filter"); this.valid = false; return; }
         if (this.parsedQuery?.geoFilter?.altitudeRange && (this.parsedQuery?.geoFilter?.altitudeRange?.min == null || this.parsedQuery?.geoFilter?.altitudeRange?.max == null ||
             !this.parsedQuery?.geoFilter?.altitudeRange?.unit || this.parsedQuery?.geoFilter?.altitudeRange?.unit.trim() == "" ||
-            (GEOFILTER_UNIT_IS_URI && !validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList)))) { console.log("invalid altitude range inside the geo filter"); this.valid = false; return; }
+            (Config.GEOFILTER_UNIT_IS_URI && !validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList)))) { console.log("invalid altitude range inside the geo filter"); this.valid = false; return; }
 
 
         //The time filter is optional
@@ -253,7 +241,7 @@ function geofilterValidator(geoFilter: IGeoCircle | IGeoPolygon, prefixList: IPr
     const geoFilterPolygon = geoFilter as IGeoPolygon;
     if (geoFilterCircle.center != null && geoFilterCircle.radius != null && geoFilterCircle.center.latitude != null &&
         geoFilterCircle.center.longitude != null && geoFilterCircle.radius.value != null && geoFilterCircle.radius.unit != null &&
-        geoFilterCircle.radius.unit != "" && (!GEOFILTER_UNIT_IS_URI || validateUnit(geoFilterCircle.radius.unit, prefixList))) {
+        geoFilterCircle.radius.unit != "" && (!Config.GEOFILTER_UNIT_IS_URI || validateUnit(geoFilterCircle.radius.unit, prefixList))) {
         return true;
     }
     else if (geoFilterPolygon.vertices != null && geoFilterPolygon.vertices != null && geoFilterPolygon.vertices.length > 0) {

@@ -4,6 +4,7 @@ import TestConsStr from "./TestConsStr";
 import TestConsBool from "./TestConsBool";
 import UseCaseTest from "./UseCaseTest";
 import QueryParserTest from "./QueryParserTest";
+import WotTest from "./WotTest";
 
 
 
@@ -86,6 +87,19 @@ const useCaseTest = (cb = () => { }) => {
     }
 }
 
+const wotTest = (cb = () => { }) => {
+    if (process.argv[2] === "wot" || process.argv[2] === undefined) {
+        console.log("\n\n");
+        console.log("####################TEST#################");
+        console.log("#                  WOT                  #");
+        console.log("####################TEST#################");
+        console.log("\n");
+        WotTest.test_01(cb);
+    } else {
+        cb();
+    }
+}
+
 
 const queryParserTest = async () => {
     if (process.argv[2] === "parser" || process.argv[2] === undefined) {
@@ -110,12 +124,14 @@ const runAllTest = async function () {
     consOnNumberTest(() => {
         consOnStringTest(() => {
             consOnBoolTest(() => {
-                useCaseTest(()=>{
-                    console.log("\n\n");
-                    console.log("#########################################");
-                    console.log("#               TESTS FINISHED          #");
-                    console.log("#########################################");
-                });
+                wotTest(()=>{
+                    useCaseTest(()=>{
+                        console.log("\n\n");
+                        console.log("#########################################");
+                        console.log("#               TESTS FINISHED          #");
+                        console.log("#########################################");
+                    });
+                })
             })
         })
     })
