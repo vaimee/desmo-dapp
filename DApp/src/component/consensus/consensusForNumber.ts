@@ -161,7 +161,7 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
     }
     
     //Find the best "REAL" value
-    if(notPunished[bestSource]!==undefined){
+    if(notPunished[bestSource]===undefined){
         throw new Error("Impossible to reach consensus code[05]: no best value found.");
     }
     const bestMediaValue = notPunished[bestSource].getSyncTemporalDistributionAt(bestTime);

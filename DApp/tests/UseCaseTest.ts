@@ -47,7 +47,7 @@ const query: string = JSON.stringify({
   "property": {
     "identifier": "value",
     "unit": "qudt:DEG_C",                     //skip
-    "datatype": 1
+    "datatype": 3
   },
   "staticFilter": "$[?(@.'@type'=='ControlUnit')]",
   //"dynamicFilter": "(READ desmo:WindSpeed UNIT qudt:KiloM_PER_HR) >= 20.0 || (READ desmo:Status UNIT xsd:string) == 'Activated'",
@@ -84,7 +84,7 @@ const test_01 =function(cb:() => void){
     console.log("WARNING: Use case test 01 NOT FINISHED YET");
     console.log("WARNING: Use case test 01 NOT FINISHED YET");
     console.log("WARNING: Use case test 01 NOT FINISHED YET");
-    const worker = new Worker();
+    const worker = new Worker("./mount/iexec_out/");
     worker.work(query,directoriesList);
     
 

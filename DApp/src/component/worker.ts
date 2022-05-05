@@ -16,9 +16,20 @@ import ISource from '../model/ISource';
 export default class Worker implements IWorker {
 
   collector: DirectoriesCollector;
+  iexecOut: string;
 
-  constructor() {
+  constructor(forcePathOut:string|undefined) {
     this.collector = new DirectoriesCollector();
+    if(forcePathOut===undefined ){
+      if(process.env.IEXEC_OUT!==undefined){
+        this.iexecOut = process.env.IEXEC_OUT;
+      }else{
+        this.iexecOut="";
+        this.err("No IEXEC_OUT!");
+      }
+    }else{
+      this.iexecOut =forcePathOut;
+    }
   }
 
   err(err: string): void {
@@ -40,10 +51,20 @@ export default class Worker implements IWorker {
     } else {
       (async () => {
         try {
-          const iexecOut = process.env.IEXEC_OUT;
           await this.collector.init();
           //###########################Retrieve values
           this.collector.collectDirs(directoriesList, parser, (sources: Map<number, Array<ISource>>) => {
+
+            if (parser.isAskingForNumber()) {
+              console.log("###INFO###: Using NumberSourceValues.");
+            } else if (parser.isAskingForString()) {
+              console.log("###INFO###: Using StringSourceValues.");
+            } else if (parser.isAskingForBoolean()) {
+              console.log("###INFO###: Using BoolSourceValues.");
+            } else {
+              this.err("Result Type of the request unknow!");
+              // break; //no need, this.err will exit 
+            }
 
             var sourceValues = new Array<ISourceValues>();
             const keys = sources.keys();
@@ -73,8 +94,10 @@ export default class Worker implements IWorker {
 
                 //###########################Compute result
                 try {
-                    console.log("--------<>-------");
                     const result = consensus(s);
+                    console.log("############## Consensus result ##############");
+                    console.log( result.toString());
+                    console.log("##############################################");
                     //###########################Ecode result
                     var callback_data = result.getEncodedValue(new EncoderManual());
 
@@ -84,7 +107,7 @@ export default class Worker implements IWorker {
                     };
 
                     await fsPromises.writeFile(
-                      `${iexecOut}/computed.json`,
+                      `${this.iexecOut}/computed.json`,
                       JSON.stringify(computedJsonObj),
                     );
 

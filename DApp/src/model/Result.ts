@@ -69,4 +69,7 @@ export default class Result implements IResult {
         }
     }
 
+    toString():string{
+        return "Value: "+this.value+"; Type: "+ this.type+"; Sources: "+ this.sources.size+".";
+    }
 }

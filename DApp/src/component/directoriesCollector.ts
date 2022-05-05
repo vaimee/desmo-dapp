@@ -6,7 +6,7 @@ import VoidSource from "../model/VoidSource";
 import IQueryParser from "./IQueryParser";
 import axios from "axios";
 import WoT from "wot-typescript-definitions";
-import { ThingDescription, InteractionOutput } from "wot-typescript-definitions";
+import { ThingDescription, ConsumedThing } from "wot-typescript-definitions";
 import { Servient, Helpers } from "@node-wot/core";
 import { HttpClientFactory } from '@node-wot/binding-http';
 import Config from "../const/Config";
@@ -225,17 +225,18 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
             });
     }
 
-    async resolveTD(td: any, propertyName: string): Promise<InteractionOutput | null> {
+    async resolveTD(td: any): Promise<ConsumedThing | null> {
         if(this.wot===undefined){
             console.error("ResolveTD error: wot is still undefined!");
             return null;
         }else{
             try {
-                const thing = await this.wot.consume(td as ThingDescription);
+                return await this.wot.consume(td as ThingDescription);
+                //const thing = await this.wot.consume(td as ThingDescription);
                 // console.info("=== TD ===");
                 // console.info(td);
                 // console.info("==========");
-                return await thing.readProperty(propertyName);
+                //return await thing.readProperty(propertyName);
             } catch (err) {
                 console.error("ResolveTD error:", err);
                 return null;
@@ -250,13 +251,14 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         const barier = tds.length;
         var hit = 0;
         var abort = false;
+        const propName = parser.getPropertyIdentifier();
         for (let x = 0; x < tds.length; x++) {
             if (!abort) {//NOT SO USEFULL HERE
-                this.resolveTD(tds[x], parser.getPropertyIdentifier())
+                this.resolveTD(tds[x])
                     .then((reader) => {
                         if (!abort) {
                             if (reader !== null) {
-                                ris.push(new WotSource(reader, index));
+                                ris.push(new WotSource(reader,propName,index));
                                 hit++;
                                 if (hit >= barier) {
                                     cb(ris);

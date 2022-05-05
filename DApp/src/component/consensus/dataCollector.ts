@@ -45,11 +45,11 @@ export function collect(
         var barier=0;
         const sourcesCount = sources.length;
         // console.log("notAborted",notAborted);
-        console.log("notAborted.size",notAborted.size);
+        //console.log("notAborted.size",notAborted.size);//ok
         for(let s=0;s<sources.length;s++){
             const actualSource= sources[s];
             const key =actualSource.getSource().getIndex();
-            console.log("notAborted.has("+key+"):"+notAborted.has(key));
+            //console.log("notAborted.has("+key+"):"+notAborted.has(key)); //ok
             if(notAborted.has(key)){
                 actualSource.addTemporalValue()
                 .then((ok)=>{
@@ -86,7 +86,6 @@ export function collect(
     var countRequest=0;
     const recursive = ()=>{
         countRequest++;
-        console.log("------->",countRequest);
         if(countRequest>Conf.AUTOCORRELATION){
             //punish all the sources of the same Directory
             // that has at least one Source already punished

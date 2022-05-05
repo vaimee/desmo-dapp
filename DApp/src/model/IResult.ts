@@ -8,4 +8,5 @@ export default interface IResult {
 
     getEncodedValue(encoder:IEncoder): string;
 
+    toString():string;
 }
