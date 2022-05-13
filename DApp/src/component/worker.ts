@@ -17,6 +17,7 @@ export default class Worker implements IWorker {
 
   collector: DirectoriesCollector;
   iexecOut: string;
+  cb?:()=>void;
 
   constructor(forcePathOut:string|undefined) {
     this.collector = new DirectoriesCollector();
@@ -30,11 +31,19 @@ export default class Worker implements IWorker {
     }else{
       this.iexecOut =forcePathOut;
     }
+    console.info=()=>{};
+    console.debug =()=>{};
+    console.warn =()=>{};
+
   }
 
   err(err: string): void {
     console.log("ERROR: " + err);
-    process.exit(1);
+    if(this.cb!==undefined){
+      this.cb();
+    }else{
+      process.exit(1);
+    }
   }
 
   work(query: string, directoriesList: Array<number>): void {
@@ -88,7 +97,7 @@ export default class Worker implements IWorker {
                 // break; //no need, this.err will exit 
               }
             }
-            //console.log("sourceValues",sourceValues);
+            console.log("###->SourceValues: "+ sourceValues.length);
             collect(sourceValues,
               async (s) => {
 
@@ -112,6 +121,9 @@ export default class Worker implements IWorker {
                     );
 
                     console.log("computedJsonObj", computedJsonObj);
+                    if(this.cb!==undefined){
+                      this.cb();
+                    }
 
                 } catch (e:any) {
                   this.err(e.message);
@@ -125,6 +137,10 @@ export default class Worker implements IWorker {
         }
       })();
     }
+  }
+
+  setCB(cb:()=>void):void{
+    this.cb=cb;
   }
 }
 

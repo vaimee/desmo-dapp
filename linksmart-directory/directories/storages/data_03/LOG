@@ -170,3 +170,48 @@
 13:23:41.772420 db@open done T·888.6851ms
 14:03:57.772107 db@close closing
 14:03:57.772120 db@close done T·27.5µs
+=============== May 10, 2022 (CEST) ===============
+09:02:51.751101 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+09:02:51.851908 version@stat F·[0 1] S·4KiB[0B 4KiB] Sc·[0.00 0.00]
+09:02:51.851908 db@open opening
+09:02:51.852442 journal@recovery F·1
+09:02:51.853497 journal@recovery recovering @32
+09:02:51.855165 version@stat F·[0 1] S·4KiB[0B 4KiB] Sc·[0.00 0.00]
+09:02:52.454898 db@janitor F·3 G·0
+09:02:52.454898 db@open done T·602.9896ms
+09:47:29.425607 db@close closing
+09:47:29.425607 db@close done T·0s
+=============== May 10, 2022 (CEST) ===============
+14:56:30.118815 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:56:30.139993 version@stat F·[0 1] S·4KiB[0B 4KiB] Sc·[0.00 0.00]
+14:56:30.139993 db@open opening
+14:56:30.140518 journal@recovery F·1
+14:56:30.141566 journal@recovery recovering @34
+14:56:30.839876 memdb@flush created L0@36 N·45 S·14KiB "urn..28c,v94":"urn..582,d59"
+14:56:30.840420 version@stat F·[1 1] S·18KiB[14KiB 4KiB] Sc·[0.25 0.00]
+14:56:31.735404 db@janitor F·4 G·0
+14:56:31.735578 db@open done T·1.5955137s
+15:00:12.631126 db@close closing
+15:00:12.631126 db@close done T·0s
+=============== May 10, 2022 (CEST) ===============
+15:08:00.245650 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+15:08:00.247787 version@stat F·[1 1] S·18KiB[14KiB 4KiB] Sc·[0.25 0.00]
+15:08:00.248329 db@open opening
+15:08:00.248329 journal@recovery F·1
+15:08:00.250481 journal@recovery recovering @37
+15:08:00.251581 version@stat F·[1 1] S·18KiB[14KiB 4KiB] Sc·[0.25 0.00]
+15:08:00.403532 db@janitor F·4 G·0
+15:08:00.440471 db@open done T·192.1429ms
+17:12:10.010948 db@close closing
+17:12:10.041639 db@close done T·30.6904ms
+=============== May 10, 2022 (CEST) ===============
+21:06:05.033992 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+21:06:05.212330 version@stat F·[1 1] S·18KiB[14KiB 4KiB] Sc·[0.25 0.00]
+21:06:05.233405 db@open opening
+21:06:05.236661 journal@recovery F·1
+21:06:05.240061 journal@recovery recovering @39
+21:06:05.243275 version@stat F·[1 1] S·18KiB[14KiB 4KiB] Sc·[0.25 0.00]
+21:06:06.421778 db@janitor F·4 G·0
+21:06:06.587652 db@open done T·1.3509906s
+22:03:25.919840 db@close closing
+22:03:25.965974 db@close done T·46.1338ms

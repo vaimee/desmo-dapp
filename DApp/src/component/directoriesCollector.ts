@@ -15,187 +15,6 @@ import IDirectoriesCollector from "./IDirectoriesCollector";
 
 const path_jsonPathQuery = "/search/jsonpath?query=";
 const path_getAll = "/things";
-// let WoThelpers: Helpers;
-// //for retrieve the TD from the url of the TD
-// const resolveTDUrl = function (url: string, cbOk: (td: any) => void, okErr: () => void) {
-//     WoThelpers.fetch(url)
-//         .then(cbOk)
-//         .catch((err) => {
-//             console.error("ResolveTD Fetch error:", err);
-//             okErr();
-//         });
-// }
-
-// const resolveTD = async function (td: any, propertyName: string): Promise<InteractionOutput | null> {
-//     try {
-//         const thing = await WoT.consume(td as ThingDescription);
-//         // console.info("=== TD ===");
-//         // console.info(td);
-//         // console.info("==========");
-
-//         return await thing.readProperty(propertyName);
-//     } catch (err) {
-//         console.error("ResolveTD error:", err);
-//         return null;
-//     }
-// }
-
-
-// const filterDirDynamicFilter = function (tds: [any], parser: IQueryParser): [any] {
-//     //################ NOT IMPLEMENTED YET
-//     //################ NOT IMPLEMENTED YET
-//     //################ NOT IMPLEMENTED YET
-//     return tds;
-// }
-
-// const filterDirGeoFilter = function (tds: [any], parser: IQueryParser): [any] {
-//     //################ NOT IMPLEMENTED YET
-//     //################ NOT IMPLEMENTED YET
-//     //################ NOT IMPLEMENTED YET
-//     return tds;
-// }
-
-// const filterTimeFilter = function (tds: [any], parser: IQueryParser): [any] {
-//     //################ NOT IMPLEMENTED YET
-//     //################ NOT IMPLEMENTED YET
-//     //################ NOT IMPLEMENTED YET
-//     return tds;
-// }
-
-// const convertToISourceArr = function (tds: [any], parser: IQueryParser, index: number, cb: (r: Array<ISource>) => void): void {
-//     //################ WIP
-//     //################ WIP
-//     //################ WIP
-//     // console.log(tds,tds);
-//     const ris = new Array<ISource>();
-//     const barier = tds.length;
-//     var hit = 0;
-//     var abort = false;
-//     for (let x = 0; x < tds.length; x++) {
-//         if (!abort) {//NOT SO USEFULL HERE
-//             resolveTD(tds[x], parser.getPropertyIdentifier())
-//                 .then((reader) => {
-//                     if (!abort) {
-//                         if (reader !== null) {
-//                             ris.push(new WotSource(reader, index));
-//                             hit++;
-//                             if (hit >= barier) {
-//                                 cb(ris);
-//                             }
-//                         } else if (Config.IGNORE_TD_COLLECTION_ERROR) {
-//                             ris.push(new VoidSource("", index));
-//                             hit++;
-//                             if (hit >= barier) {
-//                                 cb(ris);
-//                             }
-//                         } else {
-//                             abort = true;
-//                             const voidRis = new Array<ISource>();
-//                             voidRis.push(new VoidSource("", index));
-//                             cb(voidRis);
-//                         }
-
-//                     }
-//                 })
-//                 .catch((err) => {
-//                     console.error("ConvertToISourceArr error:", err);
-//                     //here we can exstract a url for the VoidSource from tds[x]
-//                     //but this is not important, for now the url of the VoidSource is void ""
-//                     const voidSource = new VoidSource("", index);
-//                     if (Config.IGNORE_TD_COLLECTION_ERROR) {
-//                         ris.push(voidSource);
-//                         hit++;
-//                         if (hit >= barier) {
-//                             cb(ris);
-//                         }
-//                     } else {
-//                         abort = true;
-//                         const voidRis = new Array<ISource>();
-//                         voidRis.push(voidSource);
-//                         cb(voidRis);
-//                     }
-//                 });
-//         }
-//     }
-// }
-
-// const getThingFromDir = function (dir: string, dirIndex: number, parser: IQueryParser, cb: (s: Array<ISource>) => void) {
-
-//     const jsonpath = parser.getJsonPath();
-//     //console.log("getPrefixList-->",parser.getPrefixList());
-//     //parser.resolvePrefix("qudt:DEG_C");
-
-
-//     var request_path = dir + path_getAll;
-//     if (jsonpath !== null) {
-//         request_path = dir + path_jsonPathQuery + jsonpath;
-//     }
-
-//     axios.get(request_path)
-//         .then((ris) => {
-//             if (ris.status === 200) {
-//                 //console.log(request_path, ris.data);
-//                 const json_to_filter = ris.data;
-//                 convertToISourceArr(
-//                     filterTimeFilter(
-//                         filterDirGeoFilter(
-//                             filterDirDynamicFilter(json_to_filter, parser)
-//                             , parser)
-//                         , parser),
-//                     parser,
-//                     dirIndex,
-//                     cb
-//                 )
-//             } else {
-//                 const noTDs = new Array<ISource>();
-//                 noTDs.push(new VoidSource(dir, dirIndex));
-//                 cb(noTDs);
-//             }
-//         })
-//         .catch(function (error) {
-//             console.log(request_path);
-//             console.log('DirectoriesCollector error on Directory index:' + dirIndex + " Error: " + error);
-//             const noTDs = new Array<ISource>();
-//             noTDs.push(new VoidSource(dir, dirIndex));
-//             cb(noTDs);
-//         });
-// }
-
-
-// export function collectDirs(
-//     sources: Array<number>,
-//     parser: IQueryParser,
-//     cb: (resolvedSources: Map<number, Array<ISource>>) => void
-// ): void {
-
-//     //console.log("parser",parser);
-//     const ris = new Map<number, Array<ISource>>();
-//     var barrier = 0;
-//     const count = sources.length;
-//     const hit = () => {
-//         barrier++;
-//         if (barrier >= count - 1) {
-//             cb(ris);
-//         }
-//     }
-//     for (var s in sources) {
-//         if (Directories[sources[s]] !== undefined) {
-//             getThingFromDir(Directories[sources[s]], sources[s], parser, (tds: Array<ISource>) => {
-//                 ris.set(sources[s], tds);
-//                 hit();
-//             });
-//         } else {
-//             const noTDs = new Array<ISource>();
-//             noTDs.push(new VoidSource(Directories[sources[s]], sources[s]));
-//             ris.set(sources[s], noTDs);
-//             console.log('DirectoriesCollector miss a Directory for index:' + sources[s]);
-//             hit();
-//         }
-//     }
-// }
-
-
-
 
 export default class DirectoriesCollector implements IDirectoriesCollector{
 
@@ -231,12 +50,11 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
             return null;
         }else{
             try {
-                return await this.wot.consume(td as ThingDescription);
-                //const thing = await this.wot.consume(td as ThingDescription);
-                // console.info("=== TD ===");
-                // console.info(td);
-                // console.info("==========");
-                //return await thing.readProperty(propertyName);
+                //return await this.wot.consume(td as ThingDescription);
+                //console.info("========== START");
+                const thing = await this.wot.consume(td as ThingDescription);
+                //console.info("========== END");
+                return thing;
             } catch (err) {
                 console.error("ResolveTD error:", err);
                 return null;
@@ -244,60 +62,72 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         }
     }
 
+    
 
-    resolveToISourceArr (tds: [any], parser: IQueryParser, index: number, cb: (r: Array<ISource>) => void): void {
+    resolveToISourceArr (tds: []|[any], parser: IQueryParser, index: number, cb: (r: Array<ISource>) => void): void {
         // console.log(tds,tds);
         const ris = new Array<ISource>();
         const barier = tds.length;
         var hit = 0;
         var abort = false;
         const propName = parser.getPropertyIdentifier();
-        for (let x = 0; x < tds.length; x++) {
-            if (!abort) {//NOT SO USEFULL HERE
-                this.resolveTD(tds[x])
-                    .then((reader) => {
-                        if (!abort) {
-                            if (reader !== null) {
-                                ris.push(new WotSource(reader,propName,index));
-                                hit++;
-                                if (hit >= barier) {
-                                    cb(ris);
+
+        //void source
+        const returnVoidSource=()=>{
+            abort = true;
+            const voidRis = new Array<ISource>();
+            voidRis.push(new VoidSource("", index));
+            //console.log("@@@@@BARIER FORCE VOID"); //ok
+            cb(voidRis);
+        }
+        
+        //console.log("tds.length",tds.length);
+        if(barier===0){
+            returnVoidSource();
+        }else{
+            for (let x = 0; x < tds.length; x++) {
+                if (!abort) {//NOT SO USEFULL HERE
+                    this.resolveTD(tds[x])
+                        .then((reader) => {
+                            if (!abort) {
+                                if (reader !== null) {
+                                    ris.push(new WotSource(reader,propName,index));
+                                    hit++;
+                                    //console.log("@@@@@BARIER "+hit+"/"+barier);//ok
+                                    if (hit >= barier) {
+                                        cb(ris);
+                                    }
+                                } else if (Config.IGNORE_TD_COLLECTION_ERROR) {
+                                    ris.push(new VoidSource("", index));
+                                    hit++;
+                                    //console.log("@@@@@BARIER "+hit+"/"+barier);//ok
+                                    if (hit >= barier) {
+                                        cb(ris);
+                                    }
+                                } else {
+                                    returnVoidSource();
                                 }
-                            } else if (Config.IGNORE_TD_COLLECTION_ERROR) {
+                            }
+                        })
+                        .catch((err) => {
+                            console.error("ConvertToISourceArr error:", err);
+                            //here we can exstract a url for the VoidSource from tds[x]
+                            //but this is not important, for now the url of the VoidSource is void ""
+                            if (Config.IGNORE_TD_COLLECTION_ERROR) {
                                 ris.push(new VoidSource("", index));
                                 hit++;
+                                //console.log("@@@@@BARIER "+hit+"/"+barier);//ok
                                 if (hit >= barier) {
                                     cb(ris);
                                 }
                             } else {
-                                abort = true;
-                                const voidRis = new Array<ISource>();
-                                voidRis.push(new VoidSource("", index));
-                                cb(voidRis);
+                                returnVoidSource();
                             }
-    
-                        }
-                    })
-                    .catch((err) => {
-                        console.error("ConvertToISourceArr error:", err);
-                        //here we can exstract a url for the VoidSource from tds[x]
-                        //but this is not important, for now the url of the VoidSource is void ""
-                        const voidSource = new VoidSource("", index);
-                        if (Config.IGNORE_TD_COLLECTION_ERROR) {
-                            ris.push(voidSource);
-                            hit++;
-                            if (hit >= barier) {
-                                cb(ris);
-                            }
-                        } else {
-                            abort = true;
-                            const voidRis = new Array<ISource>();
-                            voidRis.push(voidSource);
-                            cb(voidRis);
-                        }
-                    });
+                        });
+                }
             }
         }
+        
     }
 
     getThingFromDir (dir: string, dirIndex: number, parser: IQueryParser, cb: (s: Array<ISource>) => void) {
@@ -316,10 +146,11 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         if (jsonpath !== null) {
             request_path = dir + path_jsonPathQuery + jsonpath;
         }
-    
+        //console.log("request_path",request_path); //ok
         axios.get(request_path)
             .then((ris) => {
                 if (ris.status === 200) {
+                    //console.log("HIT---->C");//ok
                     //console.log(request_path, ris.data);
                     const json_to_filter = ris.data;
                     this.resolveToISourceArr(
@@ -335,7 +166,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 }
             })
             .catch(function (error) {
-                console.log(request_path);
+                //console.log(request_path);
                 console.log('DirectoriesCollector error on Directory index:' + dirIndex + " Error: " + error);
                 const noTDs = new Array<ISource>();
                 noTDs.push(new VoidSource(dir, dirIndex));
@@ -355,16 +186,37 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         const count = sources.length;
         const hit = () => {
             barrier++;
+            //console.log("barrier",barrier);
+            //console.log("count",count);
             if (barrier >= count) {
+                //console.log("ris",ris);
+                var countPunishedSource =0;
+                for(let key of ris.keys()){
+                    const iSources = ris.get(key);
+                    if(iSources===undefined || iSources.length===0){
+                        countPunishedSource++;
+                    }else{
+                        for(let ss =0;ss<iSources.length;ss++){
+                            if(iSources[ss].isPunished()){
+                                countPunishedSource++;
+                                break;
+                            }
+                        }
+                    }
+                }
+                console.log("Pre punished source: "+countPunishedSource+ "/"+count);
                 cb(ris);
             }
         }
         for (let s=0;s<sources.length;s++) {
+            //console.log("s---->"+s);
             const realDirURL = Directories[sources[s]];
             const indexDir = sources[s];
             if ( realDirURL !== undefined) {
+                //console.log("A_HIT---->"+s);
                 this.getThingFromDir(realDirURL, indexDir, parser, (tds: Array<ISource>) => {
                     ris.set(indexDir, tds);
+                    //console.log("B_HIT---->"+s);
                     hit();
                 });
             } else {
@@ -372,6 +224,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 noTDs.push(new VoidSource(realDirURL, indexDir));
                 ris.set(indexDir, noTDs);
                 console.log('DirectoriesCollector miss a Directory for index:' + sources[s]);
+                //console.log("HIT---->"+s);
                 hit();
             }
         }

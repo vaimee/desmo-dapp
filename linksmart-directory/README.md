@@ -7,6 +7,8 @@ That part of the project uses the *thing-directory* repository as a simulator of
 
 # Setup
 
+Note: [WAM](../example-tds/README.md) need to be up.
+
 1. Download and install GO [go.dev](https://go.dev/dl/)
 2. Download the original repository `./downloadRepo.sh`
 3. Build and run `./buildAndRun.sh`
@@ -23,12 +25,14 @@ The script `buildAndRunMultiple.sh` runs more than one Directory, and the script
 
 **directoryManager**
 
-Using `node setup.js` just one directory will manage.
+Instead use `setup.sh` or `setupMultiple.sh`:
 
-Using `node setup.js --m` all the directories will manage.
+Using `node directoryManager/setup.js` just one directory will be considered.
 
-Using `node setup.js --m X` all the directories will manage and "X" is the probability of NOT registering a TD on a Directory.
+Using `node directoryManager/setup.js --m` all the directories will be considered.
+
+Using `node directoryManager/setup.js --m X` all the directories will be considered and "X" is the probability of NOT registering a TD on a Directory.
 "X" must be:  `0 < X < 1`.
-For example, `node setup.js --m 0.5` will register just half of the TD in each Directory.
+For example, `node directoryManager/setup.js --m 0.5` will register just half of the TD in each Directory.
 
 

@@ -81,14 +81,9 @@ const query: string = JSON.stringify({
 const directoriesList=[0,4,5,1,2,6,8,9];
 
 const test_01 =function(cb:() => void){
-    console.log("WARNING: Use case test 01 NOT FINISHED YET");
-    console.log("WARNING: Use case test 01 NOT FINISHED YET");
-    console.log("WARNING: Use case test 01 NOT FINISHED YET");
     const worker = new Worker("./mount/iexec_out/");
-    worker.work(query,directoriesList);
-    
-
-    cb();
+    worker.setCB(cb);
+    worker.work(query,directoriesList);   
 }
 
 export default {
