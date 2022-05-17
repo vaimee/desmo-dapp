@@ -13,6 +13,7 @@ import Config from "../const/Config";
 import IDirectoriesCollector from "./IDirectoriesCollector";
 
 
+
 const path_jsonPathQuery = "/search/jsonpath?query=";
 const path_getAll = "/things";
 
@@ -132,7 +133,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
 
     getThingFromDir (dir: string, dirIndex: number, parser: IQueryParser, cb: (s: Array<ISource>) => void) {
 
-        const jsonpath = parser.getJsonPath();
+        let jsonpath = parser.getJsonPath();
         //console.log("getPrefixList-->",parser.getPrefixList());
         //parser.resolvePrefix("qudt:DEG_C");
     
@@ -142,15 +143,23 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         ////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////
     
-        var request_path = dir + path_getAll;
+        let request_path = dir + path_getAll;
         if (jsonpath !== null) {
             request_path = dir + path_jsonPathQuery + jsonpath;
         }
         //console.log("request_path",request_path); //ok
-        axios.get(request_path)
-            .then((ris) => {
+        const source = axios.CancelToken.source();
+        const timeout = setTimeout(() => {
+            source.cancel();
+            // Timeout Logic
+        }, Config.DIRECTORY_TIME_OUT);
+        //console.log("HIT---->C0",request_path);//ok
+        axios.get(request_path,{cancelToken: source.token})
+            .then((ris) => { 
+                //console.log(ris.status,request_path);//ok
+                clearTimeout(timeout);
                 if (ris.status === 200) {
-                    //console.log("HIT---->C");//ok
+                    //console.log("HIT---->C1",request_path);//ok
                     //console.log(request_path, ris.data);
                     const json_to_filter = ris.data;
                     this.resolveToISourceArr(
@@ -160,18 +169,20 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                         cb
                     )
                 } else {
+                    //console.log("HIT---->C2");//ok
                     const noTDs = new Array<ISource>();
                     noTDs.push(new VoidSource(dir, dirIndex));
                     cb(noTDs);
                 }
             })
-            .catch(function (error) {
+            .catch((error)=> {
+                //console.log("HIT---->C3");//ok
                 //console.log(request_path);
                 console.log('DirectoriesCollector error on Directory index:' + dirIndex + " Error: " + error);
                 const noTDs = new Array<ISource>();
                 noTDs.push(new VoidSource(dir, dirIndex));
                 cb(noTDs);
-            });
+        });
     }
 
     collectDirs(
@@ -208,26 +219,31 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 cb(ris);
             }
         }
-        for (let s=0;s<sources.length;s++) {
-            //console.log("s---->"+s);
-            const realDirURL = Directories[sources[s]];
-            const indexDir = sources[s];
-            if ( realDirURL !== undefined) {
-                //console.log("A_HIT---->"+s);
-                this.getThingFromDir(realDirURL, indexDir, parser, (tds: Array<ISource>) => {
-                    ris.set(indexDir, tds);
-                    //console.log("B_HIT---->"+s);
+        if(sources.length===0){
+            cb(ris);//this never gonna happen
+        }else{
+            for (let s=0;s<sources.length;s++) {
+                //console.log("s---->"+s);
+                const realDirURL = Directories[sources[s]];
+                const indexDir = sources[s];
+                if ( realDirURL !== undefined) {
+                    //console.log("A_HIT---->"+realDirURL);
+                    this.getThingFromDir(realDirURL, indexDir, parser, (tds: Array<ISource>) => {
+                        ris.set(indexDir, tds);
+                        //console.log("B_HIT---->"+s);
+                        hit();
+                    });
+                } else {
+                    const noTDs = new Array<ISource>();
+                    noTDs.push(new VoidSource(realDirURL, indexDir));
+                    ris.set(indexDir, noTDs);
+                    console.log('DirectoriesCollector miss a Directory for index:' + sources[s]);
+                    //console.log("HIT---->"+s);
                     hit();
-                });
-            } else {
-                const noTDs = new Array<ISource>();
-                noTDs.push(new VoidSource(realDirURL, indexDir));
-                ris.set(indexDir, noTDs);
-                console.log('DirectoriesCollector miss a Directory for index:' + sources[s]);
-                //console.log("HIT---->"+s);
-                hit();
+                }
             }
         }
+        
     }
     
 }
