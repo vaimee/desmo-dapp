@@ -11,6 +11,7 @@ import { Servient, Helpers } from "@node-wot/core";
 import { HttpClientFactory } from '@node-wot/binding-http';
 import Config from "../const/Config";
 import IDirectoriesCollector from "./IDirectoriesCollector";
+import { InteractionOutput } from "wot-typescript-definitions";
 
 
 
@@ -45,7 +46,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
             });
     }
 
-    async resolveTD(td: any): Promise<ConsumedThing | null> {
+    async resolveTD(td: any,prop:string): Promise<InteractionOutput | null> {
         if(this.wot===undefined){
             console.error("ResolveTD error: wot is still undefined!");
             return null;
@@ -55,7 +56,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 //console.info("========== START");
                 const thing = await this.wot.consume(td as ThingDescription);
                 //console.info("========== END");
-                return thing;
+                return await thing.readProperty(prop);
             } catch (err) {
                 console.error("ResolveTD error:", err);
                 return null;
@@ -88,11 +89,11 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         }else{
             for (let x = 0; x < tds.length; x++) {
                 if (!abort) {//NOT SO USEFULL HERE
-                    this.resolveTD(tds[x])
+                    this.resolveTD(tds[x],propName)
                         .then((reader) => {
                             if (!abort) {
                                 if (reader !== null) {
-                                    ris.push(new WotSource(reader,propName,index));
+                                    ris.push(new WotSource(reader,index));
                                     hit++;
                                     //console.log("@@@@@BARIER "+hit+"/"+barier);//ok
                                     if (hit >= barier) {
