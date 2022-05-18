@@ -67,10 +67,10 @@ const test_01_async = async function(){
         }
         const thing = await wot.consume(selectedTD as ThingDescription);
         const reader = await thing.readProperty(prop);
-        await delay(5000); //RITARDO
-        console.log("qui stampa");
+        //await delay(5000); //<-----------------------------------------DECCOMENT FOR SEE THE BUG
+        //console.log("Here we have the console.log");
         const ris = await reader.value();
-        console.log("qui NON stampa"); //questo viene stampato senza ritardo
+        //console.log("Here we haven't the console.log and for some reason the script exit with no err (skypping the catch too)."); 
         console.log("WotTest: ", ris);
     } catch (err) {
         console.log("WotTest: ResolveTD error 1:", err);
