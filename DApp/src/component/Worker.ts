@@ -49,6 +49,7 @@ export default class Worker implements IWorker {
   work(query: string, directoriesList: Array<number>): void {
     const parser = new QueryParser(query);
     try {
+      console.log("Parsing query ...");
       parser.parse();
     } catch (e: any) {
       this.err(e.message);
@@ -58,12 +59,13 @@ export default class Worker implements IWorker {
     } else if (directoriesList.length < 4 || directoriesList.length % 4 !== 0) {
       this.err("Directories list must be multipler of 4 and at least 4.");
     } else {
+      console.log("Collect Directories and TDs ...");
       (async () => {
         try {
           await this.collector.init();
           //###########################Retrieve values
           this.collector.collectDirs(directoriesList, parser, (sources: Map<number, Array<ISource>>) => {
-
+            console.log("Collect values ...");
             if (parser.isAskingForNumber()) {
               console.log("###INFO###: Using NumberSourceValues.");
             } else if (parser.isAskingForString()) {

@@ -27,4 +27,6 @@ export default {
     PROPERTY_UNIT_IS_URI:  true,
     GEOFILTER_UNIT_IS_URI:  true,
 
+    //ms
+    DIRECTORY_TIME_OUT:10000
 }
