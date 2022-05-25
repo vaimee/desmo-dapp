@@ -7,7 +7,6 @@ import QueryParserTest from "./QueryParserTest";
 import WotTest from "./WotTest";
 
 
-
 const consOnBoolTest = (cb = () => { }) => {
     if (process.argv[2] === "bool" || process.argv[2] === undefined) {
         console.log("\n\n");
@@ -139,3 +138,5 @@ const runAllTest = async function () {
 }
 
 runAllTest();
+
+//WotTest.test_02(()=>{});
