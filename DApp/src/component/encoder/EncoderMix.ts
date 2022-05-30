@@ -188,7 +188,7 @@ export default class EncoderMix implements IEncoder{
         return  this.encoded;
     }
 
-    decode(callbackData:string):void {
+    decode(callbackData:string):any {
         const size = callbackData.length;        
         const hex_typeandWarn= callbackData[size-2]+""+callbackData[size-1];
         const hex_sc= callbackData[size-4]+""+callbackData[size-3];
@@ -198,22 +198,34 @@ export default class EncoderMix implements IEncoder{
         const sourcesCount=parseInt(hex_sc, 16)*2; //real sources count is: sourcesCount*4
         const hex_sources= callbackData.substring(size-(4+sourcesCount),size-4);
         // console.log("hex_sources",hex_sources);
+        const dirs= [];
         for(var x =0;x<sourcesCount*2;x+=2){
             const temp = hex_sources[x]+hex_sources[x+1];
-            console.log("unBuild8Hex",CommonEncoder.unBuild8Hex(temp));
+            const dir =CommonEncoder.unBuild8Hex(temp);
+            dirs.push(dir);
+            console.log("unBuild8Hex",dir);
         }
         const cleanedStr = callbackData.substring(0,callbackData.length-(4+sourcesCount));
         // console.log("cleanedStr",cleanedStr); //ok
+        var value:any;
         if(t.type===Types.POS_INTEGER){
-            console.log("DECODE A POS_INTEGER: ",ethers.utils.defaultAbiCoder.decode(["uint"],cleanedStr));
+            value=ethers.utils.defaultAbiCoder.decode(["uint"],cleanedStr);
+            console.log("DECODE A POS_INTEGER: ",value);
         }else if(t.type===Types.NEG_INTEGER){
-            console.log("DECODE A NEG_INTEGER: ",ethers.utils.defaultAbiCoder.decode(["uint"],cleanedStr));
+            value = ethers.utils.defaultAbiCoder.decode(["uint"],cleanedStr);
+            console.log("DECODE A NEG_INTEGER: ",value);
         }else if(t.type===Types.POS_FLOAT){
-            console.log("DECODE A Types: ", ethers.utils.defaultAbiCoder.decode(["uint","uint256"],cleanedStr));
+            value=ethers.utils.defaultAbiCoder.decode(["uint","uint256"],cleanedStr);
+            console.log("DECODE A Types: ", value);
         }else if(t.type===Types.NEG_FLOAT){
-           console.log("DECODE A NEG_FLOAT: ",ethers.utils.defaultAbiCoder.decode(["uint","uint256"],cleanedStr));
+           value= ethers.utils.defaultAbiCoder.decode(["uint","uint256"],cleanedStr);
+           console.log("DECODE A NEG_FLOAT: ",value);
         }else{
-           console.log("DECODE A STRING: ",ethers.utils.defaultAbiCoder.decode(["string"],cleanedStr));
+            value=ethers.utils.defaultAbiCoder.decode(["string"],cleanedStr);
+           console.log("DECODE A STRING: ",value);
         }
+        return {value,dirs}
     }
+
+    
 }

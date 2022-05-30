@@ -19,7 +19,7 @@ export default class EncoderABI implements IEncoder{
     encodeString(stringValue: String): string {
         throw new Error("Method not implemented.");
     }
-    decode(callbackData: string): void {
+    decode(callbackData: string): any {
         throw new Error("Method not implemented.");
     }
 

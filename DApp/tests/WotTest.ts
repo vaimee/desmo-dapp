@@ -46,7 +46,7 @@ function delay(ms: number) {
 // }
 
 
-const test_01_async = async function(){
+const test_01= async function():Promise<boolean>{
     var request_path = Directories[0]+ path_getAll;
     try {
         const servient = new Servient();
@@ -73,22 +73,15 @@ const test_01_async = async function(){
         const ris = await reader.value();
         console.log("Here we haven't the console.log and for some reason the script exit with no err (skypping the catch too)."); 
         console.log("WotTest: ", ris);
+        return ris!==null && ris!==undefined && ris.toString().length>0;
     } catch (err) {
         console.log("WotTest: ResolveTD error 1:", err);
     }
-    return ;
+    return false;
 }
 
-const test_01 =function(cb:() => void){
-  
-    test_01_async().then(cb)
-    .catch((err)=>{
-        console.log("WotTest: ResolveTD error 0:", err);
-        cb();
-    })
-}
 
-const test_02_Async = async function(){
+const test_02 = async function():Promise<boolean>{
    const td_url = "http://plugfest.thingweb.io:8083/counter";
    try {
         const servient = new Servient();
@@ -106,20 +99,16 @@ const test_02_Async = async function(){
         console.log("AFTER value");
         console.log("Here we haven't the console.log and for some reason, the script exit with no error (skipping the catch too)."); 
         console.log("WotTest result: ", ris);
+        return ris!==null && ris!==undefined && ris.toString().length>0;
     } catch (err) {
         console.log("WotTest: ResolveTD error 1:", err);
+        return false;
     }
 }
 
-const test_02 =function(cb:() => void){
-    test_02_Async().then(cb)
-    .catch((err)=>{
-        console.log("WotTest: ResolveTD error 0:", err);
-        cb();
-    })
-}
 
-export default {
-    test_01: test_01,
-    test_02: test_02
-}
+
+export default [
+    test_01, 
+    //test_02, //this need to be commented!
+]

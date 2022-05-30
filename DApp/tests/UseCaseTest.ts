@@ -80,10 +80,24 @@ const query: string = JSON.stringify({
 //directoriesList.length must be multiple of 4
 const directoriesList=[0,4,5,1,2,6,8,9];
 
-const test_01 =function(cb:() => void){
+const _test_01 =function(cb:(ris:any) => void):void{
     const worker = new Worker("./mount/iexec_out/");
     worker.setCB(cb);
     worker.work(query,directoriesList);   
+    
+}
+
+const test_01 =async ()=>{
+  return new Promise((resolve, reject) => {
+      try{
+        _test_01((data:any) => {
+              resolve(data!==null);
+        });
+      }catch(err){
+          console.log("UseCase->Err: ",err);
+          resolve(false);
+      }
+  })
 }
 
 export default {

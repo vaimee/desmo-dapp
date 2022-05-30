@@ -37,7 +37,6 @@ export function collect(
     sources : Array<ISourceValues>,
     cb:(s : Array<ISourceValues>)=>void
 ):void {
-    
     const notAborted = new Set<number>();
     const askTo=(cbSYnc:(np:Array<number>)=>void)=>{
         // const keys= notAborted.keys();

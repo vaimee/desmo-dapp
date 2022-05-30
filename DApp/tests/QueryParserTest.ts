@@ -18,7 +18,7 @@ const GEOFILTER_UNIT_IS_URI = Config.GEOFILTER_UNIT_IS_URI;
 const PROPERTY_IDENTIFIER_IS_URI = Config.PROPERTY_IDENTIFIER_IS_URI;
 const PROPERTY_UNIT_IS_URI = Config.PROPERTY_UNIT_IS_URI;
 
-const test_01 = async function () {
+const test_01 = async function () :Promise<{tot:number,passed:number}> {
     console.log("\n##########   test_01: Testing valid queries  ##########");
     let total_tests = 0;
     let total_passed = 0;
@@ -88,12 +88,12 @@ const test_01 = async function () {
 
     console.log ("passed tests:" + total_passed + "/" + total_tests);
 
-    return;
+    return {tot:total_tests,passed:total_passed};
 }
 
 
 
-const test_02 = async function () {
+const test_02 = async function () :Promise<{tot:number,passed:number}>{
     console.log("\n##########   test_02: Testing invalid queries  ##########");
 
     let total_tests = 0;
@@ -148,11 +148,11 @@ const test_02 = async function () {
 
     console.log("passed tests:" + total_passed + "/" + total_tests);
 
+    return {tot:total_tests,passed:total_passed};
 
-    return;
 }
 
-const test_03 = async function () {
+const test_03 = async function () :Promise<{tot:number,passed:number}> {
     console.log("\n##########   test_03: Testing getters function ##########");
 
     let total_tests = 0;
@@ -223,7 +223,7 @@ const test_03 = async function () {
 
     console.log ("passed tests:" + total_passed + "/" + total_tests);
 
-    return;
+    return {tot:total_tests,passed:total_passed};
 }
 
 function PrefixEqual(a: IPrefix[] | null, b: IPrefix[] | null): boolean {

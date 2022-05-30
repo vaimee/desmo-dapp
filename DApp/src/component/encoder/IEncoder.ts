@@ -4,7 +4,7 @@ export default interface IEncoder {
 
     encodeString(stringValue: String): string;
 
-    decode(callbackData: string): void;
+    decode(callbackData: string): any;
 
     setSources(sources:Map<number,number>):void;
 }
