@@ -156,6 +156,14 @@ const test_05 = async function (): Promise<boolean> {
     }
 }
 
+const test_06= async function (): Promise<boolean> {
+    const td_url = "http://plugfest.thingweb.io:8083/counter";
+    const lastChange = await genericGetPropFromTD(td_url, "lastChange");
+    const count = await genericGetPropFromTD(td_url, "count");
+    const redDotImage = await genericGetPropFromTD(td_url, "redDotImage");
+    const countAsImage = await genericGetPropFromTD(td_url, "countAsImage");
+    return lastChange && count && redDotImage && countAsImage;
+}
 
 
 export default [
@@ -164,4 +172,5 @@ export default [
     test_03,
     test_04,
     test_05,
+    test_06,
 ]
