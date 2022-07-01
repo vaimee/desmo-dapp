@@ -19,7 +19,7 @@
     "name": "desmo-dapp",
     "type": "DOCKER",
     "multiaddr": "docker.io/thespeedghost/desmo-dapp:1.0.0",
-    "checksum": "0x035a80c57996d16bb986d6d4681ee26c5d9a7d52e5a64ed9c158c95d0e895f7e"
+    "checksum": "0x216394951d7537ba417156cb44ae82d2ead4531bb7c4477ea1737638f511f715"
   },
   "order": {
     "apporder": {

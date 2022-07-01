@@ -102,4 +102,7 @@ const test_01 =async ()=>{
 
 export default {
     test_01: test_01,
+    // directoriesListExample:directoriesList,
+    // queryExample:query
+
 }
