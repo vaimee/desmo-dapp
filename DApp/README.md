@@ -28,7 +28,8 @@ Run tests
 4. Encoding ```ts-node tests/runTests.ts encoding```
 5. RealExample ```ts-node tests/runTests.ts usecase```
 6. Query parser ```ts-node tests/runTests.ts parser```
-6. Directory collector ```ts-node tests/runTests.ts wot```
+7. Directory collector ```ts-node tests/runTests.ts wot```
+8. Zion ```ts-node tests/runTests.ts zion```
 
 
 # IexecSimpleApp

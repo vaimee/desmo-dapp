@@ -26,7 +26,7 @@ credentials can be shared without any risk of information leaking.
 
 **Contents**
 1. [WAM for TDs example management](example-tds/README.md)
-2. [Linksmart Directory for Directories example](linksmart-directory/README.md)
+2. [Linksmart Directory for Directories example](directory/README.md)
 3. [DApp](DApp/README.md)
     1. [Consensus algorithm for TDs result](DApp/docs/algorithm.md)
     2. [Econding result](DApp/docs/encoding.md)
@@ -45,7 +45,7 @@ credentials can be shared without any risk of information leaking.
     4. `npm start`
 2. `cd ..`
 3. Directory
-    1. `cd ./linksmart-directory` 
+    1. `cd ./directory` 
     2. Download and install GO [go.dev](https://go.dev/dl/)
     3. `./downloadRepo.sh`
     5. `cd ./directoryManager` 
@@ -63,11 +63,30 @@ credentials can be shared without any risk of information leaking.
     4. `npm start`
 2. `cd ..`
 3. Directory
-    1. `cd ./linksmart-directory`
+    1. `cd ./directory`
     4. `./buildAndRunMultiple.sh`
     7. `./setupMultiple.sh` 
 4. `cd ../../`
 5. DApp
     1. `cd ./DApp` 
     2. `ts-node tests/runTests.ts usecase`
+
+**Zion as Directory**
+
+Zion is an Directory implementation, you can find the [Zion repository here](https://github.com/vaimee/zion)
+
+The final demo of DESMO-LD project will use Zion Directories, to use an isntace of that with docker:
+1. download the repository [here](https://github.com/vaimee/zion)
+2. `docker-compose up`
+
+To test the DApp with Zion as Direcotry: 
+1. WAM
+    1. `cd ./example-tds`
+    4. `npm start`
+2. `cd ..`
+3. Directory
+    1. if Zion is not up yet, go in the Zion repository folder and then `docker-compose up`
+5. DApp
+    1. `cd ./DApp`
+    2. `ts-node tests/runTests.ts zion`
 

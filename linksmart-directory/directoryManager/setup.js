@@ -1,14 +1,17 @@
 
 const axios = require('axios');
+const { env } = require('process');
 
 
 const {
     DIRECTORY_URL,
     TD_LIST,
     WAM_URL,
-    DIRECTORIES_PORT
+    DIRECTORIES_PORT,
+    ZION_PORT
 } = require('./config');
 
+var PORTS=DIRECTORIES_PORT;
 function replaceIP(url, replacewith = "localhost") {
     const offset_1 = url.indexOf("://");
     var offset_2 = url.split("://")[1].indexOf(":");
@@ -90,7 +93,7 @@ function getThingFormWAM(url, cbok, cberr, useOnlyLocalhost = true) {
 }
 
 function registerTD(
-    directory = DIRECTORY_URL + ":" + DIRECTORIES_PORT[0],
+    directory = DIRECTORY_URL + ":" + PORTS[0],
     td_url,
     cbok = () => { },
     cberr = () => { },
@@ -217,7 +220,7 @@ function registerALlTDs(actualDir, list, cb = () => { }, randomMiss = 0) {
 }
 
 function getAllThingsID(
-    directory = DIRECTORY_URL + ":" + DIRECTORIES_PORT[0],
+    directory = DIRECTORY_URL + ":" + PORTS[0],
     cbok = () => { },
     cberr = () => { }
 ) {
@@ -242,7 +245,7 @@ function getAllThingsID(
 }
 
 function removeAll(
-    directory = DIRECTORY_URL + ":" + DIRECTORIES_PORT[0],
+    directory = DIRECTORY_URL + ":" + PORTS[0],
     idLIST,
     cbok = () => { },
     cberr = () => { }
@@ -368,7 +371,7 @@ function run() {
     }
     if (justFirstDirectory) {
         directoriesToSetup = 1;
-        const directory_url = DIRECTORY_URL + ":" + DIRECTORIES_PORT[0];
+        const directory_url = DIRECTORY_URL + ":" + PORTS[0];
         console.log("Setup just the first Directory: " + directory_url);
         isDirectoryAlive(directory_url,
             (alive) => {
@@ -381,10 +384,10 @@ function run() {
             }
         );
     } else {
-        directoriesToSetup = DIRECTORIES_PORT.length;
+        directoriesToSetup = PORTS.length;
         console.log("Setup all the Directories.");
-        for (var x = 0; x < DIRECTORIES_PORT.length; x++) {
-            const directory_url = DIRECTORY_URL + ":" + DIRECTORIES_PORT[x];
+        for (var x = 0; x < PORTS.length; x++) {
+            const directory_url = DIRECTORY_URL + ":" + PORTS[x];
             isDirectoryAlive(directory_url,
                 (alive) => {
                     if (alive) {
@@ -402,4 +405,8 @@ function run() {
 
 }
 
+
+if(process.argv[2]==="--zion"){
+    PORTS=ZION_PORT;
+}
 run();

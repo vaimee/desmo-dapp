@@ -103,7 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
-# linksmart-directory
+# directory
 
 linksmart-directory/repository/
 linksmart-directory/directories/storages/
+directory/repository/
+directory/directories/storages/

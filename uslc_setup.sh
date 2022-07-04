@@ -4,7 +4,7 @@ start npm start
 echo "Wait 5s"
 sleep 5
 echo "START Directories"
-cd ../linksmart-directory
+cd ../directory
 ./buildAndRunMultiple.sh
 echo "Wait 5s"
 echo "Setup the Directories"
