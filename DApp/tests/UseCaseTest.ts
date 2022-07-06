@@ -1,5 +1,6 @@
 
 import Worker from "../src/component/Worker";
+import Types from "../src/const/Types";
 
 const q6 = JSON.stringify({
   "prefixList": {
@@ -77,13 +78,11 @@ const query: string = JSON.stringify({
 });
 
 
-//directoriesList.length must be multiple of 4
-const directoriesList=[0,4,5,1,2,6,8,9];
 
 const _test_01 =function(cb:(ris:any) => void):void{
     const worker = new Worker("./mount/iexec_out/");
     worker.setCB(cb);
-    worker.work(query,directoriesList);   
+    worker.work(query,Types.INTERNAL_TEST_REQUEST_ID);   
     
 }
 

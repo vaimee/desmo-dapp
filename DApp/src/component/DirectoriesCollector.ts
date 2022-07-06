@@ -1,5 +1,3 @@
-
-import Directories from "../const/Directories";
 import ISource from "../model/ISource";
 import WotSource from "../model/WotSource";
 import VoidSource from "../model/VoidSource";
@@ -175,13 +173,13 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
     }
 
     collectDirs(
-        sources: Array<number>,
+        sources: Array<string>,
         parser: IQueryParser,
-        cb: (resolvedSources: Map<number, Array<ISource>>) => void
+        cb: (resolvedSources: Map<string, Array<ISource>>) => void
     ): void {
     
         //console.log("parser",parser);
-        const ris = new Map<number, Array<ISource>>();
+        const ris = new Map<string, Array<ISource>>();
         var barrier = 0;
         const count = sources.length;
         const hit = () => {
@@ -210,19 +208,19 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         }
         for (let s=0;s<sources.length;s++) {
             //console.log("s---->"+s);
-            const realDirURL = Directories[sources[s]];
-            const indexDir = sources[s];
+            const realDirURL = sources[s];
+            const indexDir = s;
             if ( realDirURL !== undefined) {
                 //console.log("A_HIT---->"+s);
                 this.getThingFromDir(realDirURL, indexDir, parser, (tds: Array<ISource>) => {
-                    ris.set(indexDir, tds);
+                    ris.set(realDirURL, tds);
                     //console.log("B_HIT---->"+s);
                     hit();
                 });
             } else {
                 const noTDs = new Array<ISource>();
                 noTDs.push(new VoidSource(realDirURL, indexDir));
-                ris.set(indexDir, noTDs);
+                ris.set(realDirURL, noTDs);
                 console.log('DirectoriesCollector miss a Directory for index:' + sources[s]);
                 //console.log("HIT---->"+s);
                 hit();

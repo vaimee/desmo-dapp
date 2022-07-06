@@ -4,9 +4,9 @@ import IQueryParser from "./IQueryParser";
 export default interface IDirectoriesCollector {
 
     collectDirs(
-        sources: Array<number>,
+        sources: Array<string>,
         parser: IQueryParser,
-        cb: (resolvedSources: Map<number, Array<ISource>>) => void
+        cb: (resolvedSources: Map<string, Array<ISource>>) => void
     ): void
 
 }

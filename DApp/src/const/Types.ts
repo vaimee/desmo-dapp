@@ -16,6 +16,8 @@ export default {
     TYPE_NUMBER:"TYPE_NUMBER",
     TYPE_STRING:"TYPE_STRING",
     TYPE_BOOLEAN:"TYPE_BOOLEAN", //##############WIP
+
+    INTERNAL_TEST_REQUEST_ID:"INTERNAL_TEST_REQUEST_ID"
    
     
     

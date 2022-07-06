@@ -1,8 +1,7 @@
 
 const axios = require('axios');
+const { copyFileSync } = require('fs');
 const { env } = require('process');
-
-
 const {
     DIRECTORY_URL,
     TD_LIST,
@@ -11,7 +10,9 @@ const {
     ZION_PORT
 } = require('./config');
 
+var auth=null;
 var PORTS=DIRECTORIES_PORT;
+
 function replaceIP(url, replacewith = "localhost") {
     const offset_1 = url.indexOf("://");
     var offset_2 = url.split("://")[1].indexOf(":");
@@ -100,12 +101,16 @@ function registerTD(
     forceCreate = false
 ) {
     const headers = { 'Content-Type': 'application/ld+json' };
+    if(auth!==null){
+        headers['Authorization']="Bearer "+auth;
+        console.log("You are using Authorization: ", headers);
+    }
     getThingFormWAM(
         td_url,
         (jsonTD) => {
             // console.log("directory",directory+"/things")
             // console.log("jsonTD",jsonTD)
-            // console.log("headers",headers)
+            console.log("headers",headers)
             if (forceCreate || jsonTD.id === undefined) {
                 /*
                 With "forceCreate" if the jsonTD has an ID it will be removed
@@ -145,9 +150,9 @@ function registerTD(
                         cberr("Error: registerTD(PUT) status: " + ris.status + ". For: " + td_url);
                     }
                 })
-                    .catch((err) => {
-                        cberr("Error: registerTD(PUT) for: " + td_url + "->" + err);
-                    })
+                .catch((err) => {
+                    cberr("Error: registerTD(PUT) for: " + td_url + "->" + err);
+                })
             }
         },
         (err) => {
@@ -210,7 +215,8 @@ function registerALlTDs(actualDir, list, cb = () => { }, randomMiss = 0) {
                     (err) => {
                         console.log(err);
                         hit();
-                    }
+                    },
+                    // true
                 );
             }
         } else {
@@ -327,16 +333,24 @@ function dropAllAndRegisterThings(actualDir, cb = () => { }, randomMiss = 0) {
 }
 
 function isDirectoryAlive(url, cb) {
+    //for Linksmart 200
+    //for Zion 404
     axios.get(url)
         .then((ris) => {
+            // console.log("ris.status",ris.status);
             cb(ris.status === 200);
         })
         .catch((err) => {
-            cb(false)
+            if(err.response.status===404){
+                cb(true)
+            }else{
+                console.log("isDirectoryAlive.ris.err",err);
+                cb(false)
+            }
         });
 }
 
-function run() {
+function run(auth) {
 
 
     if (TD_LIST.length > 0) {
@@ -405,8 +419,16 @@ function run() {
 
 }
 
-
 if(process.argv[2]==="--zion"){
     PORTS=ZION_PORT;
+    if(process.argv[3]!==undefined){
+        auth=process.argv[3];
+    }else{
+        console.log("WARNING you are trying to use Zion, Zion need Bearer authetication!");
+        console.log("WARNING you shoud use the setup command like that:");
+        console.log('node setup.js --zion "Bearer token"');
+        console.log("Replace token with your.");
+    }
 }
+
 run();

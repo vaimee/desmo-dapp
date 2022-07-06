@@ -2,6 +2,7 @@ import { promises as fsPromises } from 'fs';
 import QueryParser from "./QueryParser";
 import IWorker from "./IWorker";
 import DirectoriesCollector from "./DirectoriesCollector";
+import Desmosdk from "./Desmosdk";
 import { collect, consensus } from "./consensus/dataCollector";
 
 import EncoderManual from "./encoder/EncoderManual";
@@ -46,7 +47,10 @@ export default class Worker implements IWorker {
     }
   }
 
-  work(query: string, directoriesList: Array<number>): void {
+  work(query:string,requestID: string): void {
+    //HERE WE NEED RESOLVE requestID and get
+    //query and directoriesList from new DSEMO-SDK
+    const directoriesList=new Desmosdk().getTDDsByRequestID(requestID);
     const parser = new QueryParser(query);
     try {
       console.log("Parsing query ...");
@@ -56,15 +60,16 @@ export default class Worker implements IWorker {
     }
     if (!parser.isValid()) {
       this.err("Query not valid!");
-    } else if (directoriesList.length < 4 || directoriesList.length % 4 !== 0) {
-      this.err("Directories list must be multipler of 4 and at least 4.");
+    } else if (directoriesList.length < 4) {
+      // this.err("Directories list must be multipler of 4 and at least 4.");
+      this.err("Directories list length must be at least 4.");
     } else {
       console.log("Collect Directories and TDs ...");
       (async () => {
         try {
           await this.collector.init();
           //###########################Retrieve values
-          this.collector.collectDirs(directoriesList, parser, (sources: Map<number, Array<ISource>>) => {
+          this.collector.collectDirs(directoriesList, parser, (sources: Map<string, Array<ISource>>) => {
             console.log("Collect values ...");
             if (parser.isAskingForNumber()) {
               console.log("###INFO###: Using NumberSourceValues.");

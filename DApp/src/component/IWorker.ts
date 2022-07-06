@@ -1,7 +1,7 @@
 
 export default interface IWorker {
 
-  work(query: string, directoriesList: Array<number>): void;
+  work(query:string,requestID: string): void;
 
 }
 
