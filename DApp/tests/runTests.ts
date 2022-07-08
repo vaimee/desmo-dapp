@@ -222,9 +222,29 @@ const useCaseTest =async () => {
         tot++;
         if(await UseCaseTest.test_01()){
             passed++;
-            res+="UseCase PASSED\n";
+            res+="UseCase-Linksmart PASSED\n";
         }else{
-            res+="UseCase NOT PASSED\n";
+            res+="UseCase-Linksmart NOT PASSED\n";
+        }
+        globalTestTOT+=tot;
+        globalTestPassed+=passed;
+        
+              return"######  UseCase-> passed "+passed+"/"+tot+" \n" +res;
+    }else if(process.argv[2] === "zion"){
+        console.log("\n\n");
+        console.log("####################TEST#################");
+        console.log("#                 USE CASE              #");
+        console.log("####################TEST#################");
+        console.log("\n");
+        var res = "";
+        var tot = 0;
+        var passed = 0;
+        tot++;
+        if(await UseCaseTest.test_02()){
+            passed++;
+            res+="UseCase-Zion PASSED\n";
+        }else{
+            res+="UseCase-Zion NOT PASSED\n";
         }
         globalTestTOT+=tot;
         globalTestPassed+=passed;

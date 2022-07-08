@@ -16,7 +16,8 @@ Typescript service based on *iexec-sdk* in order to comunicate with the in-chain
 
 ```npm install -g ts-node typescript '@types/node'```
 
-Run all test
+Run all tests, except test N.8. (LinkSmart and WAM need to be up).
+Test N.5 and N.7 use LinkSmart and WAM, if they are not up, the tests will fail.
 
 ```npm test```
 
@@ -26,10 +27,10 @@ Run tests
 2. Consensus for string ```ts-node tests/runTests.ts str```
 3. Consensus for boolean ```ts-node tests/runTests.ts bool```
 4. Encoding ```ts-node tests/runTests.ts encoding```
-5. RealExample ```ts-node tests/runTests.ts usecase```
+5. RealExample (using linksmart) ```ts-node tests/runTests.ts usecase```
 6. Query parser ```ts-node tests/runTests.ts parser```
 7. Directory collector ```ts-node tests/runTests.ts wot```
-8. Zion ```ts-node tests/runTests.ts zion```
+8. RealExample with Zion ```ts-node tests/runTests.ts zion``` //WIP, NOT WORKING YET
 
 
 # IexecSimpleApp

@@ -4,7 +4,6 @@ import { ThingDescription, InteractionOutput } from "wot-typescript-definitions"
 import { Servient, Helpers } from "@node-wot/core";
 import { HttpClientFactory } from '@node-wot/binding-http';
 import WotSource from "../src/model/WotSource";
-import Directories from "../src/const/Directories";
 
 const path_jsonPathQuery = "/search/jsonpath?query=";
 const path_getAll = "/things";
@@ -47,7 +46,7 @@ function delay(ms: number) {
 
 
 const test_01 = async function (): Promise<boolean> {
-    var request_path = Directories[0] + path_getAll;
+    var request_path ="http://localhost:8081" + path_getAll;
     try {
         const servient = new Servient();
         servient.addClientFactory(new HttpClientFactory(undefined));

@@ -144,7 +144,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         if (jsonpath !== null) {
             request_path = dir + path_jsonPathQuery + jsonpath;
         }
-        //console.log("request_path",request_path); //ok
+        console.log("request_path",request_path); //ok
         axios.get(request_path)
             .then((ris) => {
                 if (ris.status === 200) {

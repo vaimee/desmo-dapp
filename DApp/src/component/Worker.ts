@@ -12,6 +12,7 @@ import StringSourceValues from "../model/StringSourceValues";
 import NumberSourceValues from "../model/NumberSourceValues";
 import BoolSourceValues from "../model/BoolSourceValues";
 import ISource from '../model/ISource';
+import Config from "../const/Config";
 
 
 export default class Worker implements IWorker {
@@ -60,10 +61,12 @@ export default class Worker implements IWorker {
     }
     if (!parser.isValid()) {
       this.err("Query not valid!");
-    } else if (directoriesList.length < 4) {
+    } 
+    else if (directoriesList.length <Config.AUTOCORRELATION) {
       // this.err("Directories list must be multipler of 4 and at least 4.");
-      this.err("Directories list length must be at least 4.");
-    } else {
+      this.err("Directories list length must be at least "+Config.AUTOCORRELATION+".");
+    } 
+    else {
       console.log("Collect Directories and TDs ...");
       (async () => {
         try {

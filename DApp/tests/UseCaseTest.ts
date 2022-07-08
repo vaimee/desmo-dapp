@@ -83,7 +83,6 @@ const _test_01 =function(cb:(ris:any) => void):void{
     const worker = new Worker("./mount/iexec_out/");
     worker.setCB(cb);
     worker.work(query,Types.INTERNAL_TEST_REQUEST_ID);   
-    
 }
 
 const test_01 =async ()=>{
@@ -99,8 +98,28 @@ const test_01 =async ()=>{
   })
 }
 
+
+const _test_02 =function(cb:(ris:any) => void):void{
+  const worker = new Worker("./mount/iexec_out/");
+  worker.setCB(cb);
+  worker.work(query,Types.INTERNAL_TEST_REQUEST_ID_ZION);   
+}
+const test_02 =async ()=>{
+  return new Promise((resolve, reject) => {
+      try{
+        _test_02((data:any) => {
+              resolve(data!==null);
+        });
+      }catch(err){
+          console.log("UseCase-Zion->Err: ",err);
+          resolve(false);
+      }
+  })
+}
+
 export default {
-    test_01: test_01,
+    test_01: test_01, //Linksmart
+    test_02: test_02, //Zion
     // directoriesListExample:directoriesList,
     // queryExample:query
 
