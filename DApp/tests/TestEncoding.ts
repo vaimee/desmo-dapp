@@ -115,9 +115,9 @@ const test_04 = async function():Promise<boolean> {
     return compareResultForManual({value:value,dirs:dirs}, temp.decode(encoded));
 }
 
-export default [
+export default {
      test_01,
      test_02,
      test_03,
      test_04,
-]
+}

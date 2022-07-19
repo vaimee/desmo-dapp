@@ -97,12 +97,12 @@ function registerTD(
     directory = DIRECTORY_URL + ":" + PORTS[0],
     td_url,
     cbok = () => { },
-    cberr = () => { },
+    cberr = () => { },  
     forceCreate = false
 ) {
-    const headers = { 'Content-Type': 'application/ld+json' };
+    var headers = { 'Content-Type': 'application/ld+json' };
     if(auth!==null){
-        headers['Authorization']="Bearer "+auth;
+        headers ={ 'Content-Type': 'application/ld+json' , 'Authorization': 'Bearer '+auth.replaceAll("\n",'').replaceAll("\r",'').trim()};
         console.log("You are using Authorization: ", headers);
     }
     getThingFormWAM(
@@ -110,7 +110,7 @@ function registerTD(
         (jsonTD) => {
             // console.log("directory",directory+"/things")
             // console.log("jsonTD",jsonTD)
-            console.log("headers",headers)
+            //console.log("headers",headers)
             if (forceCreate || jsonTD.id === undefined) {
                 /*
                 With "forceCreate" if the jsonTD has an ID it will be removed
@@ -121,7 +121,7 @@ function registerTD(
                 axios.post(
                     directory + "/things",
                     jsonTD_withNoID,
-                    headers
+                    {headers:headers}
                 ).then((ris) => {
                     if (ris.status === 200 || ris.status === 201) {
                         cbok(ris.data);
@@ -142,7 +142,7 @@ function registerTD(
                 axios.put(
                     directory + "/things/" + id,
                     jsonTD,
-                    headers
+                    {headers:headers}
                 ).then((ris) => {
                     if (ris.status === 200 || ris.status === 201) {
                         cbok(ris.data);
@@ -151,6 +151,7 @@ function registerTD(
                     }
                 })
                 .catch((err) => {
+                    //console.log("ris",err);
                     cberr("Error: registerTD(PUT) for: " + td_url + "->" + err);
                 })
             }
@@ -201,7 +202,7 @@ function registerALlTDs(actualDir, list, cb = () => { }, randomMiss = 0) {
         if (!avoidDup.includes(td_url)) {
             avoidDup.push(td_url);
             if (randomMiss > 0 && Math.random() < randomMiss) {
-                console.log("TD NOT REGISTERED (random-miss): " + td_url + ", fro Directory: " + actualDir);
+                console.log("TD NOT REGISTERED (random-miss): " + td_url + ", for Directory: " + actualDir);
                 hit();
             } else {
                 registerTD(
@@ -209,7 +210,7 @@ function registerALlTDs(actualDir, list, cb = () => { }, randomMiss = 0) {
                     td_url,
                     (ris) => {
                         registeredCount++;
-                        console.log("TD REGISTERED: " + td_url + ", fro Directory: " + actualDir);
+                        console.log("TD REGISTERED: " + td_url + ", for Directory: " + actualDir);
                         hit();
                     },
                     (err) => {
