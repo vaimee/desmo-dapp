@@ -3,8 +3,6 @@ import WoT from "wot-typescript-definitions";
 import { ThingDescription, InteractionOutput } from "wot-typescript-definitions";
 import { Servient, Helpers } from "@node-wot/core";
 import { HttpClientFactory } from '@node-wot/binding-http';
-import WotSource from "../src/model/WotSource";
-
 const path_jsonPathQuery = "/search/jsonpath?query=";
 const path_getAll = "/things";
 const prop = "latitude";
@@ -12,37 +10,6 @@ const prop = "latitude";
 function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-
-// const test_01_async = async function():Promise<void>{
-//     var request_path = Directories[0]+ path_getAll;
-//     try {
-//         const servient = new Servient();
-//         servient.addClientFactory(new HttpClientFactory(undefined));
-//         const WoThelpers = new Helpers(servient);
-//         const wot = await servient.start();
-//         console.log("request_path",request_path);
-//         const tds = (await axios.get(request_path)).data;
-//         var selectedTD = null;
-//         for(let x in tds){
-//             if(tds[x].title!==undefined && tds[x].title!=="servient"){
-//                 selectedTD= tds[x];
-//                 break;
-//             }
-//         }
-//         if(selectedTD===null){
-//             throw new Error("Not valid TD found!");
-//         }
-//         const thing = await wot.consume(selectedTD as ThingDescription);
-//         const temp = new WotSource(await thing.readProperty(prop),0);
-//         //await delay(5000);
-//         const v = await temp.ask();
-//         console.log("WotTest: ", v);
-//     } catch (err) {
-//         console.log("WotTest: ResolveTD error 1:", err);
-//     }
-//     return ;
-// }
 
 
 const test_01 = async function (): Promise<boolean> {
@@ -165,11 +132,11 @@ const test_06= async function (): Promise<boolean> {
 }
 
 
-export default [
+export default {
     test_01,
     //test_02, //this need to be commented!
     test_03,
     test_04,
     test_05,
     test_06,
-]
+}

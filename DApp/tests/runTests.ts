@@ -5,22 +5,12 @@ import TestConsBool from "./TestConsBool";
 import UseCaseTest from "./UseCaseTest";
 import QueryParserTest from "./QueryParserTest";
 import WotTest from "./WotTest";
+import TestUtils from "./TestUtils";
 
 var globalTestTOT=0;
 var globalTestPassed=0;
 
-const assertTest=(testName:String,testFunction:any,validator=(d:any)=>{return true})=>{
-        return new Promise((resolve, reject) => {
-            try{
-                testFunction((data:any) => {
-                        resolve(validator(data));
-                });
-            }catch(err){
-                console.log(testName+"->Err: ",err);
-                resolve(false);
-            }
-        })
-}
+
 
 const consOnNumberTest = async () => {
     if (process.argv[2] === "number" || process.argv[2] === undefined) {
@@ -29,13 +19,12 @@ const consOnNumberTest = async () => {
         console.log("#            consensus on number        #");
         console.log("####################TEST#################");
         console.log("\n");
-        const numberValidator = (data:any)=>{return data!==null && data !==undefined && !isNaN(data)};
         var res = "";
         var tot = 0;
         var passed = 0;
 
         tot++;
-        if(await assertTest("Consensus_on_number:test_01",TestConsNumb.test_01,numberValidator)){
+        if(await TestUtils.assertTest("Consensus_on_number:test_01",TestConsNumb.test_01,TestUtils.numberValidator)){
             passed++;
             res+="Consensus_on_number:test_01 PASSED\n";
         }else{
@@ -43,7 +32,7 @@ const consOnNumberTest = async () => {
         }
 
         tot++;
-        if(await assertTest("Consensus_on_number:test_02",TestConsNumb.test_02,numberValidator)){
+        if(await TestUtils.assertTest("Consensus_on_number:test_02",TestConsNumb.test_02,TestUtils.numberValidator)){
             passed++;
             res+="Consensus_on_number:test_02 PASSED\n";
         }else{
@@ -51,7 +40,7 @@ const consOnNumberTest = async () => {
         }
 
         tot++;
-        if(await assertTest("Consensus_on_number:test_03",TestConsNumb.test_03,numberValidator)){
+        if(await TestUtils.assertTest("Consensus_on_number:test_03",TestConsNumb.test_03,TestUtils.numberValidator)){
             passed++;
             res+="Consensus_on_number:test_03 PASSED\n";
         }else{
@@ -59,7 +48,7 @@ const consOnNumberTest = async () => {
         }
 
         tot++;
-        if(await assertTest("Consensus_on_number:test_04",TestConsNumb.test_04,numberValidator)){
+        if(await TestUtils.assertTest("Consensus_on_number:test_04",TestConsNumb.test_04,TestUtils.numberValidator)){
             passed++;
             res+="Consensus_on_number:test_04 PASSED\n";
         }else{
@@ -67,7 +56,7 @@ const consOnNumberTest = async () => {
         }
 
         tot++;
-        if(await assertTest("Consensus_on_number:test_05",TestConsNumb.test_05,numberValidator)){
+        if(await TestUtils.assertTest("Consensus_on_number:test_05",TestConsNumb.test_05,TestUtils.numberValidator)){
             passed++;
             res+="Consensus_on_number:test_05 PASSED\n";
         }else{
@@ -90,26 +79,13 @@ const consOnBoolTest =async () => {
         console.log("#            consensus on boolean       #");
         console.log("####################TEST#################");
         console.log("\n");
-
-        const boolValidator = (data:any)=>{
-            //console.log("------->",typeof data);
-            return data!==null && data !==undefined && 
-            (typeof data == "boolean" || (
-                typeof data == "string" 
-                && 
-                (
-                    data.toLocaleLowerCase().trim()==="true"
-                    || 
-                    data.toLocaleLowerCase().trim()==="false"
-                )
-            ));
-        };
+        
         var res = "";
         var tot = 0;
         var passed = 0;
 
         tot++;
-        if(await assertTest("Consensus_on_bool:test_01",TestConsBool.test_01,boolValidator)){
+        if(await TestUtils.assertTest("Consensus_on_bool:test_01",TestConsBool.test_01,TestUtils.boolValidator)){
             passed++;
             res+="Consensus_on_bool:test_01 PASSED\n";
         }else{
@@ -134,14 +110,12 @@ const consOnStringTest =async  () => {
         console.log("####################TEST#################");
         console.log("\n");
 
-        
-        const strValidator = (data:any)=>{return data!==null && data !==undefined && typeof data == "string"};
         var res = "";
         var tot = 0;
         var passed = 0;
 
         tot++;
-        if(await assertTest("Consensus_on_str:test_01",TestConsStr.test_01,strValidator)){
+        if(await TestUtils.assertTest("Consensus_on_str:test_01",TestConsStr.test_01,TestUtils.strValidator)){
             passed++;
             res+="Consensus_on_str:test_01 PASSED\n";
         }else{
@@ -149,7 +123,7 @@ const consOnStringTest =async  () => {
         }
 
         tot++;
-        if(await assertTest("Consensus_on_str:test_02",TestConsStr.test_02,strValidator)){
+        if(await TestUtils.assertTest("Consensus_on_str:test_02",TestConsStr.test_02,TestUtils.strValidator)){
             passed++;
             res+="Consensus_on_str:test_02 PASSED\n";
         }else{
@@ -157,7 +131,7 @@ const consOnStringTest =async  () => {
         }
         
         tot++;
-        if(await assertTest("Consensus_on_str:test_03",TestConsStr.test_03,strValidator)){
+        if(await TestUtils.assertTest("Consensus_on_str:test_03",TestConsStr.test_03,TestUtils.strValidator)){
             passed++;
             res+="Consensus_on_str:test_03 PASSED\n";
         }else{

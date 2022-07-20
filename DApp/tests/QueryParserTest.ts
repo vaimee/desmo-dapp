@@ -237,8 +237,8 @@ function PrefixEqual(a: IPrefix[] | null, b: IPrefix[] | null): boolean {
     return false;
 }
 
-export default [
+export default {
     test_01,
     test_02,
     test_03
-]
+}
