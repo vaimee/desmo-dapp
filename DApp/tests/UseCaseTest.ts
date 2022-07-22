@@ -50,7 +50,7 @@ const query: string = JSON.stringify({
     "unit": "qudt:DEG_C",                     //skip
     "datatype": 3
   },
-  "staticFilter": "$[?(@.'@type'=='ControlUnit')]",
+  "staticFilter": "$[?(@['@type']=='ControlUnit')]",
   //"dynamicFilter": "(READ desmo:WindSpeed UNIT qudt:KiloM_PER_HR) >= 20.0 || (READ desmo:Status UNIT xsd:string) == 'Activated'",
   // "geoFilter": {
   //   "region": {
@@ -79,30 +79,30 @@ const query: string = JSON.stringify({
 
 
 
-const _test_01 =function(cb:(ris:any) => void):void{
-    const worker = new Worker("./mount/iexec_out/");
-    worker.setCB(cb);
-    worker.work(query,Types.INTERNAL_TEST_REQUEST_ID);   
-}
+// const _test_01 =function(cb:(ris:any) => void):void{
+//     const worker = new Worker("./mount/iexec_out/");
+//     worker.setCB(cb);
+//     worker.work(query,Types.INTERNAL_TEST_REQUEST_ID);   
+// }
 
-const test_01 =async ()=>{
-  return new Promise((resolve, reject) => {
-      try{
-        _test_01((data:any) => {
-              resolve(data!==null);
-        });
-      }catch(err){
-          console.log("UseCase->Err: ",err);
-          resolve(false);
-      }
-  })
-}
+// const test_01 =async ()=>{
+//   return new Promise((resolve, reject) => {
+//       try{
+//         _test_01((data:any) => {
+//               resolve(data!==null);
+//         });
+//       }catch(err){
+//           console.log("UseCase->Err: ",err);
+//           resolve(false);
+//       }
+//   })
+// }
 
 
-const _test_02 =function(cb:(ris:any) => void):void{
+const _test_02 =async function(cb:(ris:any) => void){
   const worker = new Worker("./mount/iexec_out/");
   worker.setCB(cb);
-  worker.work(query,Types.INTERNAL_TEST_REQUEST_ID_ZION);   
+  await worker.work(query,Types.INTERNAL_TEST_REQUEST_ID_ZION);   
 }
 const test_02 =async ()=>{
   return new Promise((resolve, reject) => {
@@ -117,10 +117,116 @@ const test_02 =async ()=>{
   })
 }
 
-export default {
-    test_01: test_01, //Linksmart
-    test_02: test_02, //Zion
-    // directoriesListExample:directoriesList,
-    // queryExample:query
 
+
+const _test_03 =async function(cb:(ris:any) => void){
+  const worker = new Worker("./mount/iexec_out/");
+  worker.setCB(cb);
+ await worker.work(query,Types.INTERNAL_TEST_REQUEST_ID_REJECT_1);   
+}
+const test_03 =async ()=>{
+  return new Promise((resolve, reject) => {
+      try{
+        _test_03((data:any) => {
+              resolve(data===null);
+        });
+      }catch(err){
+          console.log("UseCase-Zion->Err: ",err);
+          resolve(false);
+      }
+  })
+}
+
+const _test_04 =async  function(cb:(ris:any) => void){
+  const worker = new Worker("./mount/iexec_out/");
+  worker.setCB(cb);
+  await worker.work(query,Types.INTERNAL_TEST_REQUEST_ID_REJECT_2);   
+}
+const test_04 =async ()=>{
+  return new Promise((resolve, reject) => {
+      try{
+        _test_04((data:any) => {
+              resolve(data===null);
+        });
+      }catch(err){
+          console.log("UseCase-Zion->Err: ",err);
+          resolve(false);
+      }
+  })
+}
+
+const _test_05 =async function(cb:(ris:any) => void){
+  const worker = new Worker("./mount/iexec_out/");
+  worker.setCB(cb);
+  await worker.work(query,Types.INTERNAL_TEST_REQUEST_ID_REJECT_3);   
+}
+const test_05 =async ()=>{
+  return new Promise((resolve, reject) => {
+      try{
+        _test_05((data:any) => {
+              resolve(data===null);
+        });
+      }catch(err){
+          console.log("UseCase-Zion->Err: ",err);
+          resolve(false);
+      }
+  })
+}
+
+const _test_06 =async function(cb:(ris:any) => void){
+  try{
+    const worker = new Worker(undefined);
+    worker.setCB(cb);
+    await worker.work("","");   
+  }catch(err){
+    cb(null)
+  }
+}
+
+const test_06 =async ()=>{
+  return new Promise((resolve, reject) => {
+    try{
+      _test_06((data:any) => {
+            resolve(data===null);
+      });
+    }catch(err){
+        console.log("UseCase-Zion->Err: ",err);
+        resolve(true);
+    }
+})
+}
+
+const _test_07 =async function(cb:(ris:any) => void){
+  try{
+    const worker = new Worker(undefined);
+    worker.setCB(cb);
+    await worker.work("",Types.INTERNAL_TEST_REQUEST_ID_REJECT_3);   
+  }catch(err){
+    cb(null)
+  }
+}
+
+const test_07 =async ()=>{
+  return new Promise((resolve, reject) => {
+    try{
+      _test_07((data:any) => {
+            resolve(data===null);
+      });
+    }catch(err){
+        console.log("UseCase-Zion->Err: ",err);
+        resolve(true);
+    }
+})
+}
+
+
+
+export default {
+    //test_01: test_01, //Linksmart
+    test_02: test_02, //Zion
+    test_03: test_03, //reject 1
+    test_04: test_04, //reject 2
+    test_05: test_05, //reject 3
+    test_06: test_06,
+    test_07: test_07,
 }

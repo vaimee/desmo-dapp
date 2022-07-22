@@ -1,4 +1,3 @@
-
 const strValidator = (data:any)=>{return data!==null && data !==undefined && typeof data == "string"};
 const numberValidator = (data:any)=>{return data!==null && data !==undefined && !isNaN(data)};
 const boolValidator = (data:any)=>{

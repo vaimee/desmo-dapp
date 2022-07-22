@@ -158,22 +158,66 @@ const ecnodingTest = async () => {
         var res = "";
         var tot = 0;
         var passed = 0;
-
-        for (var test in TestEncoding) {
-            tot++;
-            try{
-                if(await TestEncoding[test]()){
-                    passed++;
-                    res+="Encoding:"+test+" PASSED\n";
-                }else{
-                    res+="Encoding:"+test+" NOT PASSED\n";
-                }
-            }catch(err){
-                console.log("Encoding:"+test+"->Err: ",err);
-                res+="Encoding:"+test+" NOT PASSED\n";
+        tot++;
+        try{
+            if(await TestEncoding.test_01()){
+                passed++;
+                res+="Encoding.test_01 PASSED\n";
+            }else{
+                res+="Encoding.test_01 NOT PASSED\n";
             }
+        }catch(err){
+            console.log("Encoding: test_01->Err: ",err);
+            res+="Encoding: test_01 NOT PASSED\n";
         }
-
+        tot++;
+        try{
+            if(await TestEncoding.test_02()){
+                passed++;
+                res+="Encoding.test_02 PASSED\n";
+            }else{
+                res+="Encoding.test_02 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Encoding: test_02->Err: ",err);
+            res+="Encoding: test_02 NOT PASSED\n";
+        }
+        tot++;
+        try{
+            if(await TestEncoding.test_03()){
+                passed++;
+                res+="Encoding.test_03 PASSED\n";
+            }else{
+                res+="Encoding.test_03 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Encoding: test_03->Err: ",err);
+            res+="Encoding: test_03 NOT PASSED\n";
+        }
+        tot++;
+        try{
+            if(await TestEncoding.test_04()){
+                passed++;
+                res+="Encoding.test_04 PASSED\n";
+            }else{
+                res+="Encoding.test_04 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Encoding: test_04->Err: ",err);
+            res+="Encoding: test_04 NOT PASSED\n";
+        }
+        tot++;
+        try{
+            if(await TestEncoding.test_05()){
+                passed++;
+                res+="Encoding.test_05 PASSED\n";
+            }else{
+                res+="Encoding.test_05 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Encoding: test_05->Err: ",err);
+            res+="Encoding: test_05 NOT PASSED\n";
+        }
         globalTestTOT+=tot;
         globalTestPassed+=passed;
         return"######  Encoding-> passed "+passed+"/"+tot+" \n" +res;
@@ -193,26 +237,19 @@ const useCaseTest =async () => {
         var res = "";
         var tot = 0;
         var passed = 0;
-        tot++;
-        if(await UseCaseTest.test_01()){
-            passed++;
-            res+="UseCase-Linksmart PASSED\n";
-        }else{
-            res+="UseCase-Linksmart NOT PASSED\n";
-        }
-        globalTestTOT+=tot;
-        globalTestPassed+=passed;
+    //     tot++;
+    //     if(await UseCaseTest.test_01()){
+    //         passed++;
+    //         res+="UseCase-Linksmart PASSED\n";
+    //     }else{
+    //         res+="UseCase-Linksmart NOT PASSED\n";
+    //     }
+    //     globalTestTOT+=tot;
+    //     globalTestPassed+=passed;
         
-              return"######  UseCase-> passed "+passed+"/"+tot+" \n" +res;
-    }else if(process.argv[2] === "zion"){
-        console.log("\n\n");
-        console.log("####################TEST#################");
-        console.log("#                 USE CASE              #");
-        console.log("####################TEST#################");
-        console.log("\n");
-        var res = "";
-        var tot = 0;
-        var passed = 0;
+    //           return"######  UseCase-> passed "+passed+"/"+tot+" \n" +res;
+    // }else if(process.argv[2] === "zion"){
+       
         tot++;
         if(await UseCaseTest.test_02()){
             passed++;
@@ -222,9 +259,29 @@ const useCaseTest =async () => {
         }
         globalTestTOT+=tot;
         globalTestPassed+=passed;
+
+        tot++;
+        if(await UseCaseTest.test_03()){
+            passed++;
+            res+="UseCase-rejext_1 PASSED\n";
+        }else{
+            res+="UseCase-rejext_1 NOT PASSED\n";
+        }
+        globalTestTOT+=tot;
+        globalTestPassed+=passed;
+
+        tot++;
+        if(await UseCaseTest.test_04()){
+            passed++;
+            res+="UseCase-rejext_2 PASSED\n";
+        }else{
+            res+="UseCase-rejext_2 NOT PASSED\n";
+        }
+        globalTestTOT+=tot;
+        globalTestPassed+=passed;
         return"######  UseCase-> passed "+passed+"/"+tot+" \n" +res;
-    } else {
-        return "";
+    // } else {
+    //     return "";
     }
 }
 
@@ -240,21 +297,116 @@ const wotTest = async () => {
         var tot = 0;
         var passed = 0;
 
-        for (var test in WotTest) {
-            tot++;
-            try{
-                if(await WotTest[test]()){
-                    passed++;
-                    res+="Wot:"+test+" PASSED\n";
-                }else{
-                    res+="Wot:"+test+" NOT PASSED\n";
-                }
-            }catch(err){
-                console.log("Wot:"+test+"->Err: ",err);
-                res+="Wot:"+test+" NOT PASSED\n";
+        tot++;
+        try{
+            if(await WotTest.test_01()){
+                passed++;
+                res+="Wot: test_01 PASSED\n";
+            }else{
+                res+="Wot: test_01 NOT PASSED\n";
             }
+        }catch(err){
+            console.log("Wot: test_01->Err: ",err);
+            res+="Wot: test_01NOT PASSED\n";
         }
-
+        
+        tot++;
+        try{
+            if(await WotTest.test_03()){
+                passed++;
+                res+="Wot: test_03 PASSED\n";
+            }else{
+                res+="Wot: test_03 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Wot: test_03->Err: ",err);
+            res+="Wot: test_03 NOT PASSED\n";
+        }
+        
+        tot++;
+        try{
+            if(await WotTest.test_04()){
+                passed++;
+                res+="Wot: test_04 PASSED\n";
+            }else{
+                res+="Wot: test_04 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Wot: test_04->Err: ",err);
+            res+="Wot: test_04 NOT PASSED\n";
+        }
+        tot++;
+        try{
+            if(await WotTest.test_05()){
+                passed++;
+                res+="Wot: test_05 PASSED\n";
+            }else{
+                res+="Wot: test_05 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Wot: test_05->Err: ",err);
+            res+="Wot: test_05NOT PASSED\n";
+        }
+        tot++;
+        try{
+            if(await WotTest.test_06()){
+                passed++;
+                res+="Wot: test_06 PASSED\n";
+            }else{
+                res+="Wot: test_06 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Wot: test_06->Err: ",err);
+            res+="Wot: test_06NOT PASSED\n";
+        }
+        tot++;
+        try{
+            if(await WotTest.test_07()){
+                passed++;
+                res+="Wot: test_07 PASSED\n";
+            }else{
+                res+="Wot: test_07 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Wot: test_07->Err: ",err);
+            res+="Wot: test_07 NOT PASSED\n";
+        }
+        tot++;
+        try{
+            if(await WotTest.test_08()){
+                passed++;
+                res+="Wot: test_08 PASSED\n";
+            }else{
+                res+="Wot: test_08 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Wot: test_08->Err: ",err);
+            res+="Wot: test_08 NOT PASSED\n";
+        }
+        tot++;
+        try{
+            if(await WotTest.test_09()){
+                passed++;
+                res+="Wot: test_09 PASSED\n";
+            }else{
+                res+="Wot: test_09 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Wot: test_09->Err: ",err);
+            res+="Wot: test_09 NOT PASSED\n";
+        }
+        tot++;
+        try{
+            if(await WotTest.test_10()){
+                passed++;
+                res+="Wot: test_10 PASSED\n";
+            }else{
+                res+="Wot: test_10 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Wot: test_10->Err: ",err);
+            res+="Wot: test_10 NOT PASSED\n";
+        }
         globalTestTOT+=tot;
         globalTestPassed+=passed;
         return"######  Wot-> passed "+passed+"/"+tot+" \n" +res;
@@ -279,16 +431,33 @@ const queryParserTest = async () => {
         var tot = 0;
         var passed = 0;
 
-        for (var test in QueryParserTest) {
-            try{
-                const ris= await QueryParserTest[test]();
-                passed+=ris.passed;
-                tot+=ris.tot;
-            }catch(err){
-                tot++;//this is not equal to "tot+=ris.tot;" (but is ok)
-                console.log("QueryParser:"+test+"->Err: ",err);
-                res+="QueryParser:"+test+" NOT PASSED\n";
-            }
+       
+        try{
+            const ris= await QueryParserTest.test_01();
+            passed+=ris.passed;
+            tot+=ris.tot;
+        }catch(err){
+            tot++;//this is not equal to "tot+=ris.tot;" (but is ok)
+            console.log("QueryParser: test_01->Err: ",err);
+            res+="QueryParser: test_01 NOT PASSED\n";
+        }
+        try{
+            const ris= await QueryParserTest.test_02();
+            passed+=ris.passed;
+            tot+=ris.tot;
+        }catch(err){
+            tot++;//this is not equal to "tot+=ris.tot;" (but is ok)
+            console.log("QueryParser: test_02->Err: ",err);
+            res+="QueryParser: test_02 NOT PASSED\n";
+        }
+        try{
+            const ris= await QueryParserTest.test_03();
+            passed+=ris.passed;
+            tot+=ris.tot;
+        }catch(err){
+            tot++;//this is not equal to "tot+=ris.tot;" (but is ok)
+            console.log("QueryParser: test_03->Err: ",err);
+            res+="QueryParser: test_03 NOT PASSED\n";
         }
 
         globalTestTOT+=tot;

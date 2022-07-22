@@ -10,8 +10,8 @@ const {
     ZION_PORT
 } = require('./config');
 
-var auth=null;
 var PORTS=DIRECTORIES_PORT;
+var ZionAuths=[];
 
 function replaceIP(url, replacewith = "localhost") {
     const offset_1 = url.indexOf("://");
@@ -98,10 +98,11 @@ function registerTD(
     td_url,
     cbok = () => { },
     cberr = () => { },  
-    forceCreate = false
+    forceCreate = false,
+    auth
 ) {
     var headers = { 'Content-Type': 'application/ld+json' };
-    if(auth!==null){
+    if(auth!==null && auth!==undefined){
         headers ={ 'Content-Type': 'application/ld+json' , 'Authorization': 'Bearer '+auth.replaceAll("\n",'').replaceAll("\r",'').trim()};
         console.log("You are using Authorization: ", headers);
     }
@@ -186,7 +187,7 @@ function getTDListFromWAM(url, cbok, cberr, useOnlyLocalhost = true) {
 "randomMiss" is the prob to not register a TD into a Directory "actualDir"
 randomMiss >=0 && randomMiss<1
 */
-function registerALlTDs(actualDir, list, cb = () => { }, randomMiss = 0) {
+function registerALlTDs(actualDir,actualToken, list, cb = () => { }, randomMiss = 0) {
     const avoidDup = [];
     var barrier = 0;
     var registeredCount = 0;
@@ -197,7 +198,7 @@ function registerALlTDs(actualDir, list, cb = () => { }, randomMiss = 0) {
             cb(registeredCount);
         }
     }
-    for (var x in list) {
+    for (let x in list) {
         const td_url = list[x];
         if (!avoidDup.includes(td_url)) {
             avoidDup.push(td_url);
@@ -217,6 +218,8 @@ function registerALlTDs(actualDir, list, cb = () => { }, randomMiss = 0) {
                         console.log(err);
                         hit();
                     },
+                    false,
+                    actualToken
                     // true
                 );
             }
@@ -274,7 +277,7 @@ function removeAll(
 }
 
 
-function dropAllAndRegisterThings(actualDir, cb = () => { }, randomMiss = 0) {
+function dropAllAndRegisterThings(actualDir,actualToken, cb = () => { }, randomMiss = 0) {
     console.log("DROP ALL TDs and register things for Directory: " + actualDir);
     getAllThingsID(
         actualDir,
@@ -284,6 +287,7 @@ function dropAllAndRegisterThings(actualDir, cb = () => { }, randomMiss = 0) {
                 if (TD_LIST.length > 0) {
                     registerALlTDs(
                         actualDir,
+                        actualToken,
                         TD_LIST,
                         cb,
                         randomMiss
@@ -294,6 +298,7 @@ function dropAllAndRegisterThings(actualDir, cb = () => { }, randomMiss = 0) {
                         (list_td) => {
                             registerALlTDs(
                                 actualDir,
+                                actualToken,
                                 list_td,
                                 cb,
                                 randomMiss
@@ -351,7 +356,29 @@ function isDirectoryAlive(url, cb) {
         });
 }
 
-function run(auth) {
+
+async function createZionAuths(justFirstDirectory){
+    console.log("###################");
+    console.log("USING ZION        #");
+    console.log(justFirstDirectory?"just one          #":"multiple          #");
+    console.log("###################");
+   
+    for(let x=0;x<PORTS.length;x++){
+        const ris = await axios.post(DIRECTORY_URL+":"+PORTS[x]+"/auth/register",
+        {
+            "email":Date.now()+"@email.com",
+            "password":"1234"
+        }
+        );
+        //console.log("ris",ris.data.accessToken);
+        ZionAuths.push(ris.data.accessToken);
+        if(justFirstDirectory){
+            break;
+        }
+    }
+}
+
+async function run() {
 
 
     if (TD_LIST.length > 0) {
@@ -365,6 +392,12 @@ function run(auth) {
     }
 
     const justFirstDirectory = process.argv[2] !== "--m";
+
+    if(process.argv[2]==="--zion" || process.argv[3]==="--zion"){
+        PORTS=ZION_PORT;
+        await createZionAuths(justFirstDirectory);
+    }
+
     const missRandom = (
         process.argv[3] !== undefined &&
         !isNaN(Number(process.argv[3])) &&
@@ -387,11 +420,12 @@ function run(auth) {
     if (justFirstDirectory) {
         directoriesToSetup = 1;
         const directory_url = DIRECTORY_URL + ":" + PORTS[0];
+        const token =ZionAuths[0];
         console.log("Setup just the first Directory: " + directory_url);
         isDirectoryAlive(directory_url,
             (alive) => {
                 if (alive) {
-                    dropAllAndRegisterThings(directory_url, hit, missRandom);
+                    dropAllAndRegisterThings(directory_url,token, hit, missRandom);
                 } else {
                     console.log("WARNING: The Directory is down: " + directory_url + ". IGNORED.");
                     hit(0);
@@ -401,12 +435,13 @@ function run(auth) {
     } else {
         directoriesToSetup = PORTS.length;
         console.log("Setup all the Directories.");
-        for (var x = 0; x < PORTS.length; x++) {
+        for (let x = 0; x < PORTS.length; x++) {
             const directory_url = DIRECTORY_URL + ":" + PORTS[x];
             isDirectoryAlive(directory_url,
                 (alive) => {
                     if (alive) {
-                        dropAllAndRegisterThings(directory_url, hit, missRandom);
+                        const token =ZionAuths[x];
+                        dropAllAndRegisterThings(directory_url,token, hit, missRandom);
                     } else {
                         console.log("WARNING: The Directory is down: " + directory_url + ". IGNORED.");
                         hit(0);
@@ -420,16 +455,5 @@ function run(auth) {
 
 }
 
-if(process.argv[2]==="--zion"){
-    PORTS=ZION_PORT;
-    if(process.argv[3]!==undefined){
-        auth=process.argv[3];
-    }else{
-        console.log("WARNING you are trying to use Zion, Zion need Bearer authetication!");
-        console.log("WARNING you shoud use the setup command like that:");
-        console.log('node setup.js --zion "Bearer token"');
-        console.log("Replace token with your.");
-    }
-}
 
 run();

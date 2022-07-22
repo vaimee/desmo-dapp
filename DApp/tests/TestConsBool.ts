@@ -9,6 +9,11 @@ const run_test = function (sources: Array<BoolSourceValues>, cb: (ris: string) =
 
     collect(sources,
         (s) => {
+            
+            console.log("\n###########################Sources after collect");
+            for(var x in s){
+                console.log(s[x].toInfoString())
+            }
 
             var matrix = "";
             for (var x in sources) {

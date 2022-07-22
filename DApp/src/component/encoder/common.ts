@@ -57,8 +57,8 @@ function unBuild8Hex(hex: string): Array<number> {
 
 function generalEncodeSources(sources: Array<number>):string{
     var ris = "";
-    const count =sources.length/4;
     if(sources.length%4===0){
+        const count =sources.length/4;
         for(var x =0;x<sources.length;x=x+4){
             var temp = buildUint8(sources.slice(x,x+4))[0].toString(16);
             if(temp.length===1){
@@ -73,9 +73,10 @@ function generalEncodeSources(sources: Array<number>):string{
         }
         return temp+ris;
     }else{
-        throw new Error("The sources need to be multiple of 4.");
+        throw new Error("The sources need to be multiple of 4. Is instead: " +sources.length);
     }
 }
+
 function generalDecodeSources(hex:string):Array<number>{
     const count =parseInt(hex[0]+hex[1],16);
     // if(hex.length%2===0){
