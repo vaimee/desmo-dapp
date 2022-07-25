@@ -34,7 +34,6 @@ test('UseCaseTest.test06', async () => {
     }
 });
 
-
 test('UseCaseTest.test07', async () => {
     try{
         expect(await UseCaseTest.test_07()).toEqual(true);

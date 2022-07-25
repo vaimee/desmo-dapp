@@ -53,8 +53,10 @@ export default class Result implements IResult {
         if (this.type === Types.TYPE_NUMBER) {
             const num = Number(this.value);
             const precision = getPrecision(num);
+            //console.log("precision",precision);
             if(precision>0){
-                const intvalue = Math.trunc(num * (precision**10));
+                const intvalue = Math.trunc(num * (10**precision));
+                //console.log("intvalue",intvalue);
                 return encoder.encodeNumber(intvalue, precision);
             }else{
                 return encoder.encodeNumber(num,0);
