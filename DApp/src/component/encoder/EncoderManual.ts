@@ -3,7 +3,7 @@ import Conf from "../../const/Config";
 import Types from "../../const/Types";
 import CommonEncoder from "./common";
 
-const hexEncode = function(str:string){
+const hexEncode = function(str:string):string{
     var hex, i;
 
     var result = "";
@@ -15,7 +15,7 @@ const hexEncode = function(str:string){
     return result
 }
 
-const hexDecode = function(str:string){
+const hexDecode = function(str:string):string{
     var j;
     var hexes = str.match(/.{1,4}/g) || [];
     var back = "";
@@ -36,6 +36,15 @@ export default class EncoderManual implements IEncoder{
     constructor() {
         this.sources= new Array<{ sourceIndex: number, reward: number }>();
         this.encoded="";
+    }
+
+    computePadding(ecoded:string):string{
+        const needpadding= 4-(ecoded.length%4);
+        var padding = ""+needpadding;
+        for(let x =0;x<needpadding-1;x++){
+            padding+="0";
+        }
+        return padding+ecoded;
     }
 
     setSources(sources: Map<number,number>): void {
@@ -94,27 +103,30 @@ export default class EncoderManual implements IEncoder{
             numberHex=sizePrecisionHex+precisionHex+sanitizzeNumberValue.toString(16);
         } 
         var typeHex = type.toString(16);
-        return this.encoded+typeHex+numberHex;
+        return this.computePadding(this.encoded+typeHex+numberHex);
     }
 
     encodeString(stringValue: string): string {
         var type = Types.STRING;
         var typeHex = type.toString(16);
         // console.log("dataEncoded: ", hexEncode(stringValue)); //ok
-        return this.encoded+typeHex+hexEncode(stringValue);
+        return this.computePadding(this.encoded+typeHex+hexEncode(stringValue));
     }
 
     decode(callbackData: string): any {
 
-        const size =parseInt(callbackData[0]+callbackData[1],16);
+        //padding
+        const padding = Number(callbackData[0]);
+
+        const size =parseInt(callbackData[padding]+callbackData[padding+1],16);
         // console.log("size",size); //ok
-        const directoryList= CommonEncoder.generalDecodeSources(callbackData);
+        const directoryList= CommonEncoder.generalDecodeSources(callbackData.substring(padding));
         console.log("directoryList decoded: ", directoryList); //ok
 
-        const type = parseInt(callbackData[size*2+2],16);
+        const type = parseInt(callbackData[padding+size*2+2],16);
         // console.log("type: ", type); //ok
 
-        const dataEncoded=callbackData.substring(size*2+3,callbackData.length);
+        const dataEncoded=callbackData.substring(padding+size*2+3);
         // console.log("dataEncoded: ", dataEncoded); //ok
         var value:any;
         if(type===Types.NEG_FLOAT || type===Types.POS_FLOAT){

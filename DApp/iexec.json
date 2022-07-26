@@ -19,13 +19,11 @@
     "name": "desmo-dapp",
     "type": "DOCKER",
     "multiaddr": "docker.io/andreaferrari95/desmo-dapp:1.0.0",
-    "checksum": "0x2b8d2e66508e590342dd3e95c255f2f5e66143b650c718218571e6d798cfd353"
+    "checksum": "0x0d3899e297ce885728ddfd3ae1f1f22db44ce949b9655bd0cd297ef49e8a458e"
   },
   "order": {
     "apporder": {
-      "app": "0x0ad0edfDbc3946215FeA6D5231c6F8EE3f150f27",
-      "appprice": "0",
-      "volume": "1000000",
+      "app": "0xeFf9d0f0243fc3590e16A975bDbC449305FFfa74",
       "tag": [],
       "datasetrestrict": "0x0000000000000000000000000000000000000000",
       "workerpoolrestrict": "0x0000000000000000000000000000000000000000",
@@ -33,3 +31,4 @@
     }
   }
 }
+
