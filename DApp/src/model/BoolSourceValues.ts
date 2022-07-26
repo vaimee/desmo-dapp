@@ -52,7 +52,10 @@ export default class BoolSourceValues implements ISourceValues{
         return this.temporalDistribution;
     }
 
- 
+    getDistribution():Array<boolean>{
+        return this.distribution;
+    }
+
 
     getSource():ISource{
         return this.source;

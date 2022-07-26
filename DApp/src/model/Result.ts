@@ -3,6 +3,7 @@ import Types from "../const/Types";
 import ISourceValues from "./ISourceValues";
 import IResult from "./IResult";
 
+
 function getPrecision(a: number): number {
     if (!isFinite(a)) return 0;
     var e = 1, p = 0;
@@ -16,13 +17,13 @@ export default class Result implements IResult {
     type: string;
     sources: Map<number,number>;
 
-    constructor(value: string, type: string, sourcesValues: Array<ISourceValues>) {
+    constructor(value: string, type: string, sources: Array<ISourceValues>) {
         this.value = value;
         this.type = type;
         this.sources = new Map<number,number>();
-        for (let s in sourcesValues) {
-            const score = sourcesValues[s].getSource().getScore();
-            const index = sourcesValues[s].getSource().getIndex();
+        for (var s in sources) {
+            const score = sources[s].getSource().getScore();
+            const index = sources[s].getSource().getIndex();
             if(this.sources.has(index)){
                 const _reward = this.sources.get(index);
                 if(_reward!==undefined &&  _reward>score){
@@ -64,7 +65,7 @@ export default class Result implements IResult {
         } else if (this.type === Types.TYPE_STRING) {
             return encoder.encodeString(this.value);
         } else if (this.type === Types.TYPE_BOOLEAN) {
-            return encoder.encodeString(this.value.toString());
+            throw new Error("Result.getEncodedValue: NOT IMPLEMENTED YET FOR BOOLEAN");
         } else {
             throw new Error("Result.getEncodedValue: type not found for: " + this.type);
         }

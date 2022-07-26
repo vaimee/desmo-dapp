@@ -115,35 +115,9 @@ const test_04 = async function():Promise<boolean> {
     return compareResultForManual({value:value,dirs:dirs}, temp.decode(encoded));
 }
 
-const test_05 = async function():Promise<boolean> {
-    console.log("\n##########   test_05  ##########");
-    console.log("\n########## EncoderMix ##########");
-    const temp = new EncoderMix();
-    const dirs = [
-        { reward: 2, sourceIndex: 3 },
-        { reward: 1, sourceIndex: 1 },
-        { reward: 1, sourceIndex: 0 },
-        { reward: 0, sourceIndex: 2 },
-        { reward: 1, sourceIndex: 4 },
-        { reward: 0, sourceIndex: 6 },
-        { reward: 0, sourceIndex: 5 },
-        { reward: 0, sourceIndex: 7 },
-    ];
-
-    temp.setSources(convertToMap(dirs));
-    const value = "THIS IS A TEST";
-    console.log("test value: "+value);
-    const encoded = temp.encodeString(value);
-    console.log("encoded", encoded);
-    const decoded = temp.decode(encoded);
-    //console.log("decoded", decoded);
-    return decoded.value[0] === value && decoded.dirs[0][2]===0 && decoded.dirs[0][3]===2;
-}
-
 export default {
      test_01,
      test_02,
      test_03,
      test_04,
-     test_05,
 }

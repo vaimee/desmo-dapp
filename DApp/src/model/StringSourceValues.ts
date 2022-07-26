@@ -40,6 +40,11 @@ export default class StringSourceValues implements ISourceValues{
         return this.temporalDistribution;
     }
 
+    getDistribution():Array<string>{
+        return this.distribution;
+    }
+
+
     getSource():ISource{
         return this.source;
     }

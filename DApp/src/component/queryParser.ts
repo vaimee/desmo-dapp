@@ -20,19 +20,19 @@ export default class QueryParser implements IQueryParser {
         this.parse();
     }
 
-    // resolvePrefix(toResolve: string): string | null {
-    //     if (toResolve.includes(":")) {
-    //         const prefix = toResolve.split(":")[0];
-    //         console.log("toResolve-->", this.getPrefixList());
-    //         if (this.getPrefixList() !== null) {
-    //             const tempList = this.getPrefixList();
-    //             for (var x in tempList) {
+    resolvePrefix(toResolve: string): string | null {
+        if (toResolve.includes(":")) {
+            const prefix = toResolve.split(":")[0];
+            console.log("toResolve-->", this.getPrefixList());
+            if (this.getPrefixList() !== null) {
+                const tempList = this.getPrefixList();
+                for (var x in tempList) {
 
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
+                }
+            }
+        }
+        return null;
+    }
 
     parse() {
         //The prefix list is optional
@@ -126,9 +126,9 @@ export default class QueryParser implements IQueryParser {
         return this.parsedQuery.property.datatype;
     }
 
-    // getParsedQuery(): IQuery {
-    //     return this.parsedQuery;
-    // }
+    getParsedQuery(): IQuery {
+        return this.parsedQuery;
+    }
 
 
     getJsonPath(): string | null {

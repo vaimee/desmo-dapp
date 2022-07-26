@@ -20,8 +20,3 @@ test('TestEncoding.test04', async () => {
     const ris=await TestEncoding.test_04();
     expect(ris).toEqual(true);
 });
-
-test('TestEncoding.test05', async () => {
-    const ris=await TestEncoding.test_05();
-    expect(ris).toEqual(true);
-});

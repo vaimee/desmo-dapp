@@ -14,11 +14,12 @@ Typescript service based on *iexec-sdk* in order to comunicate with the in-chain
 
 # Command
 
-```npm install -g ts-node typescript '@types/node' ts-jest```
-
+```npm install -g ts-node typescript '@types/node'```
 
 Run all tests, except test N.8. (LinkSmart/Zion and WAM need to be up).
 Test N.5 and N.7 use LinkSmart and WAM, if they are not up, the tests will fail.
+
+```npm test```
 
 Run tests manualy
 
@@ -31,9 +32,9 @@ Run tests manualy
 7. Directory collector ```ts-node tests/runTests.ts wot```
 8. RealExample with Zion ```ts-node tests/runTests.ts zion``` //WIP, NOT WORKING YET
 
-Run All test with Jest (WARNING: WAM and Zion need to be up) (RECOMMENDED)
+Run All test with Jest (WARNING: WAM and Zion need to be up)
 
-```npx jest```
+```jest```
 
 # IexecSimpleApp
 

@@ -55,7 +55,6 @@ credentials can be shared without any risk of information leaking.
 5. DApp
     1. `cd ./DApp` 
     2. `npm install -g ts-node typescript '@types/node'`
-    2. `npm i ts-jest`
 
 **RUN TEST**
 
@@ -69,8 +68,8 @@ credentials can be shared without any risk of information leaking.
     7. `./setupMultiple.sh` 
 4. `cd ../../`
 5. DApp
-    1. `cd ./DApp/tests` 
-    2. `npx jest`
+    1. `cd ./DApp` 
+    2. `ts-node tests/runTests.ts usecase`
 
 **Zion as Directory**
 
