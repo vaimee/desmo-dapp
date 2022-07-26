@@ -43,7 +43,7 @@ Run All test with Jest (WARNING: WAM and Zion need to be up) (RECOMMENDED)
 
 1.  scripts\build.bat
 2.  scripts\runLocally.bat
-3.  scripts\dockerPush.bat <docker-usernamed>
+3.  scripts\dockerPush.bat <docker-username>
 4.  copy chacksum from docker to iexec.json
 5.  scripts\onChainDeploy.bat
 6.  scripts\runOnChain.bat
