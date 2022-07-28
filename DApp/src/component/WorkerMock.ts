@@ -5,7 +5,7 @@ import DirectoriesCollector from "./DirectoriesCollector";
 // import Desmosdk from "./Desmosdk";
 import { collect, consensus } from "./consensus/dataCollector";
 
-import EncoderManual from "./encoder/EncoderManual";
+import EncoderLightManual from "./encoder/EncoderLightManual";
 
 // import ISourceValues from "../model/ISourceValues";
 // import StringSourceValues from "../model/StringSourceValues";
@@ -95,7 +95,7 @@ export default class Worker implements IWorker {
         console.log(result.toString());
         console.log("##############################################");
         //###########################Ecode result
-        var callback_data = result.getEncodedValue(new EncoderManual());
+        var callback_data = result.getEncodedValue(new EncoderLightManual());
     
         //###########################Write result
         const computedJsonObj = {

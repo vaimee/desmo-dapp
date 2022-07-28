@@ -220,6 +220,36 @@ const ecnodingTest = async () => {
         }
         globalTestTOT+=tot;
         globalTestPassed+=passed;
+        
+        tot++;
+        try{
+            if(await TestEncoding.test_06()){
+                passed++;
+                res+="Encoding.test_06 PASSED\n";
+            }else{
+                res+="Encoding.test_06 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Encoding: test_06->Err: ",err);
+            res+="Encoding: test_06 NOT PASSED\n";
+        }
+        globalTestTOT+=tot;
+        globalTestPassed+=passed;
+        
+        tot++;
+        try{
+            if(await TestEncoding.test_07()){
+                passed++;
+                res+="Encoding.test_07 PASSED\n";
+            }else{
+                res+="Encoding.test_07 NOT PASSED\n";
+            }
+        }catch(err){
+            console.log("Encoding: test_07->Err: ",err);
+            res+="Encoding: test_07 NOT PASSED\n";
+        }
+        globalTestTOT+=tot;
+        globalTestPassed+=passed;
         return"######  Encoding-> passed "+passed+"/"+tot+" \n" +res;
     }
     return "";
