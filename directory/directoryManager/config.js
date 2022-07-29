@@ -13,18 +13,7 @@ module.exports={
         8089,
         8090,
     ],
-    ZION_PORT:[
-        3000,
-        3000,
-        3000,
-        3000,
-        3000,
-        3000,
-        3000,
-        3000,
-        3000,
-        3000,
-    ],
+    ZION_PORT:[3000],
     WAM_URL: "http://localhost:8080",
     TD_LIST:[]//["http://localhost:8080/temp_02"]
 

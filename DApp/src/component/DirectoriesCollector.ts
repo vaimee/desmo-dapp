@@ -33,14 +33,14 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
     }
 
     //for retrieve the TD from the url of the TD
-    // resolveTDUrl (url: string, cbOk: (td: any) => void, okErr: () => void):void {
-    //     this.WoThelpers.fetch(url)
-    //         .then(cbOk)
-    //         .catch((err) => {
-    //             console.error("ResolveTD Fetch error:", err);
-    //             okErr();
-    //         });
-    // }
+    resolveTDUrl (url: string, cbOk: (td: any) => void, okErr: () => void):void {
+        this.WoThelpers.fetch(url)
+            .then(cbOk)
+            .catch((err) => {
+                console.error("ResolveTD Fetch error:", err);
+                okErr();
+            });
+    }
 
     async resolveTD(td: any): Promise<ConsumedThing | null> {
         if(this.wot===undefined){
@@ -107,21 +107,21 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                                 }
                             }
                         })
-                        // .catch((err) => {
-                        //     console.error("ConvertToISourceArr error:", err);
-                        //     //here we can exstract a url for the VoidSource from tds[x]
-                        //     //but this is not important, for now the url of the VoidSource is void ""
-                        //     if (Config.IGNORE_TD_COLLECTION_ERROR) {
-                        //         ris.push(new VoidSource("", index));
-                        //         hit++;
-                        //         //console.log("@@@@@BARIER "+hit+"/"+barier);//ok
-                        //         if (hit >= barier) {
-                        //             cb(ris);
-                        //         }
-                        //     } else {
-                        //         returnVoidSource();
-                        //     }
-                        // });
+                        .catch((err) => {
+                            console.error("ConvertToISourceArr error:", err);
+                            //here we can exstract a url for the VoidSource from tds[x]
+                            //but this is not important, for now the url of the VoidSource is void ""
+                            if (Config.IGNORE_TD_COLLECTION_ERROR) {
+                                ris.push(new VoidSource("", index));
+                                hit++;
+                                //console.log("@@@@@BARIER "+hit+"/"+barier);//ok
+                                if (hit >= barier) {
+                                    cb(ris);
+                                }
+                            } else {
+                                returnVoidSource();
+                            }
+                        });
                 }
             }
         }
@@ -203,7 +203,6 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                     }
                 }
                 console.log("Pre punished source: "+countPunishedSource+ "/"+count);
-                //console.log("collectDirs.ris: ",ris);
                 cb(ris);
             }
         }
@@ -214,14 +213,14 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
             if ( realDirURL !== undefined) {
                 //console.log("A_HIT---->"+s);
                 this.getThingFromDir(realDirURL, indexDir, parser, (tds: Array<ISource>) => {
-                    ris.set(s+"_"+realDirURL, tds);
+                    ris.set(realDirURL, tds);
                     //console.log("B_HIT---->"+s);
                     hit();
                 });
             } else {
                 const noTDs = new Array<ISource>();
                 noTDs.push(new VoidSource(realDirURL, indexDir));
-                ris.set(s+"_"+realDirURL, noTDs);
+                ris.set(realDirURL, noTDs);
                 console.log('DirectoriesCollector miss a Directory for index:' + sources[s]);
                 //console.log("HIT---->"+s);
                 hit();

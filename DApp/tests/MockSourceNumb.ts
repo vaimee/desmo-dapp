@@ -27,4 +27,9 @@ export default class MockSourceNumb extends Source{
     }
 
 
+
+    reset(){
+        this.actual=-1;
+    }
+
 }

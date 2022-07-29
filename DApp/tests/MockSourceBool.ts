@@ -26,4 +26,9 @@ export default class MockSourceBool extends Source{
     }
 
 
+
+    reset(){
+        this.actual=-1;
+    }
+
 }

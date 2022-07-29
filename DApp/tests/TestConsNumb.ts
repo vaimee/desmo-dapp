@@ -73,12 +73,18 @@ const run_test = function (sources: Array<NumberSourceValues>, cb: (ris: number)
     collect(sources,
         (s) => {
 
-            
+            /*
             console.log("\n###########################Sources after collect");
             for(var x in s){
                 console.log(s[x].toInfoString())
             }
-            
+            console.log("################################################\n");
+            console.log("\n###########################Sources after algorithm");
+            for(var x in s){
+                console.log(s[x].toInfoString())
+            }
+            */
+
             const ris = consensus(s);
             const value = ris.getValue();
 
