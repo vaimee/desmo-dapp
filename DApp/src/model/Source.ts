@@ -29,10 +29,6 @@ export default class Source implements ISource {
         throw new Error("Not valid value getted by source: " + this.source);
     }
 
-    getURL(): string {
-        return this.source;
-    }
-
     punish(): void {
         this.punished = true;
         this.score = 0;

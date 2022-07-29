@@ -2,7 +2,7 @@
 import ISource from "./ISource";
 import { ConsumedThing } from "wot-typescript-definitions";
 
-export default class Source implements ISource {
+export default class WotSource implements ISource {
 
     index: number;
     thing: ConsumedThing;

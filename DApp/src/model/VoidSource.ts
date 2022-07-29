@@ -14,11 +14,7 @@ export default class VoidSource implements ISource {
         throw new Error("This is a VoidSource, will not return values with ask method.");
     }
 
-    getURL(): string {
-        return this.source;
-    }
-
-
+  
     isPunished(): boolean {
         return true;
     }

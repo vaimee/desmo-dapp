@@ -24,9 +24,9 @@
 
 
 
-import WorkerMock from "./component/WorkerMock";
+import Worker from "./component/Worker";
 
 //getting args
 const requestID = process.argv[2];
-const worker = new WorkerMock(undefined);
-worker.work(requestID,"");
+const worker = new Worker(undefined);
+worker.work(requestID);

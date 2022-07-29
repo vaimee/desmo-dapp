@@ -25,10 +25,4 @@ export default class MockSourceStr extends Source{
         }
     }
 
-
-
-    reset(){
-        this.actual=-1;
-    }
-
 }

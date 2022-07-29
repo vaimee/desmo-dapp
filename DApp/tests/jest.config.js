@@ -4,6 +4,6 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverage:true,
   testPathIgnorePatterns:["/node_modules/"],
-  // verbose:true,
+  verbose:true,
   rootDir:"../"
 };

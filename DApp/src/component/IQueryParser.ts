@@ -24,7 +24,7 @@ export default interface IQueryParser {
 
     getPropertyUnit():string;
 
-    getParsedQuery():IQuery;
+    // getParsedQuery():IQuery;
 
     getPropertyDatatype(): number;
 
@@ -36,7 +36,7 @@ export default interface IQueryParser {
 
     getTimeFilter(): ITimeFilter | null;
 
-    resolvePrefix(toResolve:string):string|null;   
+    // resolvePrefix(toResolve:string):string|null;   
 
 
 }

@@ -3,7 +3,6 @@ import Types from "../const/Types";
 import ISourceValues from "./ISourceValues";
 import IResult from "./IResult";
 
-
 function getPrecision(a: number): number {
     if (!isFinite(a)) return 0;
     var e = 1, p = 0;
@@ -17,13 +16,13 @@ export default class Result implements IResult {
     type: string;
     sources: Map<number,number>;
 
-    constructor(value: string, type: string, sources: Array<ISourceValues>) {
+    constructor(value: string, type: string, sourcesValues: Array<ISourceValues>) {
         this.value = value;
         this.type = type;
         this.sources = new Map<number,number>();
-        for (var s in sources) {
-            const score = sources[s].getSource().getScore();
-            const index = sources[s].getSource().getIndex();
+        for (let s in sourcesValues) {
+            const score = sourcesValues[s].getSource().getScore();
+            const index = sourcesValues[s].getSource().getIndex();
             if(this.sources.has(index)){
                 const _reward = this.sources.get(index);
                 if(_reward!==undefined &&  _reward>score){
@@ -54,10 +53,8 @@ export default class Result implements IResult {
         if (this.type === Types.TYPE_NUMBER) {
             const num = Number(this.value);
             const precision = getPrecision(num);
-            //console.log("precision",precision);
             if(precision>0){
-                const intvalue = Math.trunc(num * (10**precision));
-                //console.log("intvalue",intvalue);
+                const intvalue = Math.trunc(num * (precision**10));
                 return encoder.encodeNumber(intvalue, precision);
             }else{
                 return encoder.encodeNumber(num,0);
@@ -65,7 +62,7 @@ export default class Result implements IResult {
         } else if (this.type === Types.TYPE_STRING) {
             return encoder.encodeString(this.value);
         } else if (this.type === Types.TYPE_BOOLEAN) {
-            throw new Error("Result.getEncodedValue: NOT IMPLEMENTED YET FOR BOOLEAN");
+            return encoder.encodeString(this.value.toString());
         } else {
             throw new Error("Result.getEncodedValue: type not found for: " + this.type);
         }
