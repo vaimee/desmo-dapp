@@ -55,4 +55,5 @@ Run All test with Jest (WARNING: WAM and Zion need to be up) (RECOMMENDED)
 
 8.  iexec order sign --app && iexec order publish --app
 
-iexec app run --watch --chain viviani --trust 0 --callback 0x5e79D4ddc6a6F5D80816ABA102767a15E6685b3e
+iexec app run --watch --chain viviani --trust 0 --callback 0x0f04bc57374f9f8c705636142ceff953e33a7249 
+iexec app run --chain viviani --trust 0 --callback 0x0f04bc57374f9f8c705636142ceff953e33a7249 

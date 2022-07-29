@@ -1,5 +1,4 @@
 import TestEncoding from "./TestEncoding";
-import TestUtils from "./TestUtils";
 
 test('TestEncoding.test01', async () => {
     const ris=await TestEncoding.test_01();
@@ -23,5 +22,15 @@ test('TestEncoding.test04', async () => {
 
 test('TestEncoding.test05', async () => {
     const ris=await TestEncoding.test_05();
+    expect(ris).toEqual(true);
+});
+
+test('TestEncoding.test06', async () => {
+    const ris=await TestEncoding.test_06();
+    expect(ris).toEqual(true);
+});
+
+test('TestEncoding.test07', async () => {
+    const ris=await TestEncoding.test_07();
     expect(ris).toEqual(true);
 });

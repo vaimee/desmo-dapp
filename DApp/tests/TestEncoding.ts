@@ -1,5 +1,6 @@
 import EncoderMix from "../src/component/encoder/EncoderMix";
 import EncoderManual from "../src/component/encoder/EncoderManual";
+import EncoderLightManual from "../src/component/encoder/EncoderLightManual";
 
 const convertToMap=function(arr:Array<{reward: number, sourceIndex:number}>):Map<number,number>{
     const ris = new Map<number,number>();
@@ -140,10 +141,58 @@ const test_05 = async function():Promise<boolean> {
     return decoded.value[0] === value && decoded.dirs[0][2]===0 && decoded.dirs[0][3]===2;
 }
 
+
+const test_06 = async function():Promise<boolean> {
+    console.log("\n##########    test_06    ##########");
+    console.log("\n########## EncoderLightManual ##########");
+    const temp = new EncoderLightManual();
+    const dirs =[
+        { reward: 2, sourceIndex: 3 },
+        { reward: 2, sourceIndex: 1 },
+        { reward: 1, sourceIndex: 0 },
+        { reward: 0, sourceIndex: 2 },
+        { reward: 1, sourceIndex: 4 },
+        { reward: 0, sourceIndex: 6 },
+        { reward: 1, sourceIndex: 5 },
+        { reward: 2, sourceIndex: 7 },
+    ];
+    temp.setSources(convertToMap(dirs));
+    const toEncode = "prova questa è una stringa";
+    console.log("test value: " + toEncode);
+    const encoded = temp.encodeString(toEncode);
+    console.log("encoded", encoded);
+
+    return compareResultForManual({value:toEncode,dirs:dirs}, temp.decode(encoded));
+}
+
+const test_07 = async function():Promise<boolean> {
+    console.log("\n##########   test_07     ##########");
+    console.log("\n########## EncoderLightManual ##########");
+    const temp = new EncoderLightManual();
+    const dirs = [
+        { reward: 2, sourceIndex: 3 },
+        { reward: 1, sourceIndex: 1 },
+        { reward: 1, sourceIndex: 0 },
+        { reward: 1, sourceIndex: 2 },
+        { reward: 1, sourceIndex: 4 },
+        { reward: 0, sourceIndex: 6 },
+        { reward: 2, sourceIndex: 5 },
+        { reward: 2, sourceIndex: 7 },
+    ];
+    temp.setSources(convertToMap(dirs));
+    const value = 9949999123;
+    console.log("test value: "+value);
+    const encoded = temp.encodeNumber(value, 0);
+    console.log("encoded", encoded);
+    return compareResultForManual({value:value,dirs:dirs}, temp.decode(encoded));
+}
+
 export default {
      test_01,
      test_02,
      test_03,
      test_04,
      test_05,
+     test_06,
+     test_07,
 }

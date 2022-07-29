@@ -181,7 +181,7 @@ const test_11 = async function (): Promise<boolean> {
 
 const test_12 = async function (): Promise<boolean> {
     const ris =await genericZionQuery('$.forms.href');
-    return ris!==null && ris!==undefined && ris.length===28;
+    return ris!==null && ris!==undefined && ris.length>28;
 }
 
 const test_13 = async function (): Promise<boolean> {

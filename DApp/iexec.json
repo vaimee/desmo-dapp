@@ -18,14 +18,17 @@
     "owner": "0x90f35f12027e4103e690dc9279e086ef5b5431a5",
     "name": "desmo-dapp",
     "type": "DOCKER",
+<<<<<<< HEAD
     "multiaddr": "docker.io/thespeedghost/desmo-dapp:1.0.0",
     "checksum": "0x216394951d7537ba417156cb44ae82d2ead4531bb7c4477ea1737638f511f715"
+=======
+    "multiaddr": "docker.io/andreaferrari95/desmo-dapp:1.0.0",
+    "checksum": "0x419f53ec4b83d28e8f03bfcb58e217b91455661f60ab91312baeb5f704278bb2"
+>>>>>>> WorkerMockDApp
   },
   "order": {
     "apporder": {
-      "app": "0x0ad0edfDbc3946215FeA6D5231c6F8EE3f150f27",
-      "appprice": "0",
-      "volume": "1000000",
+      "app": "0xeFf9d0f0243fc3590e16A975bDbC449305FFfa74",
       "tag": [],
       "datasetrestrict": "0x0000000000000000000000000000000000000000",
       "workerpoolrestrict": "0x0000000000000000000000000000000000000000",
@@ -33,3 +36,4 @@
     }
   }
 }
+

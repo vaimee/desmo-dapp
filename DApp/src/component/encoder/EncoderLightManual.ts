@@ -1,7 +1,7 @@
 import IEncoder from "./IEncoder";
-import Conf from "../../const/Config";
 import Types from "../../const/Types";
-import CommonEncoder from "./common";
+
+//new Uint32Array(8)
 
 const hexEncode = function(str:string):string{
     var hex, i;
@@ -27,7 +27,7 @@ const hexDecode = function(str:string):string{
 }
 
 
-export default class EncoderManual implements IEncoder{
+export default class EncoderLightManual implements IEncoder{
     
 
     sources: Array<{ sourceIndex: number, reward: number }>;
@@ -48,6 +48,12 @@ export default class EncoderManual implements IEncoder{
     }
 
     setSources(sources: Map<number,number>): void {
+        /*
+            Max 16 TDDs,
+            sources score are represented without encoding or compression
+            1 hex char for TDDs count, [0-F], 
+            followed by the score list [0-3]
+        */
         for(let key of sources.keys()){
             var score = sources.get(key);
             if(score===null || score===undefined){
@@ -55,21 +61,15 @@ export default class EncoderManual implements IEncoder{
             }
             this.sources.push({sourceIndex:key,reward:score});
         }
-        if (this.sources.length > Conf.MAX_DIRECTORY_LIST_SIZE) {
-            this.sources = this.sources.splice(0, Conf.MAX_DIRECTORY_LIST_SIZE);
+        if (this.sources.length > 16) {
+            this.sources = this.sources.splice(0, 16);
         }
-        /*
-            1byte to represent the number of sources
-            2bit to represent the punishment/reward of a source (for each source)
-            in total: ((S)/4+1)Byte where S is the number of source
-        */
-        const arr = new Array<number>();
+        this.encoded=""+this.sources.length.toString(16);
         this.sources.sort((a, b) => {
             return a.sourceIndex - b.sourceIndex;
         }).map((a) => {
-            arr.push(a.reward); 
+            this.encoded+=a.reward;
         });
-        this.encoded=CommonEncoder.generalEncodeSources(arr);
     }
 
     encodeNumber(numberValue: number, precision=0): string {
@@ -118,15 +118,19 @@ export default class EncoderManual implements IEncoder{
         //padding
         const padding = Number(callbackData[0]);
 
-        const size =parseInt(callbackData[padding]+callbackData[padding+1],16);
-        // console.log("size",size); //ok
-        const directoryList= CommonEncoder.generalDecodeSources(callbackData.substring(padding));
+        //TDDs scores count
+        const size =parseInt(callbackData[padding],16);//value->[0,15]
+        //TDDs scores list
+        const directoryList=new Array<number>();
+        for(let x=0;x<size;x++){
+            directoryList.push(parseInt(callbackData[padding+x+1]));//value->[0,3]
+        }
         console.log("directoryList decoded: ", directoryList); //ok
 
-        const type = parseInt(callbackData[padding+size*2+2],16);
+        const type = parseInt(callbackData[padding+size+1],16);
         // console.log("type: ", type); //ok
 
-        const dataEncoded=callbackData.substring(padding+size*2+3);
+        const dataEncoded=callbackData.substring(padding+size+2);
         // console.log("dataEncoded: ", dataEncoded); //ok
         var value:any;
         if(type===Types.NEG_FLOAT || type===Types.POS_FLOAT){
