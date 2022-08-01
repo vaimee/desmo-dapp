@@ -30,6 +30,7 @@
     "typescript": "^3.9.10"
   },
   "dependencies": {
-    "@node-wot/core": "^0.7.0"
+    "@node-wot/core": "^0.7.0",
+    "axios": "^0.27.2"
   }
 }
