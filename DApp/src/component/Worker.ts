@@ -47,13 +47,13 @@ export default class Worker implements IWorker {
     }
   }
 
-  work(query:string,requestID: string){
+  async work(query:string,requestID: string){
     if(this.iexecOut.trim().length===0 ){
       this.err("No IEXEC_OUT!");
     }
     //HERE WE NEED RESOLVE requestID and get
     //query and directoriesList from new DSEMO-SDK
-    const directoriesList=new Desmosdk().getTDDsByRequestID(requestID);
+    const directoriesList=await new Desmosdk().getTDDsByRequestID(requestID);
     const parser = new QueryParser(query);
     try {
       console.log("Parsing query ...");

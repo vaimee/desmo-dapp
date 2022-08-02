@@ -145,7 +145,8 @@ const test_05 = async function():Promise<boolean> {
 const test_06 = async function():Promise<boolean> {
     console.log("\n##########    test_06    ##########");
     console.log("\n########## EncoderLightManual ##########");
-    const temp = new EncoderLightManual();
+    const requestID ="e9707d0e6171f728f7473c24cc0432a9b07eaaf1efed6a137a4a8c12c79552d9";
+    const temp = new EncoderLightManual(requestID);
     const dirs =[
         { reward: 2, sourceIndex: 3 },
         { reward: 2, sourceIndex: 1 },
@@ -161,14 +162,17 @@ const test_06 = async function():Promise<boolean> {
     console.log("test value: " + toEncode);
     const encoded = temp.encodeString(toEncode);
     console.log("encoded", encoded);
-
-    return compareResultForManual({value:toEncode,dirs:dirs}, temp.decode(encoded));
+    const ris = temp.decode(encoded);
+    
+    // console.log("ris", ris);
+    return compareResultForManual({value:toEncode,dirs:dirs}, ris) && ris.requestID===requestID;
 }
 
 const test_07 = async function():Promise<boolean> {
     console.log("\n##########   test_07     ##########");
     console.log("\n########## EncoderLightManual ##########");
-    const temp = new EncoderLightManual();
+    const requestID ="e9707d0e6171f728f7473c24cc0432a9b07eaaf1efed6a137a4a8c12c79552d9";
+    const temp = new EncoderLightManual(requestID);
     const dirs = [
         { reward: 2, sourceIndex: 3 },
         { reward: 1, sourceIndex: 1 },
@@ -184,7 +188,9 @@ const test_07 = async function():Promise<boolean> {
     console.log("test value: "+value);
     const encoded = temp.encodeNumber(value, 0);
     console.log("encoded", encoded);
-    return compareResultForManual({value:value,dirs:dirs}, temp.decode(encoded));
+    const ris = temp.decode(encoded);
+    // console.log("ris", ris);
+    return compareResultForManual({value:value,dirs:dirs}, ris) && ris.requestID===requestID;
 }
 
 export default {

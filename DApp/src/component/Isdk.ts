@@ -1,7 +1,7 @@
 
 export default interface Isdk {
 
-  getTDDsByRequestID(requestID: string): string[];
+  getTDDsByRequestID(requestID: string): Promise<string[]>;
 
 }
 

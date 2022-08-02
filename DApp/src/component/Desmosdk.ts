@@ -1,7 +1,19 @@
 
 import Types from "../const/Types";
 import Isdk from "./Isdk";
-import desmold_sdk from "@vaimee/desmold-sdk"
+import {
+  DesmoHub,
+  WalletSignerInfura,
+  // IRequestIDEvent,
+  DesmoHubStorage
+} from "@vaimee/desmold-sdk"
+
+// const sandboxRoot = './sandbox';
+// const samplesRoot = './samples';
+const infuraURL = 'https://viviani.iex.ec'; // Replace with your own Infura URL
+const privateKEY = '0xd01bb8eb696603a88d7c8fdc54e49ea4c66ac1ebcc6f41a7a910d72f9d8b3840'; // Replace with your own private key
+// const MYTDD = 'https://www.desmo.vaimee.it/2019/wot/tdd/v1/TDD:001'; // Replace with your own TDD for tests
+
 const LinkSmartDires =[ "http://localhost:8081",
                     "http://localhost:8082",
                     "http://localhost:8083",
@@ -27,7 +39,7 @@ const ZionDirs =[
 
 export default class Desmosdk implements Isdk {
 
-  getTDDsByRequestID(requestID: string): string[] {
+  async getTDDsByRequestID(requestID: string): Promise<string[]> {
     if(requestID===Types.INTERNAL_TEST_REQUEST_ID){
       return LinkSmartDires;
     }else if(requestID===Types.INTERNAL_TEST_REQUEST_ID_ZION){
@@ -46,7 +58,18 @@ export default class Desmosdk implements Isdk {
       }
       return temp;
     }else{
-      throw new Error("NOT IMPLEMENTED YET");
+      const walletSigner: WalletSignerInfura = new WalletSignerInfura(infuraURL);
+      walletSigner.signInWithPrivateKey(privateKEY); //remember to delete if you push to github
+  
+      const desmohub: DesmoHub = new DesmoHub(walletSigner);
+   
+      const storage = new DesmoHubStorage(desmohub.provider);
+      const map =await storage.getSelectedTDDs([requestID]);
+      if(map.get(requestID)!==undefined){
+        return map.get(requestID)!;
+      }else{
+        throw Error("Error: not TDDs found!");
+      }
     }
     return [];
   }

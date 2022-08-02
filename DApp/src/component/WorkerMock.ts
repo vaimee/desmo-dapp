@@ -95,7 +95,7 @@ export default class Worker implements IWorker {
         console.log(result.toString());
         console.log("##############################################");
         //###########################Ecode result
-        var callback_data = result.getEncodedValue(new EncoderLightManual());
+        var callback_data = result.getEncodedValue(new EncoderLightManual(requestID));
     
         //###########################Write result
         const computedJsonObj = {

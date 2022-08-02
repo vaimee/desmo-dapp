@@ -17,7 +17,7 @@ export default function consensus(sourcesAndValues: Array<StringSourceValues>): 
     }
 
     if(struct.getSize()<1){
-        throw new Error("Impossible to reach consensus code[05]: not enoughth valid data.");
+        throw new Error("Impossible to reach consensus code[05]: not enough  valid data.");
     }
     //get best value
     const ris = struct.orderAndEvaluated();

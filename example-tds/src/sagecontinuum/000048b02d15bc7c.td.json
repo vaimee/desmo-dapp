@@ -1,9 +1,10 @@
 {
-    "@context": [
-        "http://www.w3.org/ns/td"
+    "context": [
+        "https://www.w3.org/2019/wot/td/v1",
+        "https://www.w3.org/2022/wot/td/v1.1"
     ],
-    "@type": "W019" ,
-    "title": "bme680",
+    "title": "000048b02d15bc7c",
+    "type":"bme",
     "securityDefinitions": {
         "no_sec": {
             "scheme": "nosec"

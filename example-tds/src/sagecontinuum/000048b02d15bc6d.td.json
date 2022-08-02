@@ -1,0 +1,53 @@
+{
+    "context": [
+        "https://www.w3.org/2019/wot/td/v1",
+        "https://www.w3.org/2022/wot/td/v1.1"
+    ],
+    "title": "000048b02d15bc6d",
+    "type":"bme",
+    "securityDefinitions": {
+        "no_sec": {
+            "scheme": "nosec"
+        }
+    },
+    "security": "no_sec",
+    "actions": {},
+    "properties": {
+		"latitude": {
+            "title": "Latitude",
+            "description": "Latitude of the sensor",
+			"@type": "xsd:float"
+		},
+		"longitude": {
+            "title": "Longitude",
+            "description": "Longitude of the sensor",
+			"@type": "xsd:float"
+		},
+        "temp":{ 
+            "title": "env.temperature",
+            "description": "Temperature value in °C",
+			"@type": "xsd:float"
+        },
+        "humidity":{ 
+            "title": "env.relative_humidity",
+            "description": "Humidity",
+			"@type": "xsd:float"
+        },
+        "in_humidity":{ 
+            "title": "iio.in_humidityrelative_input",
+            "description": "Humidity",
+			"@type": "xsd:float"
+        },
+        "pressure":{ 
+            "title": "iio.in_pressure_input",
+            "description": "Pressure",
+			"@type": "xsd:float"
+        },
+        "resistance":{ 
+            "title": "iio.in_resistance_input",
+            "description": "Resistance",
+			"@type": "xsd:float"
+        }
+    },
+    "events": {}
+}

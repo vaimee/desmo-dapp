@@ -1,6 +1,8 @@
 import IEncoder from "./IEncoder";
 import Types from "../../const/Types";
 
+const REQUEST_ID_SIZE = "20";
+const REQUEST_ID_LENGTH = 64;
 //new Uint32Array(8)
 
 const hexEncode = function(str:string):string{
@@ -31,20 +33,22 @@ export default class EncoderLightManual implements IEncoder{
     
 
     sources: Array<{ sourceIndex: number, reward: number }>;
-    encoded:string;
+    encodedScores:string;
+    requestID:string;
 
-    constructor() {
+    constructor(requestID:string) {
         this.sources= new Array<{ sourceIndex: number, reward: number }>();
-        this.encoded="";
+        this.encodedScores="";
+        this.requestID=REQUEST_ID_SIZE+requestID;
     }
 
     computePadding(ecoded:string):string{
-        const needpadding= 4-(ecoded.length%4);
-        var padding = ""+needpadding;
-        for(let x =0;x<needpadding-1;x++){
-            padding+="0";
+        const needpadding= (ecoded.length%2); 
+        if(needpadding===1){
+            return "1"+ecoded;
+        }else{
+            return "00"+ecoded;
         }
-        return padding+ecoded;
     }
 
     setSources(sources: Map<number,number>): void {
@@ -64,11 +68,11 @@ export default class EncoderLightManual implements IEncoder{
         if (this.sources.length > 16) {
             this.sources = this.sources.splice(0, 16);
         }
-        this.encoded=""+this.sources.length.toString(16);
+        this.encodedScores="0"+this.sources.length.toString(16);
         this.sources.sort((a, b) => {
             return a.sourceIndex - b.sourceIndex;
         }).map((a) => {
-            this.encoded+=a.reward;
+            this.encodedScores+="0"+a.reward;
         });
     }
 
@@ -103,34 +107,50 @@ export default class EncoderLightManual implements IEncoder{
             numberHex=sizePrecisionHex+precisionHex+sanitizzeNumberValue.toString(16);
         } 
         var typeHex = type.toString(16);
-        return this.computePadding(this.encoded+typeHex+numberHex);
+        //console.log("this.computePadding(typeHex+numberHex)",this.computePadding(typeHex+numberHex));
+        return this.requestID+this.encodedScores +this.computePadding(typeHex+numberHex);
     }
 
     encodeString(stringValue: string): string {
         var type = Types.STRING;
         var typeHex = type.toString(16);
         // console.log("dataEncoded: ", hexEncode(stringValue)); //ok
-        return this.computePadding(this.encoded+typeHex+hexEncode(stringValue));
+        console.log("typeHex+hexEncode(stringValue)",typeHex+hexEncode(stringValue));
+        console.log("this.computePadding(typeHex+hexEncode(stringValue)",this.computePadding(typeHex+hexEncode(stringValue)));
+        return this.requestID+this.encodedScores+this.computePadding(typeHex+hexEncode(stringValue));
     }
 
     decode(callbackData: string): any {
 
-        //padding
-        const padding = Number(callbackData[0]);
+        const _requestIDSize =REQUEST_ID_SIZE.length;
+        const _requestID = REQUEST_ID_LENGTH;
+        const requestID = callbackData.substring(_requestIDSize,_requestID+_requestIDSize);
+
+        var padding =_requestIDSize+_requestID;
 
         //TDDs scores count
-        const size =parseInt(callbackData[padding],16);//value->[0,15]
+        const size =parseInt(callbackData[padding]+callbackData[padding+1],16);//value->[0,15]
         //TDDs scores list
         const directoryList=new Array<number>();
-        for(let x=0;x<size;x++){
-            directoryList.push(parseInt(callbackData[padding+x+1]));//value->[0,3]
+        for(let x=0;x<(size*2);x+=2){
+            directoryList.push(parseInt(callbackData[padding+x+2]+callbackData[padding+x+3]));//value->[0,3]
         }
         console.log("directoryList decoded: ", directoryList); //ok
 
-        const type = parseInt(callbackData[padding+size+1],16);
+        // console.log("padding+2+size*2: "+padding+2+size*2);
+        // console.log("callbackData[padding+2+size*2]: "+callbackData[padding+2+size*2]);
+        padding =padding+2+size*2;
+        if(callbackData[padding]==="1"){
+            padding +=1;
+        }else{
+            padding +=2;
+        }
+        //console.log("padding",padding);
+
+        const type = parseInt(callbackData[padding],16);
         // console.log("type: ", type); //ok
 
-        const dataEncoded=callbackData.substring(padding+size+2);
+        const dataEncoded=callbackData.substring(padding+1);
         // console.log("dataEncoded: ", dataEncoded); //ok
         var value:any;
         if(type===Types.NEG_FLOAT || type===Types.POS_FLOAT){
@@ -158,7 +178,7 @@ export default class EncoderLightManual implements IEncoder{
             throw new Error("Not implemented Type found for: "+ type);
         }
         
-        return {value,dirs:directoryList}
+        return {value,dirs:directoryList,requestID:requestID}
     }
 
 

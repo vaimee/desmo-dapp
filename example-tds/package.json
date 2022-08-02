@@ -23,14 +23,16 @@
   "author": "Andrea Ferrari",
   "license": "MIT",
   "devDependencies": {
-    "@arces-wot/wam": "^0.5.6",
-    "@node-wot/cli": "^0.7.0",
-    "@rollup/plugin-typescript": "^2.1.0",
     "nodemon": "^2.0.14",
     "typescript": "^3.9.10"
   },
   "dependencies": {
-    "@node-wot/core": "^0.7.0",
-    "axios": "^0.27.2"
+    "@arces-wot/wam": "^0.5.6",
+    "@node-wot/cli": "^0.8.1",
+    "@node-wot/core": "^0.8.1",
+    "@rollup/plugin-typescript": "^2.1.0",
+    "node-fetch": "^3.2.10",
+    "superagent": "^8.0.0",
+    "tslib": "^2.4.0"
   }
 }

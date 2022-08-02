@@ -1,9 +1,10 @@
 {
     "@context": [
-        "http://www.w3.org/ns/td",
+        "https://www.w3.org/2019/wot/td/v1",
+        "https://www.w3.org/2022/wot/td/v1.1",
         "https://context.dasibreaker.vaimee.it/context.jsonld"
     ],
-    "@type":"Sensor",
+    "type":"Sensor",
     "title": "temp_03",
     "securityDefinitions": {
         "no_sec": {
