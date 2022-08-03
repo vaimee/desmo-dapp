@@ -2,7 +2,7 @@
   "servient": {
     "clientOnly": false,
     "scriptAction": false,
-    "staticAddress" : "desmold-sensors.vaimee.com"
+    "staticAddress" : "desmold-sensors.vaimee.it"
   },
   "http": { "port":443, "selfSigned": true },
   "coap": { "port": 5683 },
