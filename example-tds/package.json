@@ -31,7 +31,6 @@
     "@node-wot/cli": "^0.8.1",
     "@node-wot/core": "^0.8.1",
     "@rollup/plugin-typescript": "^2.1.0",
-    "node-fetch": "^3.2.10",
     "superagent": "^8.0.0",
     "tslib": "^2.4.0"
   }
