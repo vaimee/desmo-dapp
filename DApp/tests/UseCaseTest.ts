@@ -77,6 +77,20 @@ const query: string = JSON.stringify({
   // }
 });
 
+const query2: string = JSON.stringify({
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"xsd", "completeURI":"http://www.w3.org/2001/XMLSchema/"},
+    {"abbreviation":"monas", "completeURI":"https://pod.dasibreaker.vaimee.it/monas/"},
+  ],
+  "property": {
+    "identifier": "temp",
+    "unit": "qudt:DEG_C",                     //skip
+    "datatype": 3
+  },
+  "staticFilter": "$[?(@['type']=='bme')]"
+});
 
 
 // const _test_01 =function(cb:(ris:any) => void):void{
@@ -117,6 +131,23 @@ const test_02 =async ()=>{
   })
 }
 
+const _test_02B =async function(cb:(ris:any) => void){
+  const worker = new Worker("./mount/iexec_out/");
+  worker.setCB(cb);
+  await worker.work(query2,Types.INTERNAL_TEST_REQUEST_ID_ZION);   
+}
+const test_02B =async ()=>{
+  return new Promise((resolve, reject) => {
+      try{
+        _test_02B((data:any) => {
+              resolve(data!==null);
+        });
+      }catch(err){
+          console.log("UseCase-Zion->Err: ",err);
+          resolve(false);
+      }
+  })
+}
 
 
 const _test_03 =async function(cb:(ris:any) => void){
@@ -224,6 +255,7 @@ const test_07 =async ()=>{
 export default {
     //test_01: test_01, //Linksmart
     test_02: test_02, //Zion
+    test_02B:test_02B,
     test_03: test_03, //reject 1
     test_04: test_04, //reject 2
     test_05: test_05, //reject 3

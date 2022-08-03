@@ -26,7 +26,7 @@ export default class WotSource implements ISource {
         //console.log("START"); //ok
         const reader = await this.thing.readProperty(this.propertyName);
         const ris = await reader.value();
-        //console.log("ris",ris);
+        console.log("ris",ris);
         //console.log("ask-->",ris);//ok
         if(ris===null){
             throw new Error("Not valid value getted by source: " + this.index);

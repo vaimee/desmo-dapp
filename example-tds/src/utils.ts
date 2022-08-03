@@ -16,7 +16,8 @@ const readSensorData=async function(sensorName:string,filterProp:string):Promise
                 start: "-10s",
                 tail: 1,
                 filter: {
-                   node:sensorName
+                   node:sensorName,
+                   name:filterProp
                 }
         };
         const ris = await asyncMyPost(query);

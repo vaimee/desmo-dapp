@@ -65,6 +65,7 @@ export default class Desmosdk implements Isdk {
    
       const storage = new DesmoHubStorage(desmohub.provider);
       const map =await storage.getSelectedTDDs([requestID]);
+      console.log("map.get(requestID)",map.get(requestID));
       if(map.get(requestID)!==undefined){
         return map.get(requestID)!;
       }else{

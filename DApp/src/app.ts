@@ -26,9 +26,9 @@
 
 import Worker from "./component/Worker";
 
-//getting args
-const requestID = process.argv[2];
-const que = process.argv[3];
-const worker = new Worker(undefined);
-// worker.work(requestID);
+//getting args 
 //params: requestID + ' | ' + query,
+const requestID =process.argv[2];
+const query = process.argv[3];
+const worker = new Worker(undefined);
+worker.work(query,requestID);
