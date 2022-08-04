@@ -6,7 +6,7 @@ import axios from "axios";
 import WoT from "wot-typescript-definitions";
 import { ThingDescription, ConsumedThing } from "wot-typescript-definitions";
 import { Servient, Helpers } from "@node-wot/core";
-import { HttpClientFactory } from '@node-wot/binding-http';
+import { HttpClientFactory, HttpsClientFactory } from '@node-wot/binding-http';
 import Config from "../const/Config";
 import IDirectoriesCollector from "./IDirectoriesCollector";
 
@@ -23,6 +23,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
     constructor(){
         this.servient = new Servient();
         this.servient.addClientFactory(new HttpClientFactory(undefined));
+        this.servient.addClientFactory(new HttpsClientFactory(undefined));
         this.WoThelpers = new Helpers(this.servient);
     }
 
@@ -142,7 +143,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
     
         var request_path = dir + path_getAll;
         if (jsonpath !== null) {
-            request_path = dir + path_jsonPathQuery + jsonpath;
+            request_path = dir + path_jsonPathQuery + encodeURIComponent(jsonpath);
         }
         console.log("request_path",request_path); //ok
         axios.get(request_path)

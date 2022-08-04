@@ -1,11 +1,10 @@
 
 import Types from "../const/Types";
 import Isdk from "./Isdk";
+import {ethers} from "ethers-ts";
 import {
   DesmoHub,
-  WalletSignerInfura,
-  // IRequestIDEvent,
-  DesmoHubStorage
+  WalletSignerJsonRpc,
 } from "@vaimee/desmold-sdk"
 
 // const sandboxRoot = './sandbox';
@@ -37,9 +36,20 @@ const ZionDirs =[
    "http://localhost:3000",
 ];
 
+const ZionOnlineDirs =[
+  "https://desmold-zion-1.vaimee.it",
+  "https://desmold-zion-2.vaimee.it",
+  "https://desmold-zion-3.vaimee.it",
+  "https://desmold-zion-4.vaimee.it"
+];
+
+
 export default class Desmosdk implements Isdk {
 
   async getTDDsByRequestID(requestID: string): Promise<string[]> {
+
+    //return ZionOnlineDirs;
+
     if(requestID===Types.INTERNAL_TEST_REQUEST_ID){
       return LinkSmartDires;
     }else if(requestID===Types.INTERNAL_TEST_REQUEST_ID_ZION){
@@ -58,19 +68,23 @@ export default class Desmosdk implements Isdk {
       }
       return temp;
     }else{
-      const walletSigner: WalletSignerInfura = new WalletSignerInfura(infuraURL);
+      const walletSigner: WalletSignerJsonRpc = new WalletSignerJsonRpc(infuraURL);
       walletSigner.signInWithPrivateKey(privateKEY); //remember to delete if you push to github
   
       const desmohub: DesmoHub = new DesmoHub(walletSigner);
-   
-      const storage = new DesmoHubStorage(desmohub.provider);
-      const map =await storage.getSelectedTDDs([requestID]);
-      console.log("map.get(requestID)",map.get(requestID));
-      if(map.get(requestID)!==undefined){
-        return map.get(requestID)!;
-      }else{
-        throw Error("Error: not TDDs found!");
+      const bites = ethers.utils.arrayify(requestID);
+      // console.log("DEBUG: bites",bites);
+      const map =await desmohub.getTDDByRequestID(bites);
+      const sanityzzeMap =new Array<string>();
+      for(var x=0;x<map.length;x++){
+        if(map[x].endsWith("/")){
+          sanityzzeMap.push(map[x].substring(0,map[x].length-1));
+        }else{
+          sanityzzeMap.push(map[x]);
+        }
       }
+      console.log("DEBUG: sanityzzeMap",sanityzzeMap);
+      return sanityzzeMap;
     }
     return [];
   }

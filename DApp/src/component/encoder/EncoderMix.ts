@@ -198,7 +198,7 @@ export default class EncoderMix implements IEncoder{
         const sourcesCount=parseInt(hex_sc, 16)*2; //real sources count is: sourcesCount*4
         const hex_sources= callbackData.substring(size-(4+sourcesCount),size-4);
         // console.log("hex_sources",hex_sources);
-        const dirs= [];
+        const dirs= new Array<number[]>;
         for(var x =0;x<sourcesCount*2;x+=2){
             const temp = hex_sources[x]+hex_sources[x+1];
             const dir =CommonEncoder.unBuild8Hex(temp);
