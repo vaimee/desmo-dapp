@@ -1,7 +1,5 @@
 
 const axios = require('axios');
-const { copyFileSync } = require('fs');
-const { env } = require('process');
 const {
     DIRECTORY_URL,
     TD_LIST,

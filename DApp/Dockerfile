@@ -9,8 +9,7 @@ RUN npm install -g ts-node
 RUN npm install jsonpath
 RUN npm install axios 
 RUN npm install ethers-ts 
-RUN npm i @vaimee/desmold-sdk@1.0.0-alpha.4
+RUN npm i @vaimee/desmold-sdk@1.0.0-alpha.7
 COPY ./src /app
-
 
 ENTRYPOINT [ "ts-node", "/app/app.ts"]

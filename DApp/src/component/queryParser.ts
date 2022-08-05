@@ -17,7 +17,7 @@ export default class QueryParser implements IQueryParser {
         this.query = query;
         this.parsedQuery = JSON.parse(this.query) as IQuery;
         this.valid = false;
-        this.parse();
+        // this.parse();
     }
 
     // resolvePrefix(toResolve: string): string | null {

@@ -19,7 +19,7 @@
     "name": "desmo-dapp",
     "type": "DOCKER",
     "multiaddr": "docker.io/andreaferrari95/desmo-dapp:1.0.0",
-    "checksum": "0xa814cdb5a53751db121eb6559ec94d5f42d590f099c48daa3a6b7d0e5dc0740f"
+    "checksum": "0x9c988497a6996fc163a1c13c26897d7f83aa66be09526abc00c38cd0fabf13b4"
   },
   "order": {
     "apporder": {

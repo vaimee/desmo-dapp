@@ -4,7 +4,7 @@
     "scriptAction": false,
     "staticAddress" : "desmold-sensors.vaimee.it"
   },
-  "http": { "port":443, "selfSigned": true },
+  "https": { "port":443, "selfSigned": true },
   "coap": { "port": 5683 },
   "log": { "level": "info" }
 }

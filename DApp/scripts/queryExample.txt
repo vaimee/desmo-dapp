@@ -1,7 +1,7 @@
 # FLOATING NUBMER on fake temp sensors (working 4 on 4 TDDS)
 "{\"prefixList\":[{\"abbreviation\":\"desmo\",\"completeURI\":\"https://desmo.vaimee.it/\"},{\"abbreviation\":\"qudt\",\"completeURI\":\"http://qudt.org/schema/qudt/\"},{\"abbreviation\":\"xsd\",\"completeURI\":\"http://www.w3.org/2001/XMLSchema/\"},{\"abbreviation\":\"monas\",\"completeURI\":\"https://pod.dasibreaker.vaimee.it/monas/\"}],\"property\":{\"identifier\":\"value\",\"unit\":\"qudt:DEG_C\",\"datatype\":1},\"staticFilter\":\"$[?(@['type']=='Sensor')]\"}"
 
-# FLOATING NUBMER on fake stopligth (working 3 on 4 TDDS, 1 TDD punished)
+# STRING on fake stopligth (working 3 on 4 TDDS, 1 TDD punished)
 "{\"prefixList\":[{\"abbreviation\":\"desmo\",\"completeURI\":\"https://desmo.vaimee.it/\"},{\"abbreviation\":\"qudt\",\"completeURI\":\"http://qudt.org/schema/qudt/\"},{\"abbreviation\":\"xsd\",\"completeURI\":\"http://www.w3.org/2001/XMLSchema/\"},{\"abbreviation\":\"monas\",\"completeURI\":\"https://pod.dasibreaker.vaimee.it/monas/\"}],\"property\":{\"identifier\":\"value\",\"unit\":\"qudt:DEG_C\",\"datatype\":3},\"staticFilter\":\"$[?(@['type']=='ControlUnit')]\"}"
 
 # FLOATING NUBMER on REAL temp sensors
@@ -12,3 +12,4 @@
 
 # INT NUMBER on REAL resistance sensors (not enough valid data)
 "{\"prefixList\":[{\"abbreviation\":\"desmo\",\"completeURI\":\"https://desmo.vaimee.it/\"},{\"abbreviation\":\"qudt\",\"completeURI\":\"http://qudt.org/schema/qudt/\"},{\"abbreviation\":\"xsd\",\"completeURI\":\"http://www.w3.org/2001/XMLSchema/\"},{\"abbreviation\":\"monas\",\"completeURI\":\"https://pod.dasibreaker.vaimee.it/monas/\"}],\"property\":{\"identifier\":\"resistance\",\"unit\":\"qudt:DEG_C\",\"datatype\":0},\"staticFilter\":\"$[?(@['type']=='bme')]\"}"
+

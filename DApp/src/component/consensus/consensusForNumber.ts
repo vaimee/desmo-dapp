@@ -1,6 +1,8 @@
 import NumberSourceValues from "../../model/NumberSourceValues";
 import Conf from "../../const/Config";
+import Logger from "../Logger";
 
+const componentName = "ConsensusForNumber";
 function media(values: Array<number>): number {
     if (values.length < 1) {
         return 0;
@@ -81,6 +83,7 @@ function crosscorrelation(sources: Array<NumberSourceValues>, at: number): numbe
 
 export default function consensus(sourcesAndValues: Array<NumberSourceValues>): number {
 
+    Logger.getInstance().addLog(componentName,"Using consensus alghoritm for NUMBER");
     const notPunished = new Array<NumberSourceValues>();
     for (var s in sourcesAndValues) {
         if (!sourcesAndValues[s].getSource().isPunished()) {
@@ -89,6 +92,7 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
     }
 
     if(notPunished.length<1){
+        Logger.getInstance().addLog(componentName,"Impossible to reach consensus code[01]: no sources.",true);
         throw new Error("Impossible to reach consensus code[01]: no sources.");
     }
 
@@ -108,6 +112,7 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
     // console.log("autoC",autoC);
 
     if(autoC.length<1){
+        Logger.getInstance().addLog(componentName,"Impossible to reach consensus code[02]: no autocorrelation.",true);
         throw new Error("Impossible to reach consensus code[02]: no autocorrelation.");
     }
 
@@ -131,6 +136,7 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
     var crossc = Infinity;
     var bestTime = 0;
     if(q.length<1){
+        Logger.getInstance().addLog(componentName,"Impossible to reach consensus code[03]: no crosscorrelation.",true);
         throw new Error("Impossible to reach consensus code[03]: no crosscorrelation.");
     }
     for (var t = 0; t < q.length; t++) {
@@ -147,10 +153,11 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
 
     //reward sources not punished
     if(autoC.length!==notPunished.length){
+        Logger.getInstance().addLog(componentName,"Impossible to reach consensus code[04]: correlation and valid source must have the same cardinality.",true);
         throw new Error("Impossible to reach consensus code[04]: correlation and valid source must have the same cardinality.");
     }
     for (var x = 0; x < autoC.length; x++) {
-        console.log("X["+x+"]bestSource["+bestSource+"]");
+        Logger.getInstance().addLog(componentName,"X["+x+"]bestSource["+bestSource+"]");
         if(x===bestSource){
             notPunished[bestSource].getSource().setScore(3);
         }else if(Math.abs(autoC[x]-fluct)<(fluct*2)){
@@ -162,6 +169,7 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
     
     //Find the best "REAL" value
     if(notPunished[bestSource]===undefined){
+        Logger.getInstance().addLog(componentName,"Impossible to reach consensus code[05]: no best value found.",true);
         throw new Error("Impossible to reach consensus code[05]: no best value found.");
     }
     const bestMediaValue = notPunished[bestSource].getSyncTemporalDistributionAt(bestTime);

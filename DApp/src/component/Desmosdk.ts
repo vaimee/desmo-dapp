@@ -6,7 +6,9 @@ import {
   DesmoHub,
   WalletSignerJsonRpc,
 } from "@vaimee/desmold-sdk"
+import Logger from "./Logger";
 
+const componentName = "DesmoSDKWrapper";
 // const sandboxRoot = './sandbox';
 // const samplesRoot = './samples';
 const infuraURL = 'https://viviani.iex.ec'; // Replace with your own Infura URL
@@ -48,6 +50,7 @@ export default class Desmosdk implements Isdk {
 
   async getTDDsByRequestID(requestID: string): Promise<string[]> {
 
+    Logger.getInstance().addLog(componentName, "Resolve requestID to retrieve TDDs. RequestiD: " + requestID);
     //return ZionOnlineDirs;
 
     if(requestID===Types.INTERNAL_TEST_REQUEST_ID){
@@ -68,25 +71,34 @@ export default class Desmosdk implements Isdk {
       }
       return temp;
     }else{
-      const walletSigner: WalletSignerJsonRpc = new WalletSignerJsonRpc(infuraURL);
-      walletSigner.signInWithPrivateKey(privateKEY); //remember to delete if you push to github
-  
-      const desmohub: DesmoHub = new DesmoHub(walletSigner);
-      const bites = ethers.utils.arrayify(requestID);
-      // console.log("DEBUG: bites",bites);
-      const map =await desmohub.getTDDByRequestID(bites);
-      const sanityzzeMap =new Array<string>();
-      for(var x=0;x<map.length;x++){
-        if(map[x].endsWith("/")){
-          sanityzzeMap.push(map[x].substring(0,map[x].length-1));
-        }else{
-          sanityzzeMap.push(map[x]);
+      try{
+
+        const walletSigner: WalletSignerJsonRpc = new WalletSignerJsonRpc(infuraURL);
+        walletSigner.signInWithPrivateKey(privateKEY); //remember to delete if you push to github
+    
+        const desmohub: DesmoHub = new DesmoHub(walletSigner);
+        const bites = ethers.utils.arrayify(requestID);
+        // console.log("DEBUG: bites",bites);
+        const map =await desmohub.getTDDByRequestID(bites);
+        const sanityzzeMap =new Array<string>();
+        for(var x=0;x<map.length;x++){
+          if(map[x].endsWith("/")){
+            sanityzzeMap.push(map[x].substring(0,map[x].length-1));
+          }else{
+            sanityzzeMap.push(map[x]);
+          }
         }
+        
+        Logger.getInstance().addLog(componentName, "DEBUG: sanityzzeMap: "+JSON.stringify(sanityzzeMap));
+        
+        return sanityzzeMap;
+      }catch(err){
+        Logger.getInstance().addLog(componentName, "error on using the SDK: "+err,true);
+        return [];
       }
-      console.log("DEBUG: sanityzzeMap",sanityzzeMap);
-      return sanityzzeMap;
+
     }
-    return [];
+    // return [];
   }
 
 

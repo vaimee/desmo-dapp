@@ -28,5 +28,7 @@ export default {
     GEOFILTER_UNIT_IS_URI:  true,
 
     //ms
-    DIRECTORY_TIME_OUT:10000
+    DIRECTORY_TIME_OUT:10000,
+
+    LOGGER_URL:"https://desmold-logs.vaimee.it/logs"
 }

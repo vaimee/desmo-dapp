@@ -8,6 +8,9 @@ import consensusForBool from "./consensusForBool";
 import Result from "../../model/Result";
 import Conf from "../../const/Config";
 import Types from "../../const/Types";
+import Logger from "../Logger";
+
+const componentName = "DataCollector";
 
 export function consensus(sources : Array<ISourceValues>): Result {
     if(sources[0] instanceof NumberSourceValues){
@@ -29,6 +32,7 @@ export function consensus(sources : Array<ISourceValues>): Result {
             sources
         );
     }else{
+        Logger.getInstance().addLog(componentName,"SourcesValue type not found for: "+ sources[0].constructor.name,true);
         throw new Error("SourcesValue type not found for: "+ sources[0].constructor.name);
     }
 }
@@ -38,6 +42,7 @@ export function collect(
     cb:(s : Array<ISourceValues>)=>void
 ):void {
     const notAborted = new Set<number>();
+    Logger.getInstance().addLog(componentName,"collect started!");
     const askTo=(cbSYnc:(np:Array<number>)=>void)=>{
         // const keys= notAborted.keys();
         const needPunishment = new Array<number>();
@@ -54,7 +59,7 @@ export function collect(
                 .then((ok)=>{
                     if(!ok){
                         needPunishment.push(key);
-                        console.log("Source["+key+"] ask, received not valid value.");
+                        Logger.getInstance().addLog(componentName,"Source["+key+"] ask, received not valid value.");
                     }
                     barier++;
                     if(barier>=sourcesCount){
@@ -63,7 +68,7 @@ export function collect(
                 })
                 .catch((err)=>{
                     needPunishment.push(key);
-                    console.log("Source["+key+"] ask, ERROR: "+ err.message);
+                    Logger.getInstance().addLog(componentName,"Source["+key+"] ask, ERROR: "+ err.message);
                     barier++;
                     if(barier>=sourcesCount){
                         cbSYnc(needPunishment);

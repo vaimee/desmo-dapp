@@ -1,7 +1,9 @@
 // import Conf from "../const/Config";
 import ISource from "./ISource";
 import { ConsumedThing } from "wot-typescript-definitions";
+import Logger from "../component/Logger";
 
+const componentName = "WotSource";
 export default class WotSource implements ISource {
 
     index: number;
@@ -10,28 +12,35 @@ export default class WotSource implements ISource {
     score: number;
     propertyName: string;
 
-    constructor(reader: ConsumedThing,prop:string, index: number) {
+    constructor(reader: ConsumedThing, prop: string, index: number) {
         this.thing = reader;
         this.punished = false;
         this.index = index;
         //start with the max of score
         //because the score can only decrease
-        this.score = 3; 
-        this.propertyName= prop;
+        this.score = 3;
+        this.propertyName = prop;
     }
 
 
 
     async ask(): Promise<string> {
         //console.log("START"); //ok
-        const reader = await this.thing.readProperty(this.propertyName);
-        const ris = await reader.value();
-        console.log("ris",ris);
-        //console.log("ask-->",ris);//ok
-        if(ris===null){
-            throw new Error("Not valid value getted by source: " + this.index);
+        try {
+            const reader = await this.thing.readProperty(this.propertyName);
+            const ris = await reader.value();
+            Logger.getInstance().addLog(componentName, "Ask for a velue, response: " + ris);
+
+            if (ris === null) {
+                Logger.getInstance().addLog(componentName, "Not valid value getted by source: " + this.index, true);
+                throw new Error("Not valid value getted by source: " + this.index);
+            }
+            return (ris).toString();
+        } catch (err) {
+            Logger.getInstance().addLog(componentName, "Error on ask: " + err, true);
+            throw new Error("Error on ask: " + err);
         }
-        return (ris).toString();
+
     }
 
     punish(): void {
@@ -40,7 +49,7 @@ export default class WotSource implements ISource {
     }
 
     setScore(s: number): void {
-        if (!this.punished && this.score>s) {
+        if (!this.punished && this.score > s) {
             this.score = s;
         }
     }

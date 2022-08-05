@@ -9,6 +9,9 @@ import { Servient, Helpers } from "@node-wot/core";
 import { HttpClientFactory, HttpsClientFactory } from '@node-wot/binding-http';
 import Config from "../const/Config";
 import IDirectoriesCollector from "./IDirectoriesCollector";
+import Logger from "./Logger";
+
+const componentName = "DirectoriCollector";
 
 
 const path_jsonPathQuery = "/search/jsonpath?query=";
@@ -45,7 +48,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
 
     async resolveTD(td: any): Promise<ConsumedThing | null> {
         if(this.wot===undefined){
-            console.error("ResolveTD error: wot is still undefined!");
+            Logger.getInstance().addLog(componentName,"ResolveTD error: wot is still undefined!",true);
             return null;
         }else{
             try {
@@ -55,7 +58,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 //console.info("========== END");
                 return thing;
             } catch (err) {
-                console.error("ResolveTD error:", err);
+                Logger.getInstance().addLog(componentName,"ResolveTD error: "+ err,true);
                 return null;
             }
         }
@@ -107,6 +110,8 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                                     returnVoidSource();
                                 }
                             }
+                        }).catch((err)=>{
+                            Logger.getInstance().addLog(componentName,"ResolveTD resolveToISourceArr error: "+ err,true);
                         })
                         // .catch((err) => {
                         //     console.error("ConvertToISourceArr error:", err);
@@ -145,7 +150,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         if (jsonpath !== null) {
             request_path = dir + path_jsonPathQuery + encodeURIComponent(jsonpath);
         }
-        console.log("request_path",request_path); //ok
+        Logger.getInstance().addLog(componentName,"request_path: "+request_path);
         axios.get(request_path)
             .then((ris) => {
                 if (ris.status === 200) {
@@ -166,7 +171,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
             })
             .catch(function (error) {
                 //console.log(request_path);
-                console.log('DirectoriesCollector error on Directory index:' + dirIndex + " Error: " + error);
+                Logger.getInstance().addLog(componentName,'DirectoriesCollector error on Directory index:' + dirIndex + " Error: " + error,true);
                 const noTDs = new Array<ISource>();
                 noTDs.push(new VoidSource(dir, dirIndex));
                 cb(noTDs);
@@ -203,7 +208,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                         }
                     }
                 }
-                console.log("Pre punished source: "+countPunishedSource+ "/"+count);
+                Logger.getInstance().addLog(componentName,"Pre punished source: "+countPunishedSource+ "/"+count);
                 //console.log("collectDirs.ris: ",ris);
                 cb(ris);
             }
@@ -223,7 +228,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 const noTDs = new Array<ISource>();
                 noTDs.push(new VoidSource(realDirURL, indexDir));
                 ris.set(s+"_"+realDirURL, noTDs);
-                console.log('DirectoriesCollector miss a Directory for index:' + sources[s]);
+                Logger.getInstance().addLog(componentName,'DirectoriesCollector miss a Directory for index:' + sources[s]);
                 //console.log("HIT---->"+s);
                 hit();
             }
