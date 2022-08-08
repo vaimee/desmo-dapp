@@ -8,6 +8,9 @@ class Logger {
     private static instance:Logger;
 
     static getInstance():Logger{
+        if(Logger.instance===undefined){
+            return Logger.setInstance();
+        }
         return Logger.instance;
     }
     

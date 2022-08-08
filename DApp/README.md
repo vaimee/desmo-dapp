@@ -41,7 +41,22 @@ Run tests manually
 
 Run All test units with Jest (WARNING: WAM and Zion need to be up, LinkSmart will not be used in that case)
 
-```npx jest```
+Prepare WAM and Zion
+
+1. Donwload and run a Zion instance. You can [donwload the Zion repo here](https://github.com/vaimee/zion), and then run  `docker-compose up`.
+2. Build and run WAM. Go to the [WAM folder](../example-tds/) and run `npm install`, `npm run build`, and `npm start`.
+3. Regiter the WAM TDs on Zion.
+    1. Register an account on your local Zion by POST at `http://localhost:3000/auth/register` with json body: 
+        ```{
+            "email":"email@email.com",
+            "password":"1234"
+        }```
+    2. copy the the `accessToken` like that: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTY1OTk3MTcyMCwiZXhwIjoxNjU5OTcyNjIwfQ.PJBwXU5ARyO4-HLvA-aRBgXiTfgl9xvQ95PpQnBpvX4`.
+    3. Go to the [Directory manager folder](../directory/directoryManager/) and run `node setup.js --zion <<accessToken>>` replacing the `accessToken` with your.
+4. Go to the [DApp tests folder](./tests/) and run ```npx jest```
+
+
+
 
 ## DESMO-iExec Manual
 ```ad-note 
@@ -131,3 +146,5 @@ iexec app run --watch --chain viviani --trust 0 --callback <callback_address>
 Where ```--watch``` is a command to follow the status of the application,  ```--trust``` you can configure the consensus algorithm from iExec (for more information follow this [link]()), ```--callback``` you can configure what is the smart contract that will receive the app result.  
 ​
 You can also follow the application process of the application with the [iExec explorer application](https://explorer.iex.ec/viviani).
+
+
