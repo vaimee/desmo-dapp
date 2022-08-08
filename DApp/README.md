@@ -12,15 +12,23 @@ Typescript service based on *iexec-sdk* in order to comunicate with the in-chain
 
 [UML](docs/uml.md)
 
-# Command
+[Iexec Official guide](https://docs.iex.ec/for-developers/your-first-app)
+
+# Typescript DApp code
+The DApp can be executed in your local machine as a usual Typescript application.
+Install the necessary dependencies on your local machine:
 
 ```npm install -g ts-node typescript '@types/node' ts-jest```
 
+The test unit of the DApp has some section that will fail if the other services that it uses are not up and running.
+Services used by the DApp:
+- WAM for TDs and sensors WAM
+- Zion or LinkSmart as a Directory (TDD)
 
-Run all tests, except test N.8. (LinkSmart/Zion and WAM need to be up).
-Test N.5 and N.7 use LinkSmart and WAM, if they are not up, the tests will fail.
+You can run tests 1, 2, 3, 4, and 5 without these services.
+Tests 5, 7, and 8 require them up and running. 
 
-Run tests manualy
+Run tests manually
 
 1. Consensus for nubmer ```ts-node tests/runTests.ts number```
 2. Consensus for string ```ts-node tests/runTests.ts str```
@@ -29,31 +37,97 @@ Run tests manualy
 5. RealExample (using linksmart) ```ts-node tests/runTests.ts usecase```
 6. Query parser ```ts-node tests/runTests.ts parser```
 7. Directory collector ```ts-node tests/runTests.ts wot```
-8. RealExample with Zion ```ts-node tests/runTests.ts zion``` //WIP, NOT WORKING YET
+8. RealExample with Zion ```ts-node tests/runTests.ts zion```
 
-Run All test with Jest (WARNING: WAM and Zion need to be up) (RECOMMENDED)
+Run All test units with Jest (WARNING: WAM and Zion need to be up, LinkSmart will not be used in that case)
 
 ```npx jest```
 
-# IexecSimpleApp
+## DESMO-iExec Manual
+```ad-note 
+For this step are needed: 
+ - Docker hub account 
+ - Wallet address with rights provided by the Iexec team 
+ - The iExec SDK installed on your local machine 
+ - An application
+```
+​
+### Setting your wallet
+ The first step is to set up your wallet in the Iexec local environment. For this run the following command: 
+​
+```bash
+iexec wallet import <pivate_key>
+```
+​
+Where ```<pivate_key>``` is the key provided by the owner of the wallet. This wallet is necessary to work with the viviavi chain (iExec testnet sidechain). Once configured you can start to work with iExec. 
+​
+You can verify if your wallet was successfully configured with the command: 
+```bash
+ iexec wallet show --chain viviani  
+```
+ 
+ For more information on how to set up your wallet with iexec cli please use this [link](https://github.com/iExecBlockchainComputing/iexec-sdk/blob/master/CLI.md#wallet)
+​
+​
+### Deploying the DApp
+The DAPP in DESMO-LD project will be used by the Iexec worker pool, it needs to be dockerized, published on docker-hub, and finally registered on iexec.
 
-[Official guide](https://docs.iex.ec/for-developers/your-first-app)
+```bash
+docker build . --tag desmo-dapp
+```
+Now you can run the DApp locally.
+```bash
+./scripts/runLocally.bat
+```
+If you want to change the argument passed to the DApp, you can edit the `runLocally.bat` file.
+The first argument is the RequestID (used in the DApp to get the list of Directory from the chain). The second one is the query that the DApp needs to resolve, the query is a stringify json with some replacements: you must use `__!_` instead of the double quotes `"` and `--#-` instead of the single quote `'`.
 
-# Steps
 
-1.  scripts\build.bat
-2.  scripts\runLocally.bat
-3.  scripts\dockerPush.bat <docker-usernamed>
-4.  copy chacksum from docker to iexec.json
-5.  scripts\onChainDeploy.bat
-6.  scripts\runOnChain.bat
-7.  scripts\getResults.bat <task-id>
+Publish the DApp on docker-hub.
+```bash
+dockerPush.bat
+```
+Copy the checksum of the docker image in the file `iexec.json` under `app.checksumm`.
+Check the `app.multiaddr` and `app.owner`  of the same file.
 
-8.  iexec app publish --chain viviani
-9.  iexec orderbook app 0x0ad0edfDbc3946215FeA6D5231c6F8EE3f150f27
-10. iexec app run --args "arg1 arg2" --watch --chain viviani
-
-8.  iexec order sign --app && iexec order publish --app
-
-iexec app run --watch --chain viviani --trust 0 --callback 0x0f04bc57374f9f8c705636142ceff953e33a7249 
-iexec app run --chain viviani --trust 0 --callback 0x0f04bc57374f9f8c705636142ceff953e33a7249 
+Register the DApp on IExec.
+```bash
+./scripts/onChainDeploy.bat
+```
+With that script will be shown the chain that you are using, make sure to use Viviani which is the free one.
+​
+If you want that others can run your application you must create an app order. For this run the following command: 
+​
+```bash
+iexec order init --app
+```
+​
+With this command a new field called ```order``` will be created on the ```iexec.json``` file. Now you need to publish your order by running the command: 
+​
+```bash
+iexec order sign --app  && iexec order publish --app
+```
+​
+After this command you can check if your order was successfully created with the command: 
+​
+```bash
+iexec orderbook app <app_address>
+```
+​
+```ad-warning
+Without an app order clients will not be able to buy your application
+```
+​
+For more information on how to set up your application to work with the IExec platform please use this [link](https://github.com/iExecBlockchainComputing/iexec-sdk/blob/master/CLI.md#app)
+​
+### Running your application
+​
+Once your application is sdeployed you can run the application with the command: 
+​
+```bash
+iexec app run --watch --chain viviani --trust 0 --callback <callback_address>
+```
+​
+Where ```--watch``` is a command to follow the status of the application,  ```--trust``` you can configure the consensus algorithm from iExec (for more information follow this [link]()), ```--callback``` you can configure what is the smart contract that will receive the app result.  
+​
+You can also follow the application process of the application with the [iExec explorer application](https://explorer.iex.ec/viviani).
