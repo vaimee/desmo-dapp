@@ -151,9 +151,9 @@ const genericZionQuery = async function (query:string): Promise<{}[]|null> {
 }
 
 const test_07 = async function (): Promise<boolean> {
-    const ris =await genericZionQuery("$[?(@['@type']=='ControlUnit')]");
+    const ris =await genericZionQuery("$[?(@['type']=='ControlUnit')]");
     // console.log("test_07.ris",ris);
-    return ris?.length===3;
+    return ris?.length!==undefined &&  ris?.length>=3;
 }
 
 const test_08 = async function (): Promise<boolean> {
@@ -176,7 +176,7 @@ const test_10 = async function (): Promise<boolean> {
 
 const test_11 = async function (): Promise<boolean> {
     const ris =await genericZionQuery('$.forms.href[?@=="http://localhost:8080/servient/all/properties"]');
-    return ris!==null && ris!==undefined && ris.length===4;
+    return ris!==null && ris!==undefined && ris.length>=4;
 }
 
 const test_12 = async function (): Promise<boolean> {
@@ -189,7 +189,7 @@ const test_13 = async function (): Promise<boolean> {
     //console.log("test_13.encodedQuery",encodedQuery);
     const ris =await genericZionQuery(encodedQuery);
     // console.log("test_13.encodedQuery.ris",ris);
-    return ris!==null && ris!==undefined && ris.length===4;
+    return ris!==null && ris!==undefined && ris.length>=4;
 }
 
 
