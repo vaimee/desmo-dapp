@@ -23,7 +23,9 @@
   },
   "order": {
     "apporder": {
-      "app": "0xeFf9d0f0243fc3590e16A975bDbC449305FFfa74",
+      "app": "0xEec7D8Cae7A3ae733DA79b30b05922F044CE37bf",
+      "appprice": "0",
+      "volume": "1000000",
       "tag": [],
       "datasetrestrict": "0x0000000000000000000000000000000000000000",
       "workerpoolrestrict": "0x0000000000000000000000000000000000000000",
@@ -31,4 +33,3 @@
     }
   }
 }
-

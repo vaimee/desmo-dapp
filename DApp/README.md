@@ -140,11 +140,9 @@ For more information on how to set up your application to work with the IExec pl
 Once your application is sdeployed you can run the application with the command: 
 ​
 ```bash
-iexec app run --watch --chain viviani --trust 0 --callback <callback_address>
+iexec app run --watch --chain viviani --trust 0 --callback <callback_address> --args <your_arguments>
 ```
 ​
-Where ```--watch``` is a command to follow the status of the application,  ```--trust``` you can configure the consensus algorithm from iExec (for more information follow this [link]()), ```--callback``` you can configure what is the smart contract that will receive the app result.  
+Where ```--watch``` is a command to follow the status of the application,  ```--trust``` you can configure the consensus algorithm from iExec (for more information follow this [link](https://docs.iex.ec/key-concepts/proof-of-contribution)), ```--callback``` you can configure what is the smart contract that will receive the app result, ```--args``` you can set arguments for your application.  
 ​
 You can also follow the application process of the application with the [iExec explorer application](https://explorer.iex.ec/viviani).
-
-
