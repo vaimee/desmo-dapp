@@ -1,6 +1,8 @@
 import EncoderMix from "../src/component/encoder/EncoderMix";
 import EncoderManual from "../src/component/encoder/EncoderManual";
 import EncoderLightManual from "../src/component/encoder/EncoderLightManual";
+import EncoderJson from "../src/component/encoder/EncoderJson";
+import Types from "../src/const/Types";
 
 const convertToMap=function(arr:Array<{reward: number, sourceIndex:number}>):Map<number,number>{
     const ris = new Map<number,number>();
@@ -193,6 +195,82 @@ const test_07 = async function():Promise<boolean> {
     return compareResultForManual({value:value,dirs:dirs}, ris) && ris.requestID===requestID;
 }
 
+const test_08 = async function():Promise<boolean> {
+    console.log("\n##########   test_08     ##########");
+    console.log("\n########## EncoderJson ##########");
+    const requestID ="e9707d0e6171f728f7473c24cc0432a9b07eaaf1efed6a137a4a8c12c79552d9";
+    const temp = new EncoderJson(requestID);
+    const dirs = [
+        { reward: 2, sourceIndex: 3 },
+        { reward: 1, sourceIndex: 1 },
+        { reward: 1, sourceIndex: 0 },
+        { reward: 1, sourceIndex: 2 },
+        { reward: 1, sourceIndex: 4 },
+        { reward: 0, sourceIndex: 6 },
+        { reward: 2, sourceIndex: 5 },
+        { reward: 2, sourceIndex: 7 },
+    ];
+    temp.setSources(convertToMap(dirs));
+    const value = 9949999123;
+    console.log("test value: "+value);
+    const encoded = temp.encodeNumber(value);
+    console.log("encoded", encoded);
+    const ris = temp.decode(encoded);
+    console.log("ris", ris);
+    return ris.data.value===value && ris.data.type===Types.POS_INTEGER;
+}
+
+const test_09 = async function():Promise<boolean> {
+    console.log("\n##########   test_09     ##########");
+    console.log("\n########## EncoderJson ##########");
+    const requestID ="e9707d0e6171f728f7473c24cc0432a9b07eaaf1efed6a137a4a8c12c79552d9";
+    const temp = new EncoderJson(requestID);
+    const dirs = [
+        { reward: 2, sourceIndex: 3 },
+        { reward: 1, sourceIndex: 1 },
+        { reward: 1, sourceIndex: 0 },
+        { reward: 1, sourceIndex: 2 },
+        { reward: 1, sourceIndex: 4 },
+        { reward: 0, sourceIndex: 6 },
+        { reward: 2, sourceIndex: 5 },
+        { reward: 2, sourceIndex: 7 },
+    ];
+    temp.setSources(convertToMap(dirs));
+    const value = -55.6;
+    console.log("test value: "+value);
+    const encoded = temp.encodeNumber(value);
+    console.log("encoded", encoded);
+    const ris = temp.decode(encoded);
+    console.log("ris", ris);
+    return ris.data.value===value && ris.data.type===Types.NEG_FLOAT;
+}
+
+
+const test_10 = async function():Promise<boolean> {
+    console.log("\n##########   test_10     ##########");
+    console.log("\n########## EncoderJson ##########");
+    const requestID ="e9707d0e6171f728f7473c24cc0432a9b07eaaf1efed6a137a4a8c12c79552d9";
+    const temp = new EncoderJson(requestID);
+    const dirs = [
+        { reward: 2, sourceIndex: 3 },
+        { reward: 1, sourceIndex: 1 },
+        { reward: 1, sourceIndex: 0 },
+        { reward: 1, sourceIndex: 2 },
+        { reward: 1, sourceIndex: 4 },
+        { reward: 0, sourceIndex: 6 },
+        { reward: 2, sourceIndex: 5 },
+        { reward: 2, sourceIndex: 7 },
+    ];
+    temp.setSources(convertToMap(dirs));
+    const value = "this is a test string";
+    console.log("test value: "+value);
+    const encoded = temp.encodeString(value);
+    console.log("encoded", encoded);
+    const ris = temp.decode(encoded);
+    console.log("ris", ris);
+    return ris.data.value===value && ris.data.type===Types.STRING;
+}
+
 export default {
      test_01,
      test_02,
@@ -201,4 +279,7 @@ export default {
      test_05,
      test_06,
      test_07,
+     test_08,
+     test_09,
+     test_10,
 }

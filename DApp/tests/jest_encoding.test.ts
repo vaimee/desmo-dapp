@@ -34,3 +34,18 @@ test('TestEncoding.test07', async () => {
     const ris=await TestEncoding.test_07();
     expect(ris).toEqual(true);
 });
+
+test('TestEncoding.test08', async () => {
+    const ris=await TestEncoding.test_08();
+    expect(ris).toEqual(true);
+});
+
+test('TestEncoding.test09', async () => {
+    const ris=await TestEncoding.test_09();
+    expect(ris).toEqual(true);
+});
+
+test('TestEncoding.test10', async () => {
+    const ris=await TestEncoding.test_10();
+    expect(ris).toEqual(true);
+});
