@@ -1,7 +1,22 @@
 
 import EncoderLightManual from "../src/component/encoder/EncoderLightManual";
 
-const em = new EncoderLightManual("e9707d0e6171f728f7473c24cc0432a9b07eaaf1efed6a137a4a8c12c79552d9");
-const toDecode="20822202013112e9";
-console.log("DECODING: "+ toDecode);
-console.log(em.decode(toDecode));
+const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  
+  readline.question(`Inser the callback-data and press enter:\n`, (collbackdata:string) => {
+    console.log(`Decoding the callback-data '${collbackdata}'`);
+    var _collbackdata =collbackdata;
+    if(collbackdata.startsWith("0x")){
+        _collbackdata=_collbackdata.substring(2);
+    }
+    const requestID = _collbackdata.substring(2,66);
+    console.log("requestID: "+ requestID);
+    const data = _collbackdata.substring(66);
+    const em = new EncoderLightManual(requestID);
+    console.log("DECODED: ",em.decode(_collbackdata));
+    readline.close();
+  });
+  
