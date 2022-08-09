@@ -176,7 +176,7 @@ const test_10 = async function (): Promise<boolean> {
 
 const test_11 = async function (): Promise<boolean> {
     const ris =await genericZionQuery('$.forms.href[?@=="http://localhost:8080/servient/all/properties"]');
-    return ris!==null && ris!==undefined && ris.length>=4;
+    return ris!==null && ris!==undefined;
 }
 
 const test_12 = async function (): Promise<boolean> {

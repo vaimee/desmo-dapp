@@ -146,3 +146,9 @@ iexec app run --watch --chain viviani --trust 0 --callback <callback_address> --
 Where ```--watch``` is a command to follow the status of the application,  ```--trust``` you can configure the consensus algorithm from iExec (for more information follow this [link](https://docs.iex.ec/key-concepts/proof-of-contribution)), ```--callback``` you can configure what is the smart contract that will receive the app result, ```--args``` you can set arguments for your application.  
 ​
 You can also follow the application process of the application with the [iExec explorer application](https://explorer.iex.ec/viviani).
+
+
+### Decode the callback-data
+ After an DApp run, you will retrieve the callback-data, if you are running the DApp on the workerpool, you should find the result on the [Iexec explorer](https://explorer.iex.ec/viviani)
+
+ then go to the folder [support](./support/) amd run `ts-node support.ts` (if need run `npm install -g ts-node` before).
