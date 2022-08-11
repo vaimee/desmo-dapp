@@ -1,5 +1,5 @@
 import { promises as fsPromises } from 'fs';
-import QueryParser from "./QueryParser";
+import QueryParser from "./queryParser";
 import IWorker from "./IWorker";
 import DirectoriesCollector from "./DirectoriesCollector";
 import Desmosdk from "./Desmosdk";
