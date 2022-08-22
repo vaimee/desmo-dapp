@@ -16,3 +16,7 @@ test('queryParserTest.test3', async () => {
     const ris = await QueryParserTest.test_03();
     expect(ris.tot).toEqual(ris.passed);
 });
+
+test('queryParserTest.test4', async () => {
+    expect(QueryParserTest.test_04()).toEqual(true);
+});

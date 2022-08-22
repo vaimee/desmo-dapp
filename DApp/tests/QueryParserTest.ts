@@ -263,8 +263,16 @@ function PrefixEqual(a: IPrefix[] | null, b: IPrefix[] | null): boolean {
     return false;
 }
 
+
+const test_04 = function () :Boolean {
+    let _query1 = query_invalid_01;
+    let _query2 = QueryParser.queryDecoding(QueryParser.queryEncoding(_query1));
+    return _query1===_query2;
+}
+
 export default {
     test_01,
     test_02,
-    test_03
+    test_03,
+    test_04
 }

@@ -5,6 +5,9 @@ import IQueryParser from "./IQueryParser";
 import Config from "../const/Config";
 var jp = require('jsonpath');
 
+
+
+
 export default class QueryParser implements IQueryParser {
 
 
@@ -195,6 +198,15 @@ export default class QueryParser implements IQueryParser {
     }
 
 
+    //args-query encoding
+    static queryEncoding(query:string):string{
+        return encodeURIComponent(query);
+    }
+
+    //args-query decoding
+    static queryDecoding(query:string):string{
+        return decodeURIComponent(query);
+    }
 
 
 }

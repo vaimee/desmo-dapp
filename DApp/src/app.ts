@@ -39,16 +39,15 @@ process.on('unhandledRejection', error => {
     }
 }); 
 
+
+
 //getting args 
-//params: requestID + ' | ' + query,
+//params: requestID + encodeURIComponent(query),
 const _run = async ()=>{
     try{
-        // const args =process.argv[2];
-        // logger.addLog("APP",args);
         logger.addLog("APP",JSON.stringify(process.argv));
-        // const spittedArgs = args.split("|");
         const requestID =process.argv[2].trim();
-        const query =process.argv[3].trim().replace(/__!_/gm,"\"").replace(/--#-/gm,"'");
+        const query =process.argv[3].trim();//the decode is done by the QueryParser.queryDecoding (in the worker)
         const worker = new Worker(undefined);
         await worker.work(query,requestID);
     }catch(err){

@@ -66,8 +66,7 @@ export default class Worker implements IWorker {
     //HERE WE NEED RESOLVE requestID and get
     //query and directoriesList from new DSEMO-SDK
     const directoriesList = await new Desmosdk().getTDDsByRequestID(requestID);
-    const parser = new QueryParser(query);
-    //const parser = new QueryParser("{\"prefixList\":[{\"abbreviation\":\"desmo\",\"completeURI\":\"https://desmo.vaimee.it/\"},{\"abbreviation\":\"qudt\",\"completeURI\":\"http://qudt.org/schema/qudt/\"},{\"abbreviation\":\"xsd\",\"completeURI\":\"http://www.w3.org/2001/XMLSchema/\"},{\"abbreviation\":\"monas\",\"completeURI\":\"https://pod.dasibreaker.vaimee.it/monas/\"}],\"property\":{\"identifier\":\"value\",\"unit\":\"qudt:DEG_C\",\"datatype\":3},\"staticFilter\":\"$[?(@['type']=='ControlUnit')]\"}");
+    const parser = new QueryParser(QueryParser.queryDecoding(query));
     try {
       this.logger.addLog(componentName, "Parsing query ...");
       parser.parse();
