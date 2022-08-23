@@ -68,54 +68,50 @@ const printMatrixs = function (sources: Array<NumberSourceValues>, offsetTime = 
     console.log(m_str);
 }
 
-const run_test = function (sources: Array<NumberSourceValues>, cb: (ris: number) => void) {
+const run_test = async function (sources: Array<NumberSourceValues>): Promise<number>{
     const dateOffset = Date.now();
-    collect(sources,
-        (s) => {
+    const s = await collect(sources);
+    console.log("\n###########################Sources after collect");
+    for(var x in s){
+        console.log(s[x].toInfoString())
+    }
+    
+    const ris = consensus(s);
+    const value = ris.getValue();
 
-            
-            console.log("\n###########################Sources after collect");
-            for(var x in s){
-                console.log(s[x].toInfoString())
-            }
-            
-            const ris = consensus(s);
-            const value = ris.getValue();
+    printMatrixs(s as Array<NumberSourceValues>, dateOffset);
 
-            printMatrixs(s as Array<NumberSourceValues>, dateOffset);
+    
+    var scoreSources = "| ";
+    for (var x in sources) {
+        const index = sources[x].getSource().getIndex();
+        const score = sources[x].getSource().getScore();
+        scoreSources+=index+": "+score+" | ";
+    }
 
-            
-            var scoreSources = "| ";
-            for (var x in sources) {
-                const index = sources[x].getSource().getIndex();
-                const score = sources[x].getSource().getScore();
-                scoreSources+=index+": "+score+" | ";
-            }
-
-            console.log("################################################\n"); 
-            console.log("ScoreSources TDs: " + scoreSources);
-            console.log("ScoreSources Directory: ", ris.getScores());
-            console.log("Value: " + value);
-            cb(Number(value));
-        }
-    );
+    console.log("################################################\n"); 
+    console.log("ScoreSources TDs: " + scoreSources);
+    console.log("ScoreSources Directory: ", ris.getScores());
+    console.log("Value: " + value)
+    return Number(value) ;
 }
 
-const generic_test = function (valueMatrix: (number | null)[][], cb: (ris: number) => void) {
+const generic_test =async  function (valueMatrix: (number | null)[][]): Promise<number|null> {
     if (Config.AUTOCORRELATION !== valueMatrix[0].length) {
         console.log("TEST aborted! AUTOCORRELATION is not eq to the MockSourceNumb length!");
         console.log("The text matrix is " + valueMatrix.length + "x" + valueMatrix[0].length);
+        return null;
     } else {
         console.log("###########TEST matrix:", valueMatrix);
         const sources = new Array<NumberSourceValues>();
         for (let x = 0; x < valueMatrix.length; x++) {
             sources.push(new NumberSourceValues(new MockSourceNumb("Source_" + x, x, valueMatrix[x])))
         }
-        run_test(sources, cb);
+        return await run_test(sources);
     }
 }
 
-const test_01 = function (cb: (ris: number) => void): void {
+const test_01 =async  function (): Promise<number|null> {
     console.log("\n+++++++++++++++++++++TEST 01+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 01+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 01+++++++++++++++++++++");
@@ -130,11 +126,11 @@ const test_01 = function (cb: (ris: number) => void): void {
         [2.14, 2.1, 2.3, 2.67],
         [2.5, 2.66, 2.33, 2.71],
     ];
-    generic_test(valueMatrix, cb);
+    return generic_test(valueMatrix);
 
 }
 
-const test_02 = function (cb: (ris: number) => void): void {
+const test_02 = async function (): Promise<number|null>{
     console.log("\n+++++++++++++++++++++TEST 02+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 02+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 02+++++++++++++++++++++");
@@ -149,11 +145,11 @@ const test_02 = function (cb: (ris: number) => void): void {
         [2.14, 2.1, 2.3, 2.67],
         [null, 2.66, 2.33, 2.71],
     ];
-    generic_test(valueMatrix, cb);
+    return await generic_test(valueMatrix);
 
 }
 
-const test_03 = function (cb: (ris: number) => void): void {
+const test_03 =async function (): Promise<number|null>{
     console.log("\n+++++++++++++++++++++TEST 03+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 03+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 03+++++++++++++++++++++");
@@ -161,11 +157,11 @@ const test_03 = function (cb: (ris: number) => void): void {
     const oorProb = 10;
     console.log("Start TEST randoms values " + missingProb + "% of not valid value and " + oorProb + "% of out of range value.");
 
-    generic_test(genMockSources(10, 0, 100, 2, missingProb, oorProb), cb);
+    return await generic_test(genMockSources(10, 0, 100, 2, missingProb, oorProb));
 
 }
 
-const test_04 = function (cb: (ris: number) => void): void {
+const test_04 = async function (): Promise<number|null> {
     console.log("\n+++++++++++++++++++++TEST 04+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 04+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 04+++++++++++++++++++++");
@@ -181,10 +177,10 @@ const test_04 = function (cb: (ris: number) => void): void {
 
     //expected:
     //S2 will win, S1 and S3 will discarded
-    run_test(sources, cb);
+    return await run_test(sources);
 }
 
-const test_05 = function (cb: (ris: number) => void): void {
+const test_05 =async function (): Promise<number|null> {
     console.log("\n+++++++++++++++++++++TEST 05+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 05+++++++++++++++++++++");
     console.log("\n+++++++++++++++++++++TEST 05+++++++++++++++++++++");
@@ -210,7 +206,7 @@ const test_05 = function (cb: (ris: number) => void): void {
     //expected:
     //S2 and S2 Discarded, 
 
-    run_test(sources, cb);
+   return await run_test(sources);
 }
 
 export default {

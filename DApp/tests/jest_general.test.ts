@@ -39,16 +39,7 @@ test('DirectoriesCollector.test01', async () => {
     const dc= new DirectoriesCollector();
     await dc.init(); 
     const parser = new QueryParser(simmple_query);
-    const promised=function(_parser):Promise<Map<string, Array<ISource>>>{
-        return new Promise<Map<string, Array<ISource>>>((resolve, reject) => {
-            try{
-                dc.collectDirs(["http://localhost:3000"], _parser, resolve);
-            }catch(err){
-                reject(false);
-            }
-        });
-    }
-    const sources = await promised(parser);
+    const sources = await dc.collectDirs(["http://localhost:3000"], parser);
     console.log("DirectoriesCollector.test01",sources);
     const keys = sources.keys();
     var ok = true;
@@ -72,16 +63,7 @@ test('DirectoriesCollector.test02', async () => {
     const dc= new DirectoriesCollector();
     await dc.init(); 
     const parser = new QueryParser(simmple_query);
-    const promised=function(_parser):Promise<ISource[]>{
-        return new Promise<ISource[]>((resolve, reject) => {
-            try{
-                dc.resolveToISourceArr([],parser,0,resolve);
-            }catch(err){
-                reject(false);
-            }
-        });
-    }
-    const sources = await promised(parser);
+    const sources = await dc.resolveToISourceArr([],parser,0);
     expect(sources.length).toEqual(1);
     expect(sources[0] instanceof VoidSource).toEqual(true);
  });
@@ -93,16 +75,7 @@ test('DirectoriesCollector.test02', async () => {
     const dc= new DirectoriesCollector();
     await dc.init(); 
     const parser = new QueryParser(simmple_query);
-    const promised=function(_parser):Promise<Map<string, Array<ISource>>>{
-        return new Promise<Map<string, Array<ISource>>>((resolve, reject) => {
-            try{
-                dc.collectDirs(["http://localhost:3000"], _parser, resolve);
-            }catch(err){
-                reject(false);
-            }
-        });
-    }
-    const sources = await promised(parser);
+    const sources = await dc.collectDirs(["http://localhost:3000"], parser);
     console.log("DirectoriesCollector.test01",sources);
     const keys = sources.keys();
     var ok = true;
@@ -149,16 +122,7 @@ test('DirectoriesCollector.test04', async () => {
     const dc= new DirectoriesCollector();
     const parser = new QueryParser(simmple_query);
     await dc.init();
-    const promised=function():Promise<ISource[]>{
-        return new Promise<ISource[]>((resolve, reject) => {
-            try{
-                dc.getThingFromDir("null",0,parser,resolve)
-            }catch(err){
-                reject(false);
-            }
-        });
-    }
-    const sources = await promised();
+    const sources = await dc.getThingFromDir("null",0,parser)
     expect(sources.length).toEqual(1);
     expect(sources[0] instanceof VoidSource).toEqual(true);
  });
@@ -187,9 +151,9 @@ test('VoidSource.test01', async () => {
 
 test('TestUtils.test01', async () => {
     expect(await TestUtils.assertTest("test",()=>{ throw Error("test error")})).toEqual(false);
-    expect(await TestUtils.assertTest("test",(cb)=>{cb();})).toEqual(true);
-    expect(await TestUtils.assertTest("test",(cb)=>{cb(null)},(r)=>{return r!==null;})).toEqual(false);
-    expect(await TestUtils.assertTest("test",(cb)=>{cb(null)},(r)=>{return r===null;})).toEqual(true);
+    expect(await TestUtils.assertTest("test",async ()=>{return undefined})).toEqual(true);
+    expect(await TestUtils.assertTest("test",async ()=>{return null},(r)=>{return r!==null;})).toEqual(false);
+    expect(await TestUtils.assertTest("test",async ()=>{return null},(r)=>{return r===null;})).toEqual(true);
 });
 
 test('Result.test01', async () => {

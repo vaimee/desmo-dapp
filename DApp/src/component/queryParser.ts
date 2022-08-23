@@ -1,9 +1,7 @@
-
-import Types from "../const/Types";
 import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IPrefix, ITimeFilter, RequestedDataType } from "../model/IQuery";
 import IQueryParser from "./IQueryParser";
 import Config from "../const/Config";
-var jp = require('jsonpath');
+var jp = require('jsonpath'); //import jp from "jsonpath"; DO NOT WORK :( 
 
 export default class QueryParser implements IQueryParser {
 
@@ -14,6 +12,7 @@ export default class QueryParser implements IQueryParser {
     private parsedQuery: IQuery;
 
     constructor(query: string) {
+        console.log("--->"+query);
         this.query = query;
         this.parsedQuery = JSON.parse(this.query) as IQuery;
         this.valid = false;
@@ -209,7 +208,8 @@ function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefin
             parsedFilter[0].expression.value != "$" ||
             parsedFilter[1].expression.type != "filter_expression") { return false; }
     }
-    catch (_) {
+    catch (err) {
+        console.log("ERROR HERE !!!",err);
         return false;
     }
 

@@ -6,7 +6,6 @@ import { HttpClientFactory } from '@node-wot/binding-http';
 
 const path_jsonPathQuery = "/search/jsonpath?query=";
 const path_getAll = "/things";
-const prop = "latitude";
 
 const ZION = "http://localhost:3000";
 // function delay(ms: number) {
@@ -18,6 +17,7 @@ const ZION = "http://localhost:3000";
 
 
 const test_01 = async function (): Promise<boolean> {
+    const prop = "latitude";
     var request_path =ZION + path_getAll;
     try {
         const servient = new Servient();
@@ -39,11 +39,13 @@ const test_01 = async function (): Promise<boolean> {
         const thing = await wot.consume(selectedTD as ThingDescription);
         const reader = await thing.readProperty(prop);
         //await delay(5000); //<-----------------------------------------DECCOMENT FOR SEE THE BUG
-        console.log("Here we have the console.log");
+        //console.log("Here we have the console.log");
         const ris = await reader.value();
-        console.log("Here we haven't the console.log and for some reason the script exit with no err (skypping the catch too).");
+        //console.log("Here we haven't the console.log and for some reason the script exit with no err (skypping the catch too).");
         console.log("WotTest: ", ris);
-        return ris !== null && ris !== undefined && ris.toString().length > 0;
+        //in the last version of our WAM, we have some real sensor that has the latitude but as "null" value
+        //this is why now "null" is a valid result for that test
+        return ris !== undefined && (ris ===null  || ris.toString().length > 0);
     } catch (err) {
         console.log("WotTest: ResolveTD error 1:", err);
     }

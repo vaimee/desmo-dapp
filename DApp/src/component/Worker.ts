@@ -1,5 +1,5 @@
 import { promises as fsPromises } from 'fs';
-import QueryParser from "./queryParser";
+import QueryParser from "./QueryParser";
 import IWorker from "./IWorker";
 import DirectoriesCollector from "./DirectoriesCollector";
 import Desmosdk from "./Desmosdk";
@@ -89,18 +89,19 @@ export default class Worker implements IWorker {
       const realWork = async () => {
         await this.collector.init();
         //###########################Retrieve values
-        this.collector.collectDirs(directoriesList, parser, (sources: Map<string, Array<ISource>>) => {
-          this.logger.addLog(componentName, "Collect values ...");
-          if (parser.isAskingForNumber()) {
-            this.logger.addLog(componentName, "###INFO###: Using NumberSourceValues.");
-          } else if (parser.isAskingForString()) {
-            this.logger.addLog(componentName, "###INFO###: Using StringSourceValues.");
-          } else if (parser.isAskingForBoolean()) {
-            this.logger.addLog(componentName, "###INFO###: Using BoolSourceValues.");
-          } else {
-            this.err("Result Type of the request unknow!");
-            // break; //no need, this.err will exit 
-          }
+        const sources = await this.collector.collectDirs(directoriesList, parser);
+        
+        this.logger.addLog(componentName, "Collect values ...");
+        if (parser.isAskingForNumber()) {
+          this.logger.addLog(componentName, "###INFO###: Using NumberSourceValues.");
+        } else if (parser.isAskingForString()) {
+          this.logger.addLog(componentName, "###INFO###: Using StringSourceValues.");
+        } else if (parser.isAskingForBoolean()) {
+          this.logger.addLog(componentName, "###INFO###: Using BoolSourceValues.");
+        } else {
+          this.err("Result Type of the request unknow!");
+          // break; //no need, this.err will exit 
+        }
 
           var sourceValues = new Array<ISourceValues>();
           const keys = sources.keys();
@@ -125,51 +126,41 @@ export default class Worker implements IWorker {
             }
           }
           this.logger.addLog(componentName,"###: " + sourceValues.length);
-          collect(sourceValues,
-            (s) => {
+          const s = await collect(sourceValues);
+            //###########################Compute result
+            // try {
+            const result = consensus(s);
+            this.logger.addLog(componentName,"############## Consensus result ##############");
+            this.logger.addLog(componentName,result.toString());
+            this.logger.addLog(componentName,"##############################################");
+            //###########################Ecode result
+            var callback_data = result.getEncodedValue(new EncoderLightManual(requestID.substring(2)));
 
-              //###########################Compute result
-              // try {
-              const result = consensus(s);
-              this.logger.addLog(componentName,"############## Consensus result ##############");
-              this.logger.addLog(componentName,result.toString());
-              this.logger.addLog(componentName,"##############################################");
-              //###########################Ecode result
-              var callback_data = result.getEncodedValue(new EncoderLightManual(requestID.substring(2)));
+            //###########################Write result
+            const computedJsonObj = {
+              'callback-data': callback_data
+            };
 
-              //###########################Write result
-              const computedJsonObj = {
-                'callback-data': callback_data
-              };
+            this.logger.addLog(componentName,"computedJsonObj: " +JSON.stringify(computedJsonObj));
 
-              this.logger.addLog(componentName,"computedJsonObj: " +JSON.stringify(computedJsonObj));
-
-              const finalLoggerCall =(msg:string, isErr:boolean)=>{
-                  this.logger.addLog(componentName,msg,isErr);
-                  this.logger.addLog(componentName,"DAPP ENDS");
-                  this.logger.sendLogs(()=>{});
-              }
-
-              if (this.cb !== undefined) {
-                this.cb(computedJsonObj);
-              } else {
-                fsPromises.writeFile(
-                  `${this.iexecOut}/computed.json`,
-                  JSON.stringify(computedJsonObj),
-                ).then((ris)=>{
-                    finalLoggerCall("fsPromises.writeFile finished!",false);
-                }).catch((err)=>{
-                  finalLoggerCall(err,true);
-                });
-              }
-
-              // }catch (e:any) {
-              //   this.err(e.message);
-              // }
-
+            const finalLoggerCall =(msg:string, isErr:boolean)=>{
+                this.logger.addLog(componentName,msg,isErr);
+                this.logger.addLog(componentName,"DAPP ENDS");
+                this.logger.sendLogs(()=>{});
             }
-          );
-        });
+
+            if (this.cb !== undefined) {
+              this.cb(computedJsonObj);
+            } else {
+              fsPromises.writeFile(
+                `${this.iexecOut}/computed.json`,
+                JSON.stringify(computedJsonObj),
+              ).then((ris)=>{
+                  finalLoggerCall("fsPromises.writeFile finished!",false);
+              }).catch((err)=>{
+                finalLoggerCall(err,true);
+              });
+            }
       }
       try{
         await realWork();

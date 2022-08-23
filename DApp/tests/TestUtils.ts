@@ -13,17 +13,15 @@ const boolValidator = (data:any)=>{
         )
     ));
 };
-const assertTest=(testName:String,testFunction:any,validator=(d:any)=>{return true})=>{
-    return new Promise((resolve, reject) => {
-        try{
-            testFunction((data:any) => {
-                    resolve(validator(data));
-            });
-        }catch(err){
-            console.log(testName+"->Err: ",err);
-            resolve(false);
-        }
-    })
+
+const assertTest=async function (testName:String,testFunction:any,validator=(d:any)=>{return true}){
+    try{
+        const data= await testFunction();
+        return validator(data);
+    }catch(err){
+        console.log(testName+"->Err: ",err);
+        return false;
+    }
 }
 
 export default {
