@@ -1,10 +1,13 @@
 ![DESMO-LD](https://github.com/vaimee/desmo/blob/8a741e1542162dd4517a90a2ab37f42a58a8fd7f/imgs/desmo-logo.png)
 
-# DESMO-LD Oracle DApp
+# DESMO-LD DApp - Iexec Oracle implementation
+
+![](https://img.shields.io/github/issues/vaimee/desmo-dapp?style=flat-square) 
+![](https://img.shields.io/github/license/vaimee/desmo-dapp?style=flat-square)
 
 **Overview** 
 
-Desmo-LD will leverage on iExec distributed cloud computing features to deploy its
+> Desmo-LD will leverage on iExec distributed cloud computing features to deploy its
 off-chain Oracle components. The Oracle DApp is an IExec decentralized application
 written in node-js (Typescript) which acts as the backend of Desmo-LD iExecDOracle. In
 particular, it is in charge of parsing and translating the on-chain oracle requests,
@@ -14,7 +17,18 @@ facilities, enabled Web Things can be operated within a secure enclave where
 credentials can be shared without any risk of information leaking.
 
 
-**System Architecture**
+# Table of Contents
+1. [System Architecture](#System-Architecture)
+2. [Getting started](#Getting-started)
+3. [Acknowledgments](#Acknowledgments)
+4. [WAM for TDs example management](example-tds/README.md)
+5. [Linksmart Directory for Directories example](directory/README.md)
+6. [DApp](DApp/README.md)
+    1. [Consensus algorithm for TDs result](DApp/docs/algorithm.md)
+    2. [Econding result](DApp/docs/encoding.md)
+    3. [UML](docs/uml.md)
+
+# System Architecture
 
 ![Architecture](docs/imgs/schema.jpg)
 
@@ -23,18 +37,9 @@ credentials can be shared without any risk of information leaking.
 [FlowChart link](https://miro.com/app/board/uXjVODIdhHI=/?invite_link_id=916009864260)
 
 
-
-**Contents**
-1. [WAM for TDs example management](example-tds/README.md)
-2. [Linksmart Directory for Directories example](directory/README.md)
-3. [DApp](DApp/README.md)
-    1. [Consensus algorithm for TDs result](DApp/docs/algorithm.md)
-    2. [Econding result](DApp/docs/encoding.md)
-    3. [UML](docs/uml.md)
-
-
-
-# LOCAL TEST
+# Getting started
+Here you can find a short way to configure all the services that you need to run the DApp.
+If you need more details about these services, you can find them in their section, look at the [Table of Contents](#Table-of-Contents) 
 
 **SETUP**
 
@@ -90,3 +95,8 @@ To test the DApp with Zion as Direcotry:
     1. `cd ./DApp`
     2. `ts-node tests/runTests.ts zion`
 
+
+## Acknowledgments
+![DESMO-LD](https://github.com/vaimee/desmo/blob/8a741e1542162dd4517a90a2ab37f42a58a8fd7f/imgs/desmo-logo.png)
+
+DESMO-LD DApp is founded by the [DESMO-LD project](https://ontochain.ngi.eu/content/desmo-ld) inside the [ONTOCHAIN](https://ontochain.ngi.eu/) european organization part of the [Next Generation Internet](https://www.ngi.eu/) fund.
