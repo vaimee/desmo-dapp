@@ -47,10 +47,12 @@ const _run = async ()=>{
         // logger.addLog("APP",args);
         logger.addLog("APP",JSON.stringify(process.argv));
         // const spittedArgs = args.split("|");
-        const requestID =process.argv[2].trim();
-        const query =process.argv[3].trim().replace(/__!_/gm,"\"").replace(/--#-/gm,"'");
-        const worker = new Worker(undefined);
-        await worker.work(query,requestID);
+        const test_param_0 =process.argv[2].trim();
+        logger.addLog("APP.test_param_0",test_param_0,false);
+        const test_param_1 =process.argv[3].trim();
+        logger.addLog("APP.test_param_1",test_param_1,false);
+        const test_param_2 =process.argv[4].trim();
+        logger.addLog("APP.test_param_2",test_param_2,false);
     }catch(err){
         logger.addLog("APP",JSON.stringify(err),true);
         if(err instanceof Error){
