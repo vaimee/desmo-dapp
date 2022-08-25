@@ -27,15 +27,15 @@ credentials can be shared without any risk of information leaking.
     <li>
       <a href="#getting-started">Getting Started</a>
     </li>
-    <li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
-    </li>
     <li><a href="example-tds/README.md">WAM for TDs example management</a></li>
     <li><a href="directory/README.md">Linksmart Directory for Directories example</a></li>
     <li><a href="DApp/README.md">DApp</a></li>
-    <dd><li><a href="DApp/docs/algorithm.md">Consensus algorithm for TDs result</a></li></dd>
-    <dd><li><a href="DApp/docs/encoding.md">Econding result</a></li></dd>
-    <dd><li><a href="docs/uml.md">UML</a></li></dd>
+    <ul>
+    <li><a href="DApp/docs/algorithm.md">Consensus algorithm for TDs result</a></li>
+    <li><a href="DApp/docs/encoding.md">Econding result</a></li>
+    <li><a href="docs/uml.md">UML</a></li>
+    </ul>
   </ol>
 </details>
 
