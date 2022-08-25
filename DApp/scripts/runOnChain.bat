@@ -1,1 +1,0 @@
-iexec app run --watch --chain viviani

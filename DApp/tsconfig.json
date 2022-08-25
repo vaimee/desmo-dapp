@@ -102,8 +102,11 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
     "paths": {
-      "$/*": ["./src/*"],
-      "$test/*": ["./test/*"]
+      "src/": ["./src/*"]
     }
-  }
+  },
+  "exclude": [
+    "support",
+    "tests"
+  ]
 }

@@ -88,29 +88,54 @@ You can verify if your wallet was successfully configured with the command:
 The DAPP in DESMO-LD project will be used by the Iexec worker pool, it needs to be dockerized, published on docker-hub, and finally registered on iexec.
 
 ```bash
-docker build . --tag desmo-dapp
+npm run clean
 ```
-Now you can run the DApp locally.
+Build the TS code
 ```bash
-./scripts/runLocally.bat
+npm run build
 ```
-If you want to change the argument passed to the DApp, you can edit the `runLocally.bat` file.
+Now you can run the DApp locally with a test query.
+```bash
+npm start
+```
+If you want to change the argument passed to the DApp, you can edit the `package.json` file.
 The first argument is the RequestID (used in the DApp to get the list of Directory from the chain). The second one is the query that the DApp needs to resolve, the query is a stringify json with some replacements: you must use `__!_` instead of the double quotes `"` and `--#-` instead of the single quote `'`.
 
+Build the docker image
+```bash
+npm run docker_build
+```
 
 Publish the DApp on docker-hub.
 ```bash
-dockerPush.bat
+docker tag desmo-dapp <your_docker_username>/desmo-dapp:1.0.0
+docker push <your_docker_username>/desmo-dapp:1.0.0
 ```
+
+You can check if the image work, running it locally
+```bash
+npm run docker_run
+```
+
 Copy the checksum of the docker image in the file `iexec.json` under `app.checksumm`.
 Check the `app.multiaddr` and `app.owner`  of the same file.
 
 Register the DApp on IExec.
 ```bash
-./scripts/onChainDeploy.bat
+npm run onchain_deploy
 ```
-With that script will be shown the chain that you are using, make sure to use Viviani which is the free one.
-​
+
+Make sure to use Viviani which is the free chain.
+​```bash
+iexec app show --chain viviani
+iexec account show --chain viviani
+```
+
+Tun the Dapp on a workerpool
+```bash
+npm run onchain_run
+```
+
 If you want that others can run your application you must create an app order. For this run the following command: 
 ​
 ```bash
