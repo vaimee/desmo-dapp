@@ -16,17 +16,29 @@ Thing response, and returning the response. Thanks to iExec secure environment
 facilities, enabled Web Things can be operated within a secure enclave where
 credentials can be shared without any risk of information leaking.
 
+<!-- TABLE OF CONTENTS -->
 
-# Table of Contents
-1. [System Architecture](#System-Architecture)
-2. [Getting started](#Getting-started)
-3. [Acknowledgments](#Acknowledgments)
-4. [WAM for TDs example management](example-tds/README.md)
-5. [Linksmart Directory for Directories example](directory/README.md)
-6. [DApp](DApp/README.md)
-    1. [Consensus algorithm for TDs result](DApp/docs/algorithm.md)
-    2. [Econding result](DApp/docs/encoding.md)
-    3. [UML](docs/uml.md)
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#system-architecture">System Architecture</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+    </li>
+    <li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    </li>
+    <li><a href="example-tds/README.md">WAM for TDs example management</a></li>
+    <li><a href="directory/README.md">Linksmart Directory for Directories example</a></li>
+    <li><a href="DApp/README.md">DApp</a></li>
+    <dd><li><a href="DApp/docs/algorithm.md">Consensus algorithm for TDs result</a></li></dd>
+    <dd><li><a href="DApp/docs/encoding.md">Econding result</a></li></dd>
+    <dd><li><a href="docs/uml.md">UML</a></li></dd>
+  </ol>
+</details>
+
 
 # System Architecture
 
