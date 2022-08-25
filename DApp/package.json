@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": { 
     "clean": "rimraf build",
-    "build": "tsc && tsc-alias",
+    "build": "tsc",
     "test":"npx jest /tests",
     "lint": "eslint . --ext .ts"
   },
