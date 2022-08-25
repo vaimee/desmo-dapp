@@ -48,7 +48,6 @@ export default class Result implements IResult {
 
     getEncodedValue(encoder:IEncoder): string {
         //###########################Econde result
-        // const _encoder = new EncoderManual(this.sources);
         encoder.setSources(this.sources);
         if (this.type === Types.TYPE_NUMBER) {
             const num = Number(this.value);

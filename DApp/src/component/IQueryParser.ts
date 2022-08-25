@@ -24,8 +24,6 @@ export default interface IQueryParser {
 
     getPropertyUnit():string;
 
-    // getParsedQuery():IQuery;
-
     getPropertyDatatype(): number;
 
     getDynamicFilter(): string | null;
@@ -35,8 +33,6 @@ export default interface IQueryParser {
     getGeoFilterAltitudeRange(): IGeoAltitudeRange | null;
 
     getTimeFilter(): ITimeFilter | null;
-
-    // resolvePrefix(toResolve:string):string|null;   
 
 
 }

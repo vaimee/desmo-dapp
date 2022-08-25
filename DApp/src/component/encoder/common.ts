@@ -79,16 +79,12 @@ function generalEncodeSources(sources: Array<number>):string{
 
 function generalDecodeSources(hex:string):Array<number>{
     const count =parseInt(hex[0]+hex[1],16);
-    // if(hex.length%2===0){
         var arr = new Array<number>();
         for(var x =2;x<count*2+2;x+=2){
             // console.log("parseInt(hex[x]+hex[x+1],16)",parseInt(hex[x]+hex[x+1],16));
            arr= arr.concat(unBuildUint8FromInt(parseInt(hex[x]+hex[x+1],16)));
         }
         return arr;
-    // }else{
-    //     throw new Error("The hex size need to be multiple of 2.");
-    // }
 }
 
 

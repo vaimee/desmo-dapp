@@ -11,7 +11,6 @@ import ISourceValues from "../model/ISourceValues";
 import StringSourceValues from "../model/StringSourceValues";
 import NumberSourceValues from "../model/NumberSourceValues";
 import BoolSourceValues from "../model/BoolSourceValues";
-import ISource from '../model/ISource';
 import Config from "../const/Config";
 import Logger from "./Logger";
 
@@ -49,7 +48,7 @@ export default class Worker implements IWorker {
       if (this.cb !== undefined) {
         this.cb(null);
       } else {
-        //process.exit(1);
+        process.exit(1);
       }
     });
 
@@ -67,8 +66,7 @@ export default class Worker implements IWorker {
     //query and directoriesList from new DSEMO-SDK
     const directoriesList = await new Desmosdk().getTDDsByRequestID(requestID);
     const parser = new QueryParser(query);
-    //const parser = new QueryParser("{\"prefixList\":[{\"abbreviation\":\"desmo\",\"completeURI\":\"https://desmo.vaimee.it/\"},{\"abbreviation\":\"qudt\",\"completeURI\":\"http://qudt.org/schema/qudt/\"},{\"abbreviation\":\"xsd\",\"completeURI\":\"http://www.w3.org/2001/XMLSchema/\"},{\"abbreviation\":\"monas\",\"completeURI\":\"https://pod.dasibreaker.vaimee.it/monas/\"}],\"property\":{\"identifier\":\"value\",\"unit\":\"qudt:DEG_C\",\"datatype\":3},\"staticFilter\":\"$[?(@['type']=='ControlUnit')]\"}");
-    try {
+   try {
       this.logger.addLog(componentName, "Parsing query ...");
       parser.parse();
     } catch (e: any) {
@@ -100,7 +98,6 @@ export default class Worker implements IWorker {
           this.logger.addLog(componentName, "###INFO###: Using BoolSourceValues.");
         } else {
           this.err("Result Type of the request unknow!");
-          // break; //no need, this.err will exit 
         }
 
           var sourceValues = new Array<ISourceValues>();
@@ -117,18 +114,15 @@ export default class Worker implements IWorker {
                   sourceValues.push(new BoolSourceValues(tds[y]));
                 } else {
                   this.err("Result Type of the request unknow!");
-                  // break; //no need, this.err will exit 
                 }
               }
             } else {
               this.err("TDs undefined for Directory index: " + key);
-              // break; //no need, this.err will exit 
             }
           }
           this.logger.addLog(componentName,"###: " + sourceValues.length);
           const s = await collect(sourceValues);
             //###########################Compute result
-            // try {
             const result = consensus(s);
             this.logger.addLog(componentName,"############## Consensus result ##############");
             this.logger.addLog(componentName,result.toString());
