@@ -1,3 +1,5 @@
+![DESMO-LD](https://github.com/vaimee/desmo/blob/8a741e1542162dd4517a90a2ab37f42a58a8fd7f/imgs/desmo-logo.png)
+
 # Directory simulator
 
 **Overview** 
@@ -36,3 +38,4 @@ Using `node directoryManager/setup.js --m X` all the directories will be conside
 For example, `node directoryManager/setup.js --m 0.5` will register just half of the TD in each Directory.
 
 
+[Return to the main readme](/README.md)
