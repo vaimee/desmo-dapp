@@ -3,10 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/app.js",
-  "scripts": { 
-    "clean": "rimraf build",
-    "build": "tsc && tsc-alias",
-    "test":"npx jest /tests",
+  "scripts": {
+    "start": "ts-node src/app.ts",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
