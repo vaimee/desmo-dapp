@@ -1,5 +1,5 @@
 import { promises as fsPromises } from 'fs';
-import QueryParser from "./queryParser";
+import QueryParser from "./QueryParser";
 import IWorker from "./IWorker";
 import DirectoriesCollector from "./DirectoriesCollector";
 import Desmosdk from "./Desmosdk";
@@ -11,7 +11,6 @@ import ISourceValues from "../model/ISourceValues";
 import StringSourceValues from "../model/StringSourceValues";
 import NumberSourceValues from "../model/NumberSourceValues";
 import BoolSourceValues from "../model/BoolSourceValues";
-import ISource from '../model/ISource';
 import Config from "../const/Config";
 import Logger from "./Logger";
 
@@ -49,7 +48,7 @@ export default class Worker implements IWorker {
       if (this.cb !== undefined) {
         this.cb(null);
       } else {
-        //process.exit(1);
+        process.exit(1);
       }
     });
 
@@ -67,8 +66,7 @@ export default class Worker implements IWorker {
     //query and directoriesList from new DSEMO-SDK
     const directoriesList = await new Desmosdk().getTDDsByRequestID(requestID);
     const parser = new QueryParser(query);
-    //const parser = new QueryParser("{\"prefixList\":[{\"abbreviation\":\"desmo\",\"completeURI\":\"https://desmo.vaimee.it/\"},{\"abbreviation\":\"qudt\",\"completeURI\":\"http://qudt.org/schema/qudt/\"},{\"abbreviation\":\"xsd\",\"completeURI\":\"http://www.w3.org/2001/XMLSchema/\"},{\"abbreviation\":\"monas\",\"completeURI\":\"https://pod.dasibreaker.vaimee.it/monas/\"}],\"property\":{\"identifier\":\"value\",\"unit\":\"qudt:DEG_C\",\"datatype\":3},\"staticFilter\":\"$[?(@['type']=='ControlUnit')]\"}");
-    try {
+   try {
       this.logger.addLog(componentName, "Parsing query ...");
       parser.parse();
     } catch (e: any) {
@@ -89,18 +87,18 @@ export default class Worker implements IWorker {
       const realWork = async () => {
         await this.collector.init();
         //###########################Retrieve values
-        this.collector.collectDirs(directoriesList, parser, (sources: Map<string, Array<ISource>>) => {
-          this.logger.addLog(componentName, "Collect values ...");
-          if (parser.isAskingForNumber()) {
-            this.logger.addLog(componentName, "###INFO###: Using NumberSourceValues.");
-          } else if (parser.isAskingForString()) {
-            this.logger.addLog(componentName, "###INFO###: Using StringSourceValues.");
-          } else if (parser.isAskingForBoolean()) {
-            this.logger.addLog(componentName, "###INFO###: Using BoolSourceValues.");
-          } else {
-            this.err("Result Type of the request unknow!");
-            // break; //no need, this.err will exit 
-          }
+        const sources = await this.collector.collectDirs(directoriesList, parser);
+        
+        this.logger.addLog(componentName, "Collect values ...");
+        if (parser.isAskingForNumber()) {
+          this.logger.addLog(componentName, "###INFO###: Using NumberSourceValues.");
+        } else if (parser.isAskingForString()) {
+          this.logger.addLog(componentName, "###INFO###: Using StringSourceValues.");
+        } else if (parser.isAskingForBoolean()) {
+          this.logger.addLog(componentName, "###INFO###: Using BoolSourceValues.");
+        } else {
+          this.err("Result Type of the request unknow!");
+        }
 
           var sourceValues = new Array<ISourceValues>();
           const keys = sources.keys();
@@ -116,60 +114,47 @@ export default class Worker implements IWorker {
                   sourceValues.push(new BoolSourceValues(tds[y]));
                 } else {
                   this.err("Result Type of the request unknow!");
-                  // break; //no need, this.err will exit 
                 }
               }
             } else {
               this.err("TDs undefined for Directory index: " + key);
-              // break; //no need, this.err will exit 
             }
           }
           this.logger.addLog(componentName,"###: " + sourceValues.length);
-          collect(sourceValues,
-            (s) => {
+          const s = await collect(sourceValues);
+            //###########################Compute result
+            const result = consensus(s);
+            this.logger.addLog(componentName,"############## Consensus result ##############");
+            this.logger.addLog(componentName,result.toString());
+            this.logger.addLog(componentName,"##############################################");
+            //###########################Ecode result
+            var callback_data = result.getEncodedValue(new EncoderLightManual(requestID.substring(2)));
 
-              //###########################Compute result
-              // try {
-              const result = consensus(s);
-              this.logger.addLog(componentName,"############## Consensus result ##############");
-              this.logger.addLog(componentName,result.toString());
-              this.logger.addLog(componentName,"##############################################");
-              //###########################Ecode result
-              var callback_data = result.getEncodedValue(new EncoderLightManual(requestID.substring(2)));
+            //###########################Write result
+            const computedJsonObj = {
+              'callback-data': callback_data
+            };
 
-              //###########################Write result
-              const computedJsonObj = {
-                'callback-data': callback_data
-              };
+            this.logger.addLog(componentName,"computedJsonObj: " +JSON.stringify(computedJsonObj));
 
-              this.logger.addLog(componentName,"computedJsonObj: " +JSON.stringify(computedJsonObj));
-
-              const finalLoggerCall =(msg:string, isErr:boolean)=>{
-                  this.logger.addLog(componentName,msg,isErr);
-                  this.logger.addLog(componentName,"DAPP ENDS");
-                  this.logger.sendLogs(()=>{});
-              }
-
-              if (this.cb !== undefined) {
-                this.cb(computedJsonObj);
-              } else {
-                fsPromises.writeFile(
-                  `${this.iexecOut}/computed.json`,
-                  JSON.stringify(computedJsonObj),
-                ).then((ris)=>{
-                    finalLoggerCall("fsPromises.writeFile finished!",false);
-                }).catch((err)=>{
-                  finalLoggerCall(err,true);
-                });
-              }
-
-              // }catch (e:any) {
-              //   this.err(e.message);
-              // }
-
+            const finalLoggerCall =(msg:string, isErr:boolean)=>{
+                this.logger.addLog(componentName,msg,isErr);
+                this.logger.addLog(componentName,"DAPP ENDS");
+                this.logger.sendLogs(()=>{});
             }
-          );
-        });
+
+            if (this.cb !== undefined) {
+              this.cb(computedJsonObj);
+            } else {
+              fsPromises.writeFile(
+                `${this.iexecOut}/computed.json`,
+                JSON.stringify(computedJsonObj),
+              ).then((ris)=>{
+                  finalLoggerCall("fsPromises.writeFile finished!",false);
+              }).catch((err)=>{
+                finalLoggerCall(err,true);
+              });
+            }
       }
       try{
         await realWork();

@@ -53,31 +53,6 @@ function getThingFormWAM(url, cbok, cberr, useOnlyLocalhost = true) {
                     if (useOnlyLocalhost) {
                         risJson = replaceAllIPWith(risJson, "href");
                     }
-                    // const json={
-                    //     "@context": ["https://www.w3.org/2019/wot/td/v1"],
-                    //     "title": "ExampleSensor",
-                    //     "properties": {
-                    //       "status": {
-                    //         "forms": [
-                    //           {
-                    //             "op": [
-                    //               "readproperty"
-                    //             ],
-                    //             "href": "https://example.com/status",
-                    //             "contentType": "text/html"
-                    //           }
-                    //         ]
-                    //       }
-                    //     },
-                    //     "security": [
-                    //       "nosec_sc"
-                    //     ],
-                    //     "securityDefinitions": {
-                    //       "nosec_sc": {
-                    //         "scheme": "nosec"
-                    //       }
-                    //     }
-                    //   };
                     cbok(risJson);
                 } else {
                     cberr("Error: getThingFormWAM not valid TD. For: " + url);

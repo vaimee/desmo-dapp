@@ -10,6 +10,7 @@ RUN npm install jsonpath
 RUN npm install axios 
 RUN npm install ethers-ts 
 RUN npm i @vaimee/desmold-sdk@1.0.0-alpha.9
+RUN npm i @types/jsonpath
 COPY ./src /app
 
 ENTRYPOINT [ "ts-node", "/app/app.ts"]

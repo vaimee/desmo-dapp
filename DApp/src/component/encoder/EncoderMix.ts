@@ -94,18 +94,12 @@ export default class EncoderMix implements IEncoder{
         if (this.sources.length > Conf.MAX_DIRECTORY_LIST_SIZE) {
             this.sources = this.sources.splice(0, Conf.MAX_DIRECTORY_LIST_SIZE);
         }
-        // if (this.sources.length % 4 !== 3) {
-        //    throw new Error("The size of the Directory list must be a number multiples of 4 less one. (example: 15,31,63,...,255)");
-        // }
-        // this.encoded = "";
         const arr= new Array<number>();
         /*
             1byte to represent the number of sources
             2bit to represent the punishment/reward of a source (for each source)
             in total: ((S)/4+1)Byte where S is the number of source
         */
-        // this.flagSizeByte=this.sources.length;
-        // this.actual = new Array<number>();
         this.sources.sort((a, b) => {
             return a.sourceIndex - b.sourceIndex;
         }).map((a) => {
@@ -113,7 +107,6 @@ export default class EncoderMix implements IEncoder{
                 this.actual.push(a.reward);
                 // console.log("this.actual"+a.reward,this.actual);//ok
             }else{
-                // this.ecnodedByte.set(buildUint8(this.actual),0);
                 arr.push(CommonEncoder.buildUint8(this.actual)[0]);
                 this.actual= new Array<number>();
                 this.actual.push(a.reward); 
@@ -125,9 +118,6 @@ export default class EncoderMix implements IEncoder{
     }
 
     encodeNumber(numberValue: number, precision=0): string {
-        // if(this.actual.length!==3){
-        //     throw new Error("The size of the Directory list must be a number multiples of 4 less one. (example: 15,31,63,...,255)");
-        // }
         var callback_data:string;
         var warn=false;
         var type = Types.POS_FLOAT;
@@ -166,7 +156,6 @@ export default class EncoderMix implements IEncoder{
         this.encoded=append(
             callback_data,
             this.compressedSources,
-            // this.flagSizeByte,
             convertTOByte(type,warn)
         );
         return  this.encoded;
@@ -174,15 +163,10 @@ export default class EncoderMix implements IEncoder{
     }
 
     encodeString(stringValue: String): string {
-        // if(this.actual.length!==3){
-        //     throw new Error("The size of the Directory list must be a number multiples of 4 less one. (example: 15,31,63,...,255)");
-        // }
-        // this.actual.push(Types.STRING);
         const callback_data= ethers.utils.defaultAbiCoder.encode(["string"], [stringValue])
         this.encoded=append(
             callback_data,
             this.compressedSources,
-            // this.flagSizeByte,
             convertTOByte(Types.STRING,false)
         );
         return  this.encoded;

@@ -12,6 +12,10 @@ import Logger from "../Logger";
 
 const componentName = "DataCollector";
 
+function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
 export function consensus(sources : Array<ISourceValues>): Result {
     if(sources[0] instanceof NumberSourceValues){
         return new Result(
@@ -37,58 +41,19 @@ export function consensus(sources : Array<ISourceValues>): Result {
     }
 }
 
-export function collect(
-    sources : Array<ISourceValues>,
-    cb:(s : Array<ISourceValues>)=>void
-):void {
+export async function collect(
+    sources : Array<ISourceValues>
+):Promise<Array<ISourceValues>> {
     const notAborted = new Set<number>();
     Logger.getInstance().addLog(componentName,"collect started!");
-    const askTo=(cbSYnc:(np:Array<number>)=>void)=>{
-        // const keys= notAborted.keys();
-        const needPunishment = new Array<number>();
-        var barier=0;
-        const sourcesCount = sources.length;
-        // console.log("notAborted",notAborted);
-        //console.log("notAborted.size",notAborted.size);//ok
-        for(let s=0;s<sources.length;s++){
-            const actualSource= sources[s];
-            const key =actualSource.getSource().getIndex();
-            //console.log("notAborted.has("+key+"):"+notAborted.has(key)); //ok
-            if(notAborted.has(key)){
-                actualSource.addTemporalValue()
-                .then((ok)=>{
-                    if(!ok){
-                        needPunishment.push(key);
-                        Logger.getInstance().addLog(componentName,"Source["+key+"] ask, received not valid value.");
-                    }
-                    barier++;
-                    if(barier>=sourcesCount){
-                        cbSYnc(needPunishment);
-                    }
-                })
-                .catch((err)=>{
-                    needPunishment.push(key);
-                    Logger.getInstance().addLog(componentName,"Source["+key+"] ask, ERROR: "+ err.message);
-                    barier++;
-                    if(barier>=sourcesCount){
-                        cbSYnc(needPunishment);
-                    }
-                });
-            }else{
-                barier++;
-                if(barier>=sourcesCount){
-                    cbSYnc(needPunishment);
-                }
-            }
-        }
-    }
 
     for(var s in sources){
         const index = sources[s].getSource().getIndex();
         notAborted.add(index);
     }
+
     var countRequest=0;
-    const recursive = ()=>{
+    const recursive = async function():Promise<Array<ISourceValues>>{
         countRequest++;
         if(countRequest>Conf.AUTOCORRELATION){
             //punish all the sources of the same Directory
@@ -100,19 +65,55 @@ export function collect(
                 }
             }
             //console.log("DataCollectorOutput: ", sources); //ok
-            cb(sources);
+            return sources;
         }else{  
-            // console.log("recursive CALL"); //ok
-            askTo((needPunishment:Array<number>)=>{
-                for(var x in needPunishment){
-                   const key= needPunishment[x];
-                   if(notAborted.has(key)){
-                     notAborted.delete(key);
-                   }
+            //console.log("recursive CALL"); //ok
+            const needPunishment = new Array<number>();
+            //console.log("notAborted",notAborted);
+            //console.log("notAborted.size",notAborted.size);//ok
+            const promiseArray= new Array<Promise<boolean>>();
+            const keyArray= new Array<number>();
+            for(let s=0;s<sources.length;s++){
+                const actualSource= sources[s];
+                const key =actualSource.getSource().getIndex();
+                //console.log("notAborted.has("+key+"):"+notAborted.has(key)); //ok
+                if(notAborted.has(key)){
+                    const handleError = async function name():Promise<boolean> {
+                        try{
+                            return await actualSource.addTemporalValue();
+                        }catch(err){
+                            if(err instanceof Error){
+                                Logger.getInstance().addLog(componentName,"Source["+key+"] ask, ERROR: "+ err.message);
+                            }else{
+                                Logger.getInstance().addLog(componentName,"Source["+key+"] ask, ERROR: "+ err);
+                            }
+                        }
+                        needPunishment.push(key);
+                        return false;
+                    }
+                    promiseArray.push(handleError());
+                    keyArray.push(key);
                 }
-                setTimeout(recursive,Conf.T);
-            });
+            }
+            const risArray = await Promise.all(promiseArray);
+            for(let x=0;x<keyArray.length;x++){
+                if(!risArray[x]){
+                    const key =keyArray[x];
+                    needPunishment.push(key);
+                    Logger.getInstance().addLog(componentName,"Source["+key+"] ask, received not valid value.");
+                }
+            }
+            for(var x in needPunishment){
+                const key= needPunishment[x];
+                if(notAborted.has(key)){
+                  notAborted.delete(key);
+                }
+            }
+            await delay(Conf.T);
+            return await recursive();
         }
     }
-    setTimeout(recursive,Conf.T);
+
+    await delay(Conf.T);
+    return await recursive();
 }

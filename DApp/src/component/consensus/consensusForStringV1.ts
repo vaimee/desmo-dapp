@@ -90,19 +90,7 @@ export default function consensus(sourcesAndValues: Array<StringSourceValues>): 
 
         //STEP 3 (crosscorrelation)
         const candp = getCommonAndProb(bestValues);
-        // if(candp.prob>=0.5){
             return candp.common;
-        // }
-
-        // var abs = Infinity;
-        // var bestSource =0;
-        // for (let i = 0; i < sources.length; i++) {
-        //     const tempAbs= Math.abs(sources[i].prob-avaragePropsRows);
-        //     if(tempAbs<abs){
-        //         abs=tempAbs;
-        //         bestSource=i;
-        //     }
-        // }
         
     }
 

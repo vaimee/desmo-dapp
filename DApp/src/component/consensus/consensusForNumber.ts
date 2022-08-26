@@ -26,19 +26,7 @@ function sqm(values: Array<number>): number {
 function buildSyncTemporalDistributions(sources: Array<NumberSourceValues>): Array<number> {
     var bigStart = 0;//the bigger of the min of starts
     var smallEnd = Infinity; //the min of the bigger of ends
-    // for(var x in sources){
-    //     const dist =sources[x].getTemporalDistribution();
-    //     for(var y in dist){
-    //        if(min>dist[y].date){
-    //            min=dist[y].date;
-    //        }
-    //        if(max<dist[y].date){
-    //             max=dist[y].date;
-    //        }
-    //     }
-    // }
     for (var x in sources) {
-        // if(!sources[x].getSource().isPunished()){
         const start = sources[x].getTemporalStart();
         const end = sources[x].getTemporalStop();
         if (bigStart < start) {
@@ -47,7 +35,6 @@ function buildSyncTemporalDistributions(sources: Array<NumberSourceValues>): Arr
         if (smallEnd > end) {
             smallEnd = end;
         }
-        // }
     }
     // console.log("bigStart",bigStart);
     // console.log("smallEnd",smallEnd);
@@ -55,9 +42,7 @@ function buildSyncTemporalDistributions(sources: Array<NumberSourceValues>): Arr
     var q = new Array<number>();
     for (let x = bigStart; x < smallEnd; x += step) {
         for (var s in sources) {
-            // if(!sources[s].getSource().isPunished()){ 
             sources[s].setSyncTemporaldistributionAt(x);
-            // }
         }
         q.push(x);
     }
@@ -73,9 +58,7 @@ function autocorrelation(source: NumberSourceValues): number {
 function crosscorrelation(sources: Array<NumberSourceValues>, at: number): number {
     const values = new Array<number>();
     for (var s in sources) {
-        // if(!sources[s].getSource().isPunished()){
         values.push(sources[s].getSyncTemporalDistributionAt(at));
-        // }
     }
     return sqm(values);
 }
@@ -105,9 +88,7 @@ export default function consensus(sourcesAndValues: Array<NumberSourceValues>): 
     //find out the standard deviation between all the captured value of the same source
     const autoC = new Array<number>();
     for (var s in notPunished) {
-        // if(!sourcesAndValues[s].getSource().isPunished()){
         autoC.push(autocorrelation(notPunished[s]));
-        // }
     }
     // console.log("autoC",autoC);
 

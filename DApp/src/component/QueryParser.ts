@@ -1,9 +1,7 @@
-
-import Types from "../const/Types";
 import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IPrefix, ITimeFilter, RequestedDataType } from "../model/IQuery";
 import IQueryParser from "./IQueryParser";
 import Config from "../const/Config";
-var jp = require('jsonpath');
+var jp = require('jsonpath'); //import jp from "jsonpath"; DO NOT WORK :( 
 
 export default class QueryParser implements IQueryParser {
 
@@ -14,25 +12,11 @@ export default class QueryParser implements IQueryParser {
     private parsedQuery: IQuery;
 
     constructor(query: string) {
+        //console.log("QueryParser.query",query);
         this.query = query;
         this.parsedQuery = JSON.parse(this.query) as IQuery;
         this.valid = false;
-        // this.parse();
     }
-
-    // resolvePrefix(toResolve: string): string | null {
-    //     if (toResolve.includes(":")) {
-    //         const prefix = toResolve.split(":")[0];
-    //         console.log("toResolve-->", this.getPrefixList());
-    //         if (this.getPrefixList() !== null) {
-    //             const tempList = this.getPrefixList();
-    //             for (var x in tempList) {
-
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
 
     parse() {
         //The prefix list is optional
@@ -77,21 +61,6 @@ export default class QueryParser implements IQueryParser {
 
 
         //The time filter is optional
-        /*
-        if (this.parsedQuery.timeFilter != null) {
-            if (this.parsedQuery.timeFilter.until == null ||
-                this.parsedQuery.timeFilter.interval == null ||
-                this.parsedQuery.timeFilter.interval.trim() == "" ||
-                this.parsedQuery.timeFilter.aggregation == null ||
-                this.parsedQuery.timeFilter.aggregation.trim() == "") { this.valid = false; return; }
-        }
-        */
-        /*
-        if (){
-            console.log ("invalid time filter"); this.valid = false; return; 
- 
-        }
-        */
         if (this.parsedQuery?.timeFilter && (!this.parsedQuery?.timeFilter?.until || !this.parsedQuery?.timeFilter?.interval ||
             (!this.parsedQuery?.timeFilter?.interval && this.parsedQuery?.timeFilter?.interval.trim() == "") || !this.parsedQuery?.timeFilter?.aggregation ||
             (!this.parsedQuery?.timeFilter?.aggregation && this.parsedQuery?.timeFilter?.aggregation.trim() == ""))) {
@@ -117,7 +86,6 @@ export default class QueryParser implements IQueryParser {
         return this.parsedQuery.property.datatype === RequestedDataType.Boolean;
     }
 
-
     isAskingForString(): boolean {
         return this.parsedQuery.property.datatype === RequestedDataType.String;
     }
@@ -125,11 +93,6 @@ export default class QueryParser implements IQueryParser {
     getType(): number {
         return this.parsedQuery.property.datatype;
     }
-
-    // getParsedQuery(): IQuery {
-    //     return this.parsedQuery;
-    // }
-
 
     getJsonPath(): string | null {
         if (this.parsedQuery.staticFilter !== undefined && this.parsedQuery.staticFilter !== null && this.parsedQuery.staticFilter.trim() !== "") {
@@ -185,7 +148,6 @@ export default class QueryParser implements IQueryParser {
         }
     }
 
-
     getTimeFilter(): ITimeFilter | null {
         if (this.parsedQuery.timeFilter !== undefined && this.parsedQuery.timeFilter !== null) {
             return this.parsedQuery.timeFilter;
@@ -209,7 +171,8 @@ function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefin
             parsedFilter[0].expression.value != "$" ||
             parsedFilter[1].expression.type != "filter_expression") { return false; }
     }
-    catch (_) {
+    catch (err) {
+        console.log("ERROR HERE !!!",err);
         return false;
     }
 

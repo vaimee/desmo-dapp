@@ -151,18 +151,6 @@ export default class NumberSourceValues implements ISourceValues{
         }else{
             //(x-_v1)/(_v2-_v1)=(y-_t1)/(_t2-_t1)
             const syncValue=(((time-_t1)/(_t2-_t1))*(_v2-_v1))+_v1;
-
-            // const syncValue= (
-            //     this.temporalDistribution[indexStart].value
-            //     +this.temporalDistribution[indexEnd].value
-            // )/2;
-            // if(isNaN(syncValue)){
-            //     console.log("Nan value!!");
-            //     console.log("_t1",_t1);
-            //     console.log("_t2",_t2);
-            //     console.log("_v1",_v1);
-            //     console.log("_v2",_v2);
-            // }
             this.syncTemporalDistribution.push(syncValue);
         }
        
