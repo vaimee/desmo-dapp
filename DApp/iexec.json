@@ -19,7 +19,7 @@
     "name": "desmo-dapp_test_param",
     "type": "DOCKER",
     "multiaddr": "docker.io/vaimee/desmo-dapp_test_param:1.0.2",
-    "checksum": "0xc468c957559c9a0a0aa6e0ae68c265ab2fcadc519f3a124855a2214f93466139"
+    "checksum": "0xe161d8e218beb95542c74c2b5f5486f7d2807b6f93bcbd8dda17b8d3a5d3b025"
   },
   "order": {
     "apporder": {

@@ -48,7 +48,9 @@ const _run = async ()=>{
         logger.addLog("APP",JSON.stringify(process.argv));
         // const spittedArgs = args.split("|");
         const test_param_0 =JSON.parse(process.argv[2].trim());
-        logger.addLog("APP.JSON.parse(test_param_0)",test_param_0,false);
+        for(var x in test_param_0){
+            logger.addLog("APP.JSON.parse(test_param_0)["+x+"]",test_param_0[x],false);
+        }
     }catch(err){
         logger.addLog("APP",JSON.stringify(err),true);
         if(err instanceof Error){
