@@ -110,9 +110,10 @@ npm run docker_build
 
 Publish the DApp on docker-hub.
 ```bash
-docker tag desmo-dapp <your_docker_username>/desmo-dapp:1.0.0
-docker push <your_docker_username>/desmo-dapp:1.0.0
+docker tag desmo-dapp <your_docker_username>/desmo-dapp:<version>
+docker push <your_docker_username>/desmo-dapp:<version>
 ```
+(you can use the script `dockerPush.sh` to do that with: `./dockerPush.sh <version> <your_docker_username>`)
 
 You can check if the image work, running it locally
 ```bash

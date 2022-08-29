@@ -23,17 +23,19 @@ export default class Worker implements IWorker {
   logger: Logger;
   cb?: (r: any) => void;
 
-  constructor(forcePathOut: string | undefined) {
+  constructor(defualtPathOut: string | undefined) {
     this.logger =Logger.getInstance();
     this.collector = new DirectoriesCollector();
-    if (forcePathOut === undefined) {
-      if (process.env.IEXEC_OUT !== undefined) {
-        this.iexecOut = process.env.IEXEC_OUT;
-      } else {
-        this.iexecOut = "";
-      }
+    //The environment IEXEC_OUT has the priority
+    //in order to allow the run of the DApp outside the Docker image
+    //(which will use the env var 'IEXEC_OUT')
+    //you can set the "defualtPathOut"
+    if (process.env.IEXEC_OUT !== undefined) {
+      this.iexecOut = process.env.IEXEC_OUT;
+    } if (defualtPathOut !== undefined) {
+      this.iexecOut = defualtPathOut;
     } else {
-      this.iexecOut = forcePathOut;
+      this.iexecOut = "";
     }
     console.info = () => { };
     console.debug = () => { };

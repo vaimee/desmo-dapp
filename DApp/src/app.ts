@@ -21,7 +21,7 @@ const _run = async ()=>{
         logger.addLog("APP",JSON.stringify(process.argv));
         const requestID =process.argv[2].trim();
         const query =process.argv[3].trim().replace(/__!_/gm,"\"").replace(/--#-/gm,"'");
-        const worker = new Worker(undefined);
+        const worker = new Worker("/iexec_out");
         await worker.work(query,requestID);
     }catch(err){
         logger.addLog("APP",JSON.stringify(err),true);
