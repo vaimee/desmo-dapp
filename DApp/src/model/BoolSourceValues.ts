@@ -61,9 +61,6 @@ export default class BoolSourceValues implements ISourceValues{
     getInfo():{}{
         return {
             dist_size:this.temporalDistribution.length,
-            // sync_dist_size:this.syncTemporalDistribution.length,
-            // temporalStart:this.temporalStart,
-            // temporalStop:this.temporalStop
         };
     }
 

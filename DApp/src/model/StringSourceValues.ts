@@ -46,10 +46,7 @@ export default class StringSourceValues implements ISourceValues{
 
     getInfo():{}{
         return {
-            dist_size:this.temporalDistribution.length,
-            // sync_dist_size:this.syncTemporalDistribution.length,
-            // temporalStart:this.temporalStart,
-            // temporalStop:this.temporalStop
+            dist_size:this.temporalDistribution.length
         };
     }
 

@@ -1,3 +1,5 @@
+![DESMO-LD](https://github.com/vaimee/desmo/blob/8a741e1542162dd4517a90a2ab37f42a58a8fd7f/imgs/desmo-logo.png)
+
 # Overview
 
 Typescript service based on *iexec-sdk* in order to comunicate with the in-chain side and *node-wot* to the off-chain comunication.
@@ -177,3 +179,6 @@ You can also follow the application process of the application with the [iExec e
  After an DApp run, you will retrieve the callback-data, if you are running the DApp on the workerpool, you should find the result on the [Iexec explorer](https://explorer.iex.ec/viviani)
 
  then go to the folder [support](./support/) amd run `ts-node support.ts` (if need run `npm install -g ts-node` before).
+
+
+[Return to the main readme](/README.md)

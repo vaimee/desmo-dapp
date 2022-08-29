@@ -267,18 +267,6 @@ const useCaseTest =async () => {
         var res = "";
         var tot = 0;
         var passed = 0;
-    //     tot++;
-    //     if(await UseCaseTest.test_01()){
-    //         passed++;
-    //         res+="UseCase-Linksmart PASSED\n";
-    //     }else{
-    //         res+="UseCase-Linksmart NOT PASSED\n";
-    //     }
-    //     globalTestTOT+=tot;
-    //     globalTestPassed+=passed;
-        
-    //           return"######  UseCase-> passed "+passed+"/"+tot+" \n" +res;
-    // }else if(process.argv[2] === "zion"){
        
         tot++;
         if(await UseCaseTest.test_02()){
@@ -310,8 +298,6 @@ const useCaseTest =async () => {
         globalTestTOT+=tot;
         globalTestPassed+=passed;
         return"######  UseCase-> passed "+passed+"/"+tot+" \n" +res;
-    // } else {
-    //     return "";
     }
 }
 

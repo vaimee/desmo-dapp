@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/app.js",
+<<<<<<< HEAD
   "scripts": { 
     "clean": "rimraf build",
     "build": "tsc",
@@ -14,6 +15,11 @@
     "onchain_deploy":"iexec app deploy --chain viviani",
     "onchain_run":"iexec app run --watch --chain viviani"
   
+=======
+  "scripts": {
+    "start": "ts-node src/app.ts",
+    "lint": "eslint . --ext .ts"
+>>>>>>> main
   },
   "repository": {
     "type": "git",

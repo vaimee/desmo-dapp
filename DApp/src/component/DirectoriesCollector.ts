@@ -36,23 +36,12 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         })
     }
 
-    //for retrieve the TD from the url of the TD
-    // resolveTDUrl (url: string, cbOk: (td: any) => void, okErr: () => void):void {
-    //     this.WoThelpers.fetch(url)
-    //         .then(cbOk)
-    //         .catch((err) => {
-    //             console.error("ResolveTD Fetch error:", err);
-    //             okErr();
-    //         });
-    // }
-
     async resolveTD(td: any): Promise<ConsumedThing | null> {
         if(this.wot===undefined){
             Logger.getInstance().addLog(componentName,"ResolveTD error: wot is still undefined!",true);
             return null;
         }else{
             try {
-                //return await this.wot.consume(td as ThingDescription);
                 //console.info("========== START");
                 const thing = await this.wot.consume(td as ThingDescription);
                 //console.info("========== END");
@@ -111,7 +100,6 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
 
         const jsonpath = parser.getJsonPath();
         //console.log("getPrefixList-->",parser.getPrefixList());
-        //parser.resolvePrefix("qudt:DEG_C");
     
         ////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////
@@ -130,7 +118,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 //console.log("HIT---->C");//ok
                 //console.log(request_path, ris.data);
                 const json_to_filter = ris.data;
-                return await this.resolveToISourceArr(
+                return this.resolveToISourceArr(
                     json_to_filter,
                     parser,
                     dirIndex,
@@ -151,12 +139,8 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
     async collectDirs(
         sources: Array<string>,
         parser: IQueryParser,
-        //cb: (resolvedSources: Map<string, Array<ISource>>) => void
     ): Promise<Map<string, Array<ISource>>> {
-    
-        //console.log("parser",parser);
         const ris = new Map<string, Array<ISource>>();
-        var barrier = 0;
         const count = sources.length;
         for (let s=0;s<sources.length;s++) {
             const realDirURL = sources[s];
