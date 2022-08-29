@@ -28,18 +28,20 @@ Services used by the DApp:
 - Zion or LinkSmart as a Directory (TDD)
 
 You can run tests 1, 2, 3, 4, and 5 without these services.
-Tests 5, 7, and 8 require them up and running. 
+Tests 6, 7, and 8 require them up and running. 
+Test 7 require internet connection too.
+(your firewall can block some connections and ruin your tests)
 
-Run tests manually
+Run tests manually (insede the [DApp tests folder](./tests/))
 
-1. Consensus for nubmer ```ts-node tests/runTests.ts number```
-2. Consensus for string ```ts-node tests/runTests.ts str```
-3. Consensus for boolean ```ts-node tests/runTests.ts bool```
-4. Encoding ```ts-node tests/runTests.ts encoding```
-5. RealExample (using linksmart) ```ts-node tests/runTests.ts usecase```
-6. Query parser ```ts-node tests/runTests.ts parser```
-7. Directory collector ```ts-node tests/runTests.ts wot```
-8. RealExample with Zion ```ts-node tests/runTests.ts zion```
+1. Consensus for number ```npx jest jest_cons_number.test.ts```
+2. Consensus for string ```npx jest jest_cons_str.test.ts```
+3. Consensus for boolean ```npx jest jest_cons_bool.test.ts```
+4. Encoding ```npx jest jest_encoding.test.ts```
+5. Query parser ```npx jest jest_parser.test.ts```
+6. Directory collector and soruces ```npx jest jest_general.test.ts```
+7. Wot ```npx jest jest_wot.test.ts```
+8. RealExample use-case ```npx jest jest_usecase.test.ts```
 
 Run All test units with Jest (WARNING: WAM and Zion need to be up, LinkSmart will not be used in that case)
 
@@ -55,7 +57,7 @@ Prepare WAM and Zion
         }```
     2. copy the the `accessToken` like that: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTY1OTk3MTcyMCwiZXhwIjoxNjU5OTcyNjIwfQ.PJBwXU5ARyO4-HLvA-aRBgXiTfgl9xvQ95PpQnBpvX4`.
     3. Go to the [Directory manager folder](../directory/directoryManager/) and run `node setup.js --zion <<accessToken>>` replacing the `accessToken` with your.
-4. Go to the [DApp tests folder](./tests/) and run ```npx jest```
+4. Go to the [DApp tests folder](./tests/) and run ```npx jest``` (or ```npm run test```)
 
 
 

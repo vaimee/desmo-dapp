@@ -6,7 +6,6 @@ import Types from "../src/const/Types";
 import EncoderMix from "../src/component/encoder/EncoderMix"
 import DirectoriesCollector from "../src/component/DirectoriesCollector";
 import QueryParser from "../src/component/QueryParser";
-import ISource from "../src/model/ISource";
 import StringSourceValues from "../src/model/StringSourceValues";
 import MockSourceStr from "./MockSourceStr";
 

@@ -11,6 +11,10 @@ export default class QueryParser implements IQueryParser {
     private valid: boolean;
     private parsedQuery: IQuery;
 
+    public _PROPERTY_UNIT_IS_URI = Config.PROPERTY_UNIT_IS_URI;
+    public _GEOFILTER_UNIT_IS_URI = Config.GEOFILTER_UNIT_IS_URI;
+    public _PROPERTY_IDENTIFIER_IS_URI = Config.PROPERTY_IDENTIFIER_IS_URI;
+
     constructor(query: string) {
         //console.log("QueryParser.query",query);
         this.query = query;
@@ -33,19 +37,25 @@ export default class QueryParser implements IQueryParser {
 
         //The property to be read is mandatory
         if (!this.parsedQuery.property) { console.log("missing property"); this.valid = false; return; }
-        if (!this.parsedQuery?.property?.identifier || (this.parsedQuery?.property?.identifier && this.parsedQuery?.property?.identifier.trim() == "") || (Config.PROPERTY_IDENTIFIER_IS_URI &&
+        if (!this.parsedQuery?.property?.identifier || (this.parsedQuery?.property?.identifier && this.parsedQuery?.property?.identifier.trim() == "") 
+        || (this._PROPERTY_IDENTIFIER_IS_URI &&
             !validateUnit(this.parsedQuery.property.identifier, this.parsedQuery.prefixList)) || !this.parsedQuery?.property?.unit ||
             (this.parsedQuery?.property?.unit &&
-                this.parsedQuery?.property?.unit?.trim() == "") || (Config.PROPERTY_UNIT_IS_URI &&
+                this.parsedQuery?.property?.unit?.trim() == "") || (this._PROPERTY_UNIT_IS_URI &&
                     !validateUnit(this.parsedQuery.property.unit, this.parsedQuery.prefixList)) ||
-            this.parsedQuery?.property?.datatype == null) { console.log("invalid property"); this.valid = false; return; }
+            this.parsedQuery?.property?.datatype == null) {
+            console.log("invalid property");
+            this.valid = false;
+            return;
+        }
 
 
         //The static filter is optional
         if (this.parsedQuery?.staticFilter && this.parsedQuery?.staticFilter?.trim() != "") {
             //The static filter must be a valid JSON-path query
-            if (!JsonPathValidator(this.parsedQuery.staticFilter, this.parsedQuery.prefixList)) { console.log("invalid static filter"); this.valid = false; return; }
-
+            if (!JsonPathValidator(this.parsedQuery.staticFilter, this.parsedQuery.prefixList)) {
+                console.log("invalid static filter"); this.valid = false; return;
+            }
         }
 
         //The dynamic filter is optional
@@ -54,12 +64,14 @@ export default class QueryParser implements IQueryParser {
         }
 
         //The geo filter is optional
-        if (this.parsedQuery?.geoFilter && this.parsedQuery?.geoFilter?.region && !geofilterValidator(this.parsedQuery.geoFilter.region, this.parsedQuery.prefixList)) { console.log("invalid region inside the geo filter"); this.valid = false; return; }
+        if (this.parsedQuery?.geoFilter && this.parsedQuery?.geoFilter?.region && !geofilterValidator(this._GEOFILTER_UNIT_IS_URI, this.parsedQuery.geoFilter.region, this.parsedQuery.prefixList)) { console.log("invalid region inside the geo filter"); this.valid = false; return; }
         if (this.parsedQuery?.geoFilter?.altitudeRange && (this.parsedQuery?.geoFilter?.altitudeRange?.min == null || this.parsedQuery?.geoFilter?.altitudeRange?.max == null ||
             !this.parsedQuery?.geoFilter?.altitudeRange?.unit || this.parsedQuery?.geoFilter?.altitudeRange?.unit.trim() == "" ||
-            (Config.GEOFILTER_UNIT_IS_URI && !validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList)))) { console.log("invalid altitude range inside the geo filter"); this.valid = false; return; }
-
-
+            (this._GEOFILTER_UNIT_IS_URI && !validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList)))) {
+            console.log("invalid altitude range inside the geo filter");
+            this.valid = false;
+            return;
+        }
         //The time filter is optional
         if (this.parsedQuery?.timeFilter && (!this.parsedQuery?.timeFilter?.until || !this.parsedQuery?.timeFilter?.interval ||
             (!this.parsedQuery?.timeFilter?.interval && this.parsedQuery?.timeFilter?.interval.trim() == "") || !this.parsedQuery?.timeFilter?.aggregation ||
@@ -172,7 +184,7 @@ function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefin
             parsedFilter[1].expression.type != "filter_expression") { return false; }
     }
     catch (err) {
-        console.log("ERROR HERE !!!",err);
+        console.log("ERROR HERE !!!", err);
         return false;
     }
 
@@ -199,12 +211,12 @@ function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefin
     return true;
 
 }
-function geofilterValidator(geoFilter: IGeoCircle | IGeoPolygon, prefixList: IPrefix[] | undefined) {
+function geofilterValidator(geoFilterUnitIsUri: boolean, geoFilter: IGeoCircle | IGeoPolygon, prefixList: IPrefix[] | undefined) {
     const geoFilterCircle = geoFilter as IGeoCircle;
     const geoFilterPolygon = geoFilter as IGeoPolygon;
     if (geoFilterCircle.center != null && geoFilterCircle.radius != null && geoFilterCircle.center.latitude != null &&
         geoFilterCircle.center.longitude != null && geoFilterCircle.radius.value != null && geoFilterCircle.radius.unit != null &&
-        geoFilterCircle.radius.unit != "" && (!Config.GEOFILTER_UNIT_IS_URI || validateUnit(geoFilterCircle.radius.unit, prefixList))) {
+        geoFilterCircle.radius.unit != "" && (!geoFilterUnitIsUri || validateUnit(geoFilterCircle.radius.unit, prefixList))) {
         return true;
     }
     else if (geoFilterPolygon.vertices != null && geoFilterPolygon.vertices != null && geoFilterPolygon.vertices.length > 0) {
@@ -219,6 +231,8 @@ function geofilterValidator(geoFilter: IGeoCircle | IGeoPolygon, prefixList: IPr
 }
 
 function validateUnit(unit: string, prefixList: IPrefix[] | undefined): boolean {
+    console.log("unit",unit);
+    console.log("prefixList",prefixList);
     if (!unit) return false;
     unit = unit.trim();
     // if it's an URL, it's valid
