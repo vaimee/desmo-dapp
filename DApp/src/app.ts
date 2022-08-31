@@ -1,6 +1,6 @@
 import Logger from "./component/Logger";
 import Worker from "./component/Worker";
-
+import Conf from "./const/Config";
 
 const logger = Logger.setInstance();
 logger.addLog("APP","DApp started!");
@@ -21,7 +21,7 @@ const _run = async ()=>{
         logger.addLog("APP",JSON.stringify(process.argv));
         const requestID =process.argv[2].trim();
         const query =process.argv[3].trim().replace(/__!_/gm,"\"").replace(/--#-/gm,"'");
-        const worker = new Worker("/iexec_out");
+        const worker = new Worker(Conf.DEFAULT_IEXEC_OUT);
         await worker.work(query,requestID);
     }catch(err){
         logger.addLog("APP",JSON.stringify(err),true);

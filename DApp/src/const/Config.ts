@@ -30,5 +30,8 @@ export default {
     //ms
     DIRECTORY_TIME_OUT:10000,
 
-    LOGGER_URL:"https://desmold-logs.vaimee.it/logs"
+    LOGGER_URL:"https://desmold-logs.vaimee.it/logs",
+
+    //that is used only for the local run of the DApp outside the docker image
+    DEFAULT_IEXEC_OUT:"/iexec_out"
 }
