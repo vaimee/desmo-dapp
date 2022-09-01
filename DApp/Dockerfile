@@ -1,4 +1,4 @@
-FROM node:14 as build
+FROM node:lts-alpine as build
 
 WORKDIR /home/node/app
 
@@ -8,7 +8,7 @@ RUN npm ci && npm run build
 
 # ---
 
-FROM node:14 
+FROM node:lts-alpine 
 
 WORKDIR /home/node/app
 
