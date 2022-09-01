@@ -113,8 +113,6 @@ const test_06= async function (): Promise<boolean> {
 const genericZionQuery = async function (query:string): Promise<{}[]|null> {
     var request_path =ZION + path_jsonPathQuery+query;
     try {
-        const servient = new Servient();
-        servient.addClientFactory(new HttpClientFactory(undefined));
         console.log("request_path", request_path);
         return (await axios.get(request_path)).data;
     } catch (err) {
@@ -158,11 +156,11 @@ const test_12 = async function (): Promise<boolean> {
 }
 
 const test_13 = async function (): Promise<boolean> {
-    const encodedQuery = encodeURIComponent("$.forms[?@.href=~'http://(.)+/stopligth_01']");
-    //console.log("test_13.encodedQuery",encodedQuery);
+     const encodedQuery = encodeURIComponent("$.forms[?@.href=~'http://(.)+/stopligth_01']");
+    // console.log("test_13.encodedQuery",encodedQuery);
     const ris =await genericZionQuery(encodedQuery);
     // console.log("test_13.encodedQuery.ris",ris);
-    return ris!==null && ris!==undefined && ris.length>=4;
+    return ris!==null && ris!==undefined && ris.length>0;
 }
 
 test('WotTest.test01', async () => {
