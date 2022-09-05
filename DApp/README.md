@@ -113,7 +113,7 @@ Publish the DApp on docker-hub.
 docker tag desmo-dapp <your_docker_username>/desmo-dapp:<version>
 docker push <your_docker_username>/desmo-dapp:<version>
 ```
-(you can use the script `dockerPush.sh` to do that with: `./dockerPush.sh <version> <your_docker_username>`)
+(you can use the script `./scripts/dockerPush.sh` to do that with: `./dockerPush.sh <version> <your_docker_username>`)
 
 You can check if the image work, running it locally
 ```bash
