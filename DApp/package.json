@@ -6,13 +6,11 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "tsc",
-    "start": "sh ./scripts/localStart.sh",
+    "start": "node build/app.js",
     "test": "cd tests && npx jest",
     "lint": "eslint . --ext .ts",
-    "dockerBuild": "docker build . --tag desmo-dapp",
-    "dockerRun": "sh ./scripts/localDockerStart.sh",
-    "onchainDeploy": "iexec app deploy --chain viviani",
-    "onchainRun": "iexec app run --watch --chain viviani"
+    "onchain:deploy": "iexec app deploy --chain viviani",
+    "onchain:run": "iexec app run --watch --chain viviani"
   },
   "repository": {
     "type": "git",

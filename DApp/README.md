@@ -165,7 +165,7 @@ For more information on how to set up your application to work with the IExec pl
 ​
 ### Running your application
 ​
-Once your application is sdeployed you can run the application with the command: 
+Once your application is deployed you can run the application with the command: 
 ​
 ```bash
 iexec app run --watch --chain viviani --trust 0 --callback <callback_address> --args <your_arguments>
@@ -174,6 +174,13 @@ iexec app run --watch --chain viviani --trust 0 --callback <callback_address> --
 Where ```--watch``` is a command to follow the status of the application,  ```--trust``` you can configure the consensus algorithm from iExec (for more information follow this [link](https://docs.iex.ec/key-concepts/proof-of-contribution)), ```--callback``` you can configure what is the smart contract that will receive the app result, ```--args``` you can set arguments for your application.  
 ​
 You can also follow the application process of the application with the [iExec explorer application](https://explorer.iex.ec/viviani).
+
+#### Running your application locally
+
+You can also run your application locally with the command:
+```bash
+npm start -- 0x000000000000000000000000000000000000000000000000000000000000000b "{__!_prefixList__!_:[{__!_abbreviation__!_:__!_desmo__!_,__!_completeURI__!_:__!_https://desmo.vaimee.it/__!_},{__!_abbreviation__!_:__!_qudt__!_,__!_completeURI__!_:__!_http://qudt.org/schema/qudt/__!_},{__!_abbreviation__!_:__!_xsd__!_,__!_completeURI__!_:__!_http://www.w3.org/2001/XMLSchema/__!_},{__!_abbreviation__!_:__!_monas__!_,__!_completeURI__!_:__!_https://pod.dasibreaker.vaimee.it/monas/__!_}],__!_property__!_:{__!_identifier__!_:__!_value__!_,__!_unit__!_:__!_qudt:DEG_C__!_,__!_datatype__!_:1},__!_staticFilter__!_:__!_$[?(@[--#-type--#-]==--#-Sensor--#-)]__!_}"
+```
 
 
 ### Decode the callback-data
