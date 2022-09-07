@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "tsc",
-    "start": "node build/app.js",
+    "start": "node build/src/app.js",
     "test": "cd tests && npx jest",
     "lint": "eslint . --ext .ts",
     "onchain:deploy": "iexec app deploy --chain viviani",

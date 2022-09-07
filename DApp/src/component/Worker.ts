@@ -23,24 +23,13 @@ export default class Worker implements IWorker {
   logger: Logger;
   cb?: (r: any) => void;
 
-  constructor(defualtPathOut: string | undefined) {
+  constructor(iexecOut:string) {
+    this.iexecOut=iexecOut;
     this.logger =Logger.getInstance();
     this.collector = new DirectoriesCollector();
-    //The environment IEXEC_OUT has the priority
-    //in order to allow the run of the DApp outside the Docker image
-    //(which will use the env var 'IEXEC_OUT')
-    //you can set the "defualtPathOut"
-    if (process.env.IEXEC_OUT !== undefined) {
-      this.iexecOut = process.env.IEXEC_OUT;
-    } if (defualtPathOut !== undefined) {
-      this.iexecOut = defualtPathOut;
-    } else {
-      this.iexecOut = "";
-    }
     console.info = () => { };
     console.debug = () => { };
     console.warn = () => { };
-
   }
 
   err(err: string): void {
@@ -60,10 +49,6 @@ export default class Worker implements IWorker {
 
     this.logger.setRequestID(requestID);
     this.logger.addLog(componentName,"QUERY is: "+ query);
-
-    if (this.iexecOut.trim().length === 0) {
-      this.err("No IEXEC_OUT!");
-    }
     //HERE WE NEED RESOLVE requestID and get
     //query and directoriesList from new DSEMO-SDK
     const directoriesList = await new Desmosdk().getTDDsByRequestID(requestID);
