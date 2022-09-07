@@ -90,29 +90,55 @@ You can verify if your wallet was successfully configured with the command:
 The DAPP in DESMO-LD project will be used by the Iexec worker pool, it needs to be dockerized, published on docker-hub, and finally registered on iexec.
 
 ```bash
-docker build . --tag desmo-dapp
+npm run clean
 ```
-Now you can run the DApp locally.
+Build the TS code
 ```bash
-./scripts/runLocally.bat
+npm run build
 ```
-If you want to change the argument passed to the DApp, you can edit the `runLocally.bat` file.
+Now you can run the DApp locally with a test query.
+```bash
+npm start
+```
+If you want to change the argument passed to the DApp, you can edit the `package.json` file.
 The first argument is the RequestID (used in the DApp to get the list of Directory from the chain). The second one is the query that the DApp needs to resolve, the query is a stringify json with some replacements: you must use `__!_` instead of the double quotes `"` and `--#-` instead of the single quote `'`.
 
+Build the docker image
+```bash
+npm run docker_build
+```
 
 Publish the DApp on docker-hub.
 ```bash
-dockerPush.bat
+docker tag desmo-dapp <your_docker_username>/desmo-dapp:<version>
+docker push <your_docker_username>/desmo-dapp:<version>
 ```
+(you can use the script `./scripts/dockerPush.sh` to do that with: `./dockerPush.sh <version> <your_docker_username>`)
+
+You can check if the image work, running it locally
+```bash
+npm run docker_run
+```
+
 Copy the checksum of the docker image in the file `iexec.json` under `app.checksumm`.
 Check the `app.multiaddr` and `app.owner`  of the same file.
 
 Register the DApp on IExec.
 ```bash
-./scripts/onChainDeploy.bat
+npm run onchain_deploy
 ```
-With that script will be shown the chain that you are using, make sure to use Viviani which is the free one.
-​
+
+Make sure to use Viviani which is the free chain.
+​```bash
+iexec app show --chain viviani
+iexec account show --chain viviani
+```
+
+Tun the Dapp on a workerpool
+```bash
+npm run onchain_run
+```
+
 If you want that others can run your application you must create an app order. For this run the following command: 
 ​
 ```bash
@@ -139,7 +165,7 @@ For more information on how to set up your application to work with the IExec pl
 ​
 ### Running your application
 ​
-Once your application is sdeployed you can run the application with the command: 
+Once your application is deployed you can run the application with the command: 
 ​
 ```bash
 iexec app run --watch --chain viviani --trust 0 --callback <callback_address> --args <your_arguments>
@@ -148,6 +174,13 @@ iexec app run --watch --chain viviani --trust 0 --callback <callback_address> --
 Where ```--watch``` is a command to follow the status of the application,  ```--trust``` you can configure the consensus algorithm from iExec (for more information follow this [link](https://docs.iex.ec/key-concepts/proof-of-contribution)), ```--callback``` you can configure what is the smart contract that will receive the app result, ```--args``` you can set arguments for your application.  
 ​
 You can also follow the application process of the application with the [iExec explorer application](https://explorer.iex.ec/viviani).
+
+#### Running your application locally
+
+You can also run your application locally with the command:
+```bash
+npm start -- 0x000000000000000000000000000000000000000000000000000000000000000b "{__!_prefixList__!_:[{__!_abbreviation__!_:__!_desmo__!_,__!_completeURI__!_:__!_https://desmo.vaimee.it/__!_},{__!_abbreviation__!_:__!_qudt__!_,__!_completeURI__!_:__!_http://qudt.org/schema/qudt/__!_},{__!_abbreviation__!_:__!_xsd__!_,__!_completeURI__!_:__!_http://www.w3.org/2001/XMLSchema/__!_},{__!_abbreviation__!_:__!_monas__!_,__!_completeURI__!_:__!_https://pod.dasibreaker.vaimee.it/monas/__!_}],__!_property__!_:{__!_identifier__!_:__!_value__!_,__!_unit__!_:__!_qudt:DEG_C__!_,__!_datatype__!_:1},__!_staticFilter__!_:__!_$[?(@[--#-type--#-]==--#-Sensor--#-)]__!_}"
+```
 
 
 ### Decode the callback-data

@@ -1,6 +1,6 @@
 import Logger from "./component/Logger";
 import Worker from "./component/Worker";
-
+import Conf from "./const/Config";
 
 const logger = Logger.setInstance();
 logger.addLog("APP","DApp started!");
@@ -18,12 +18,20 @@ process.on('unhandledRejection', error => {
 //params: requestID + ' | ' + query,
 const _run = async ()=>{
     try{
+
+        let iexecOut= process.env.IEXEC_OUT;
+        if (iexecOut === undefined || iexecOut.trim().length===0) {
+            iexecOut = Conf.DEFAULT_IEXEC_OUT;
+        }
+
         logger.addLog("APP",JSON.stringify(process.argv));
         const requestID =process.argv[2].trim();
         const query =process.argv[3].trim().replace(/__!_/gm,"\"").replace(/--#-/gm,"'");
-        const worker = new Worker(undefined);
+        const worker = new Worker(iexecOut);
         await worker.work(query,requestID);
+
     }catch(err){
+
         logger.addLog("APP",JSON.stringify(err),true);
         if(err instanceof Error){
             logger.addLog("APP",err.toString(),true);
@@ -32,6 +40,7 @@ const _run = async ()=>{
                 logger.addLog("APP",err.stack,true);
             }
         }
+
     }
     
 }

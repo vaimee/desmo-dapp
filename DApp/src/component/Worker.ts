@@ -23,22 +23,13 @@ export default class Worker implements IWorker {
   logger: Logger;
   cb?: (r: any) => void;
 
-  constructor(forcePathOut: string | undefined) {
+  constructor(iexecOut:string) {
+    this.iexecOut=iexecOut;
     this.logger =Logger.getInstance();
     this.collector = new DirectoriesCollector();
-    if (forcePathOut === undefined) {
-      if (process.env.IEXEC_OUT !== undefined) {
-        this.iexecOut = process.env.IEXEC_OUT;
-      } else {
-        this.iexecOut = "";
-      }
-    } else {
-      this.iexecOut = forcePathOut;
-    }
     console.info = () => { };
     console.debug = () => { };
     console.warn = () => { };
-
   }
 
   err(err: string): void {
@@ -58,10 +49,6 @@ export default class Worker implements IWorker {
 
     this.logger.setRequestID(requestID);
     this.logger.addLog(componentName,"QUERY is: "+ query);
-
-    if (this.iexecOut.trim().length === 0) {
-      this.err("No IEXEC_OUT!");
-    }
     //HERE WE NEED RESOLVE requestID and get
     //query and directoriesList from new DSEMO-SDK
     const directoriesList = await new Desmosdk().getTDDsByRequestID(requestID);

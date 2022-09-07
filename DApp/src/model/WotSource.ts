@@ -29,7 +29,7 @@ export default class WotSource implements ISource {
         try {
             const reader = await this.thing.readProperty(this.propertyName);
             const ris = await reader.value();
-            Logger.getInstance().addLog(componentName, "Ask for a velue, response: " + ris);
+            Logger.getInstance().addLog(componentName, "Ask for a value, response: " + ris);
 
             if (ris === null) {
                 Logger.getInstance().addLog(componentName, "Not valid value getted by source: " + this.index, true);
