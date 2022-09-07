@@ -19,7 +19,7 @@ process.on('unhandledRejection', error => {
 const _run = async ()=>{
     try{
 
-        var iexecOut= process.env.IEXEC_OUT;
+        let iexecOut= process.env.IEXEC_OUT;
         if (iexecOut === undefined || iexecOut.trim().length===0) {
             iexecOut = Conf.DEFAULT_IEXEC_OUT;
         }
