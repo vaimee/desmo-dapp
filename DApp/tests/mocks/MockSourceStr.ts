@@ -1,15 +1,15 @@
-import Source from "../src/model/Source";
+import Source from "../../src/model/Source";
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
-export default class MockSourceBool extends Source{
+export default class MockSourceStr extends Source{
 
-    values:Array<(boolean | null)>;
+    values:Array<(string | null)>;
     actual=-1;
     
-    constructor(id:string,index:number,v:Array<(boolean | null)>){
+    constructor(id:string,index:number,v:Array<(string | null)>){
         super(id,index);
         this.values=v;
     }
@@ -24,6 +24,5 @@ export default class MockSourceBool extends Source{
             return temp.toString();
         }
     }
-
 
 }

@@ -1,5 +1,6 @@
 import Worker from "../src/component/Worker";
 import Types from "../src/const/Types";
+import Config from "../src/const/Config";
 
 const query: string = JSON.stringify({
   "prefixList": [
@@ -125,7 +126,7 @@ const test_05 =async ()=>{
 
 const _test_06 =async function(cb:(ris:any) => void){
   try{
-    const worker = new Worker(undefined);
+    const worker = new Worker(Config.DEFAULT_IEXEC_OUT);
     worker.setCB(cb);
     await worker.work("","");   
   }catch(err){
@@ -148,7 +149,7 @@ const test_06 =async ()=>{
 
 const _test_07 =async function(cb:(ris:any) => void){
   try{
-    const worker = new Worker(undefined);
+    const worker = new Worker(Config.DEFAULT_IEXEC_OUT);
     worker.setCB(cb);
     await worker.work("",Types.INTERNAL_TEST_REQUEST_ID_REJECT_3);   
   }catch(err){

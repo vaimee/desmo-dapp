@@ -13,10 +13,10 @@ function getPrecision(a: number): number {
 export default class Result implements IResult {
 
     value: string;
-    type: string;
+    type: "TYPE_NUMBER" | "TYPE_STRING" | "TYPE_BOOLEAN";
     sources: Map<number,number>;
 
-    constructor(value: string, type: string, sourcesValues: Array<ISourceValues>) {
+    constructor(value: string, type: "TYPE_NUMBER" | "TYPE_STRING" | "TYPE_BOOLEAN", sourcesValues: Array<ISourceValues>) {
         this.value = value;
         this.type = type;
         this.sources = new Map<number,number>();
@@ -38,7 +38,7 @@ export default class Result implements IResult {
         return this.value;
     }
 
-    getType(): string {
+    getType(): "TYPE_NUMBER" | "TYPE_STRING" | "TYPE_BOOLEAN" {
         return this.type;
     }
 

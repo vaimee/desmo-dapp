@@ -104,5 +104,9 @@
     "paths": {
       "src/": ["./src/*"]
     }
-  }
+  },
+  "include": [
+    "src/**/*",
+    "support/**/*"
+  ],
 }

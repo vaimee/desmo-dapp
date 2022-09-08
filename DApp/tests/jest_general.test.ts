@@ -7,7 +7,7 @@ import EncoderMix from "../src/component/encoder/EncoderMix"
 import DirectoriesCollector from "../src/component/DirectoriesCollector";
 import QueryParser from "../src/component/QueryParser";
 import StringSourceValues from "../src/model/StringSourceValues";
-import MockSourceStr from "./MockSourceStr";
+import MockSourceStr from "./mocks/MockSourceStr";
 
 const simmple_query: string = JSON.stringify({
     "prefixList": [

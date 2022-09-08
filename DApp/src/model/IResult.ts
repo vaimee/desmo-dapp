@@ -4,7 +4,7 @@ export default interface IResult {
 
     getValue(): string;
 
-    getType(): string;
+    getType(): "TYPE_NUMBER" | "TYPE_STRING" | "TYPE_BOOLEAN";
 
     getEncodedValue(encoder:IEncoder): string;
 
