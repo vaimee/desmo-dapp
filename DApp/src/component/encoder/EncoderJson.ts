@@ -1,5 +1,5 @@
 import IEncoder from "./IEncoder";
-import Types from "../../const/Types";
+import Types from "../../const/Const";
 import {ethers} from "ethers-ts";
 
 const REQUEST_ID_SIZE = "20";
@@ -33,7 +33,16 @@ export default class EncoderLightManual implements IEncoder{
         this.requestID=REQUEST_ID_SIZE+requestID;
     }
 
+    encodeBoolean(stringValue: String): string {
+          const data = {type:Types.BOOLEAN, value:stringValue};
+        return this.requestID+this.encodedScores+ethers.utils.defaultAbiCoder.encode(["string"], [JSON.stringify(data)]);
+    }
 
+
+    encodeNoConsensus(): string {
+        const data = {type:Types.NO_CONSENSUS};
+        return this.requestID+this.encodedScores+ethers.utils.defaultAbiCoder.encode(["string"], [JSON.stringify(data)]);
+    }
 
     setSources(sources: Map<number,number>): void {
         /*
@@ -107,7 +116,7 @@ export default class EncoderLightManual implements IEncoder{
         
         const data = JSON.parse(v);
   
-        return {data,dirs:directoryList,requestID:requestID}
+        return {value:data.value,type:data.type,dirs:directoryList,requestID:requestID}
     }
 
 

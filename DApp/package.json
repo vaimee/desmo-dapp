@@ -38,7 +38,8 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testTimeout": 500000
   },
   "dependencies": {
     "@node-wot/binding-http": "^0.8.0",

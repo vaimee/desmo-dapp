@@ -7,6 +7,7 @@ import NumberSourceValues from "../src/model/NumberSourceValues";
 import MockSourceBool from "./mocks/MockSourceBool";
 import MockSourceStr from "./mocks/MockSourceStr";
 import MockSourceNumb from "./mocks/MockSourceNumb";
+import {ValueType} from "../src/const/ValueType";
 
 async function runConsensus(sources:ISourceValues[] ): Promise<IResult> {
     const s = await collect(sources);
@@ -28,12 +29,15 @@ describe('Consensus tests', () => {
             );
 
             const result = await runConsensus(sources);
-            expect(result.getType()).toBe("TYPE_BOOLEAN"); 
+            expect(result.getType()).toBe(ValueType.TYPE_BOOLEAN); 
             expect(result.getValue()).toBeDefined();
             expect(result.getValue() === "true" || result.getValue() === "false").toBeTruthy();
+            for (let i = 0; i < sources.length - 1 ; i++) {
+                expect(sources[i].getSource().isPunished()).toBeFalsy();
+            }
         });
 
-        it('should fail with few values with with 6 BooleanSources', async () => {
+        it('should punish all the Directories, test with 6 BooleanSources, no one is working as well', async () => {
             const valueMatrix = [
                 [null, true, null, null],
                 [true, null, true, null],
@@ -46,7 +50,11 @@ describe('Consensus tests', () => {
                 new BoolSourceValues(new MockSourceBool("Source_" + index, index, inputBooleans))
             );
 
-            await expect(runConsensus(sources)).rejects.toThrow();
+            const result = await runConsensus(sources);
+            expect(result.getType()).toBe(ValueType.TYPE_NO_CONSENSUS); 
+            for (let i = 0; i < sources.length - 1 ; i++) {
+                expect(sources[i].getSource().isPunished()).toBeTruthy();
+            }
         });
     });
 
@@ -67,7 +75,7 @@ describe('Consensus tests', () => {
 
             const result = await runConsensus(sources);
 
-            expect(result.getType()).toBe("TYPE_STRING");
+            expect(result.getType()).toBe(ValueType.TYPE_STRING);
             expect(result.getValue()).toBeDefined();
             expect(["RED", "YELLOW","GREEN", "BLACK"].includes(result.getValue())).toBeTruthy();
             for (let i = 0; i < sources.length; i++) {
@@ -91,7 +99,7 @@ describe('Consensus tests', () => {
 
             const result = await runConsensus(sources);
 
-            expect(result.getType()).toBe("TYPE_STRING");
+            expect(result.getType()).toBe(ValueType.TYPE_STRING);
             expect(result.getValue()).toBeDefined();
             expect(["RED", "YELLOW","GREEN", "BLACK"].includes(result.getValue())).toBeTruthy();
             for (let i = 0; i < sources.length - 1 ; i++) {
@@ -109,7 +117,7 @@ describe('Consensus tests', () => {
             const s1_bis_bis = new MockSourceStr("Source_0", 0, ["A", "B", "B", "Z",]);
             const s4 = new MockSourceStr("Source_3", 3, ["B", "C", "B", "Z"]);
             const s5 = new MockSourceStr("Source_4", 4, ["Z", "X", "T", "K"]);
-            const s3_bis = new MockSourceStr("Source_3", 3, ["A", "O", "B", "Z"]);
+            const s4_bis = new MockSourceStr("Source_3", 3, ["A", "O", "B", "Z"]);
 
             sources.push(new StringSourceValues(s1));
             sources.push(new StringSourceValues(s2));
@@ -118,13 +126,20 @@ describe('Consensus tests', () => {
             sources.push(new StringSourceValues(s1_bis_bis));
             sources.push(new StringSourceValues(s4));
             sources.push(new StringSourceValues(s5));
-            sources.push(new StringSourceValues(s3_bis)); 
+            sources.push(new StringSourceValues(s4_bis)); 
 
             const result = await runConsensus(sources);
 
-            expect(result.getType()).toBe("TYPE_STRING");
+            expect(result.getType()).toBe(ValueType.TYPE_STRING);
             expect(result.getValue()).toBeDefined();
-            fail("TODO");
+            expect(s1.isPunished()).toBeTruthy();
+            expect(s2.isPunished()).toBeFalsy();
+            expect(s1_bis.isPunished()).toBeTruthy();
+            expect(s3.isPunished()).toBeTruthy();
+            expect(s1_bis_bis.isPunished()).toBeTruthy();
+            expect(s4.isPunished()).toBeFalsy();
+            expect(s5.isPunished()).toBeFalsy();
+            expect(s4_bis.isPunished()).toBeFalsy();
         });
     });
 
@@ -145,7 +160,7 @@ describe('Consensus tests', () => {
 
             const result = await runConsensus(sources);
 
-            expect(result.getType()).toBe("TYPE_NUMBER");
+            expect(result.getType()).toBe(ValueType.TYPE_NUMBER);
             expect(result.getValue()).toBeDefined();
             expect(Number(result.getValue()) >= 2.1 && Number(result.getValue()) <= 2.99).toBeTruthy();
         });
@@ -166,7 +181,7 @@ describe('Consensus tests', () => {
 
             const result = await runConsensus(sources);
 
-            expect(result.getType()).toBe("TYPE_NUMBER");
+            expect(result.getType()).toBe(ValueType.TYPE_NUMBER);
             expect(result.getValue()).toBeDefined();
             expect(Number(result.getValue()) >= 2.1 && Number(result.getValue()) <= 2.99).toBeTruthy();
 
@@ -191,7 +206,7 @@ describe('Consensus tests', () => {
 
             const result = await runConsensus(sources);
 
-            expect(result.getType()).toBe("TYPE_NUMBER");
+            expect(result.getType()).toBe(ValueType.TYPE_NUMBER);
             expect(result.getValue()).toBeDefined();
             expect(Number(result.getValue()) >= 1 && Number(result.getValue()) <= 4.0).toBeTruthy();
 
@@ -209,7 +224,7 @@ describe('Consensus tests', () => {
             const s1_bis_bis = new MockSourceNumb("Source_0", 0, [null, 1.5, 1.1, 1.7,]);
             const s4 = new MockSourceNumb("Source_3", 3, [1.2, 1.5, 0.9, 0.9,]);
             const s5 = new MockSourceNumb("Source_4", 4, [1.1, 10.1, 0.1, 4.1,]);
-            const s3_bis = new MockSourceNumb("Source_3", 3, [1.2, 1.5, 0.9, 0.9,]);
+            const s4_bis = new MockSourceNumb("Source_3", 3, [1.2, 1.5, 0.9, 0.9,]);
 
             sources.push(new NumberSourceValues(s1));
             sources.push(new NumberSourceValues(s2));
@@ -218,15 +233,22 @@ describe('Consensus tests', () => {
             sources.push(new NumberSourceValues(s1_bis_bis));
             sources.push(new NumberSourceValues(s4));
             sources.push(new NumberSourceValues(s5));
-            sources.push(new NumberSourceValues(s3_bis)); 
+            sources.push(new NumberSourceValues(s4_bis)); 
 
             const result = await runConsensus(sources);
 
-            expect(result.getType()).toBe("TYPE_NUMBER");
+            expect(result.getType()).toBe(ValueType.TYPE_NUMBER);
             expect(result.getValue()).toBeDefined();
-            expect(Number(result.getValue()) >= 1 && Number(result.getValue()) <= 4.0).toBeTruthy();
+            expect(Number(result.getValue()) >= 0.1 && Number(result.getValue()) <= 10.1).toBeTruthy();
 
-            expect(s2.isPunished()).toBeTruthy()
+            expect(s1.isPunished()).toBeTruthy();
+            expect(s2.isPunished()).toBeFalsy();
+            expect(s1_bis.isPunished()).toBeTruthy();
+            expect(s3.isPunished()).toBeFalsy();
+            expect(s1_bis_bis.isPunished()).toBeTruthy();
+            expect(s4.isPunished()).toBeFalsy();
+            expect(s5.isPunished()).toBeFalsy();
+            expect(s4_bis.isPunished()).toBeFalsy();
         });
     });
 });

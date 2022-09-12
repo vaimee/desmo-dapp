@@ -33,7 +33,7 @@ export default class Worker implements IWorker {
   }
 
   err(err: string): void {
-    console.log("ERROR: " + err);
+    // console.log("ERROR: " + err);
     this.logger.addLog(componentName, err, true);
     this.logger.sendLogs(() => {
       if (this.cb !== undefined) {

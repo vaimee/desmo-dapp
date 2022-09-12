@@ -1,5 +1,5 @@
 
-import Types from "../const/Types";
+import Types from "../const/Const";
 import Isdk from "./Isdk";
 import {ethers} from "ethers-ts";
 import {

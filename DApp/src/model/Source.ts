@@ -22,7 +22,6 @@ export default class Source implements ISource {
 
     async ask(): Promise<string> {
         //here the code to get the value from the Directory
-        console.log("WIP: Source.ask is not implemented yet");
         if (Math.random() > 0.2) {
             return Math.trunc(Math.random() * 100).toString();
         }

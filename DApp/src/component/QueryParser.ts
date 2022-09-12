@@ -1,7 +1,10 @@
-import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IPrefix, ITimeFilter, RequestedDataType } from "../model/IQuery";
+import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IPrefix, ITimeFilter } from "../model/IQuery";
 import IQueryParser from "./IQueryParser";
 import Config from "../const/Config";
+import Const from "../const/Const";
 var jp = require('jsonpath'); //import jp from "jsonpath"; DO NOT WORK :( 
+import Logger from "./Logger";
+const componentName = "QueryParser";
 
 export default class QueryParser implements IQueryParser {
 
@@ -16,7 +19,6 @@ export default class QueryParser implements IQueryParser {
     public _PROPERTY_IDENTIFIER_IS_URI = Config.PROPERTY_IDENTIFIER_IS_URI;
 
     constructor(query: string) {
-        //console.log("QueryParser.query",query);
         this.query = query;
         this.parsedQuery = JSON.parse(this.query) as IQuery;
         this.valid = false;
@@ -27,7 +29,7 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery?.prefixList && this.parsedQuery?.prefixList?.length > 0) {
             for (let prefix of this.parsedQuery.prefixList) {
                 if (prefix.abbreviation?.trim() == "" || prefix.completeURI?.trim() == "") {
-                    console.log("Invalid prefix");
+                    Logger.getInstance().addLog(componentName,"Invalid prefix",true);
                     this.valid = false;
                     return;
                 }
@@ -36,7 +38,10 @@ export default class QueryParser implements IQueryParser {
 
 
         //The property to be read is mandatory
-        if (!this.parsedQuery.property) { console.log("missing property"); this.valid = false; return; }
+        if (!this.parsedQuery.property) { 
+            Logger.getInstance().addLog(componentName,"Missing property",true);
+            this.valid = false; return; 
+        }
         if (!this.parsedQuery?.property?.identifier || (this.parsedQuery?.property?.identifier && this.parsedQuery?.property?.identifier.trim() == "") 
         || (this._PROPERTY_IDENTIFIER_IS_URI &&
             !validateUnit(this.parsedQuery.property.identifier, this.parsedQuery.prefixList)) || !this.parsedQuery?.property?.unit ||
@@ -44,7 +49,7 @@ export default class QueryParser implements IQueryParser {
                 this.parsedQuery?.property?.unit?.trim() == "") || (this._PROPERTY_UNIT_IS_URI &&
                     !validateUnit(this.parsedQuery.property.unit, this.parsedQuery.prefixList)) ||
             this.parsedQuery?.property?.datatype == null) {
-            console.log("invalid property");
+            Logger.getInstance().addLog(componentName,"Invalid property",true);
             this.valid = false;
             return;
         }
@@ -54,7 +59,8 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery?.staticFilter && this.parsedQuery?.staticFilter?.trim() != "") {
             //The static filter must be a valid JSON-path query
             if (!JsonPathValidator(this.parsedQuery.staticFilter, this.parsedQuery.prefixList)) {
-                console.log("invalid static filter"); this.valid = false; return;
+                Logger.getInstance().addLog(componentName,"Invalid static filter",true);
+                this.valid = false; return;
             }
         }
 
@@ -64,11 +70,13 @@ export default class QueryParser implements IQueryParser {
         }
 
         //The geo filter is optional
-        if (this.parsedQuery?.geoFilter && this.parsedQuery?.geoFilter?.region && !geofilterValidator(this._GEOFILTER_UNIT_IS_URI, this.parsedQuery.geoFilter.region, this.parsedQuery.prefixList)) { console.log("invalid region inside the geo filter"); this.valid = false; return; }
+        if (this.parsedQuery?.geoFilter && this.parsedQuery?.geoFilter?.region && !geofilterValidator(this._GEOFILTER_UNIT_IS_URI, this.parsedQuery.geoFilter.region, this.parsedQuery.prefixList)) { 
+            Logger.getInstance().addLog(componentName,"Invalid region inside the geo filter",true);
+            this.valid = false; return; }
         if (this.parsedQuery?.geoFilter?.altitudeRange && (this.parsedQuery?.geoFilter?.altitudeRange?.min == null || this.parsedQuery?.geoFilter?.altitudeRange?.max == null ||
             !this.parsedQuery?.geoFilter?.altitudeRange?.unit || this.parsedQuery?.geoFilter?.altitudeRange?.unit.trim() == "" ||
             (this._GEOFILTER_UNIT_IS_URI && !validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList)))) {
-            console.log("invalid altitude range inside the geo filter");
+            Logger.getInstance().addLog(componentName,"Invalid altitude range inside the geo filter",true);
             this.valid = false;
             return;
         }
@@ -76,7 +84,8 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery?.timeFilter && (!this.parsedQuery?.timeFilter?.until || !this.parsedQuery?.timeFilter?.interval ||
             (!this.parsedQuery?.timeFilter?.interval && this.parsedQuery?.timeFilter?.interval.trim() == "") || !this.parsedQuery?.timeFilter?.aggregation ||
             (!this.parsedQuery?.timeFilter?.aggregation && this.parsedQuery?.timeFilter?.aggregation.trim() == ""))) {
-            console.log("invalid time filter"); this.valid = false; return;
+            Logger.getInstance().addLog(componentName,"Invalid time filter",true);
+            this.valid = false; return;
         }
 
         this.valid = true;
@@ -87,19 +96,21 @@ export default class QueryParser implements IQueryParser {
     }
 
     isAskingForNumber(): boolean {
-        if (this.parsedQuery.property.datatype === RequestedDataType.Integer ||
-            this.parsedQuery.property.datatype === RequestedDataType.Decimal) {
+        if (this.parsedQuery.property.datatype === Const.NEG_FLOAT ||
+            this.parsedQuery.property.datatype ===  Const.NEG_INTEGER||
+            this.parsedQuery.property.datatype ===  Const.POS_FLOAT||
+            this.parsedQuery.property.datatype ===  Const.POS_INTEGER) {
             return true;
         }
         return false;
     }
 
     isAskingForBoolean(): boolean {
-        return this.parsedQuery.property.datatype === RequestedDataType.Boolean;
+        return this.parsedQuery.property.datatype === Const.BOOLEAN;
     }
 
     isAskingForString(): boolean {
-        return this.parsedQuery.property.datatype === RequestedDataType.String;
+        return this.parsedQuery.property.datatype === Const.STRING;
     }
 
     getType(): number {
@@ -184,7 +195,7 @@ function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefin
             parsedFilter[1].expression.type != "filter_expression") { return false; }
     }
     catch (err) {
-        console.log("ERROR HERE !!!", err);
+        Logger.getInstance().addLog(componentName,"Error on JsonPathValidator: " +JSON.stringify(err),true);
         return false;
     }
 
@@ -231,8 +242,6 @@ function geofilterValidator(geoFilterUnitIsUri: boolean, geoFilter: IGeoCircle |
 }
 
 function validateUnit(unit: string, prefixList: IPrefix[] | undefined): boolean {
-    console.log("unit",unit);
-    console.log("prefixList",prefixList);
     if (!unit) return false;
     unit = unit.trim();
     // if it's an URL, it's valid
