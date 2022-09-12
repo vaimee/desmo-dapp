@@ -1,8 +1,12 @@
 export default interface IEncoder {
 
-    encodeNumber(numberValue: number, precision: number): string;
+    encodeNumber(numberValue: number): string;
 
     encodeString(stringValue: String): string;
+
+    encodeBoolean(stringValue: String): string;
+
+    encodeNoConsensus(): string;
 
     decode(callbackData: string): any;
 

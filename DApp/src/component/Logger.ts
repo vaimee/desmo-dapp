@@ -31,22 +31,26 @@ class Logger {
     }
     
     addLog(componentName:string,msg:string,err:boolean=false){
-        var _log="";
+
+        let _log="";
         if(err){
             _log="["+new Date().toString()+"]["+componentName+"] !ERROR!: "+msg;
         }else{
             _log="["+new Date().toString()+"]["+componentName+"]: "+ msg;
         }
-        this.log.push(_log);
-        console.log(_log);
-        this.sendLog(_log);
+        
+        if(Config.CONSOLE_LOGGER_ENABLE){
+            console.log(_log);
+        }
+        if(Config.ONLINE_LOGGER_ENABLE){
+            this.log.push(_log);
+            this.sendLog(_log);
+        }
     }
 
     sendLog(actualLog:string){
 
-       
-
-        var headers = { 'Content-Type': 'application/json' };
+        let headers = { 'Content-Type': 'application/json' };
         axios.post(
             Config.LOGGER_URL,
             {
@@ -63,25 +67,31 @@ class Logger {
 
     sendLogs(cb:()=>void|undefined){
 
-        const callAfter = ()=>{
-            if(cb!==undefined){
-                cb();
-            }
-        };
+        if(Config.ONLINE_LOGGER_ENABLE){
+            const callAfter = ()=>{
+                if(cb!==undefined){
+                    cb();
+                }
+            };
+    
+            let headers = { 'Content-Type': 'application/json' };
+            axios.post(
+                Config.LOGGER_URL,
+                {
+                    id:this.id,
+                    requestID:this.requestID,
+                    logs:this.log,
+                    partial:false
+                },
+                {headers:headers}
+            )
+            .then(callAfter)
+            .catch(callAfter);
+        }else{
+            cb();
+        }
 
-        var headers = { 'Content-Type': 'application/json' };
-        axios.post(
-            Config.LOGGER_URL,
-            {
-                id:this.id,
-                requestID:this.requestID,
-                logs:this.log,
-                partial:false
-            },
-            {headers:headers}
-        )
-        .then(callAfter)
-        .catch(callAfter);
+       
         
     }
 

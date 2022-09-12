@@ -7,8 +7,8 @@ import consensusForString from "./consensusForString";
 import consensusForBool from "./consensusForBool";
 import Result from "../../model/Result";
 import Conf from "../../const/Config";
-import Types from "../../const/Types";
 import Logger from "../Logger";
+import {ValueType} from "../../const/ValueType";
 
 const componentName = "DataCollector";
 
@@ -20,19 +20,19 @@ export function consensus(sources : Array<ISourceValues>): Result {
     if(sources[0] instanceof NumberSourceValues){
         return new Result(
             consensusForNumber(sources as Array<NumberSourceValues>).toString(),
-            Types.TYPE_NUMBER,
+            ValueType.TYPE_NUMBER,
             sources
         );
     }else if(sources[0] instanceof StringSourceValues){
         return new Result(
             consensusForString(sources as Array<StringSourceValues>),
-            Types.TYPE_STRING,
+            ValueType.TYPE_STRING,
             sources
         );
     }else if(sources[0] instanceof BoolSourceValues){
         return new Result(
             consensusForBool(sources as Array<BoolSourceValues>).toString(),
-            Types.TYPE_BOOLEAN,
+            ValueType.TYPE_BOOLEAN,
             sources
         );
     }else{

@@ -1,10 +1,3 @@
-export enum RequestedDataType {
-    Integer = 0,
-    Decimal = 1,
-    Boolean = 2,
-    String = 3
-}
-
 export interface IGeoPosition {
     latitude: number;
     longitude: number;
@@ -44,7 +37,7 @@ export default interface IQuery {
     property: {
         identifier: string;
         unit: string;
-        datatype: RequestedDataType;
+        datatype: number;
     };
     staticFilter?: string;
     dynamicFilter?: string;

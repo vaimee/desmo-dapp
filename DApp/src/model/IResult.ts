@@ -4,7 +4,7 @@ export default interface IResult {
 
     getValue(): string;
 
-    getType(): string;
+    getType(): "TYPE_NUMBER" | "TYPE_STRING" | "TYPE_BOOLEAN" | "TYPE_NO_CONSENSUS";
 
     getEncodedValue(encoder:IEncoder): string;
 

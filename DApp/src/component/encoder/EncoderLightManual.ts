@@ -1,10 +1,15 @@
 import IEncoder from "./IEncoder";
-import Types from "../../const/Types";
+import Types from "../../const/Const";
 
 const REQUEST_ID_SIZE = "20";
 const REQUEST_ID_LENGTH = 64;
 //new Uint32Array(8)
-
+function getPrecision(a: number): number {
+    if (!isFinite(a)) return 0;
+    var e = 1, p = 0;
+    while (Math.round(a * e) / e !== a) { e *= 10; p++; }
+    return p;
+}
 const hexEncode = function(str:string):string{
     var hex, i;
 
@@ -42,7 +47,7 @@ export default class EncoderLightManual implements IEncoder{
         this.requestID=REQUEST_ID_SIZE+requestID;
     }
 
-    computePadding(ecoded:string):string{
+computePadding(ecoded:string):string{
         const needpadding= (ecoded.length%2); 
         if(needpadding===1){
             return "1"+ecoded;
@@ -76,9 +81,18 @@ export default class EncoderLightManual implements IEncoder{
         });
     }
 
-    encodeNumber(numberValue: number, precision=0): string {
-        // console.log("numberValue",numberValue);
-        // console.log("precision",precision);
+    encodeNoConsensus(): string {
+        var type = Types.NO_CONSENSUS;
+        var typeHex = type.toString(16);
+        return this.requestID+this.encodedScores+this.computePadding(typeHex);
+    }
+
+    encodeNumber(value: number): string {
+        const precision = getPrecision(value);
+        let numberValue=value;
+        if(precision>0){
+            numberValue = Math.trunc(value * (10**precision));
+        }
         var type = Types.POS_FLOAT;
         var numberHex="";
         if(precision===0){
@@ -115,8 +129,14 @@ export default class EncoderLightManual implements IEncoder{
         var type = Types.STRING;
         var typeHex = type.toString(16);
         // console.log("dataEncoded: ", hexEncode(stringValue)); //ok
-        console.log("typeHex+hexEncode(stringValue)",typeHex+hexEncode(stringValue));
-        console.log("this.computePadding(typeHex+hexEncode(stringValue)",this.computePadding(typeHex+hexEncode(stringValue)));
+        // console.log("typeHex+hexEncode(stringValue)",typeHex+hexEncode(stringValue));
+        // console.log("this.computePadding(typeHex+hexEncode(stringValue)",this.computePadding(typeHex+hexEncode(stringValue)));
+        return this.requestID+this.encodedScores+this.computePadding(typeHex+hexEncode(stringValue));
+    }
+
+    encodeBoolean(stringValue: string): string {
+        var type = Types.BOOLEAN;
+        var typeHex = type.toString(16);
         return this.requestID+this.encodedScores+this.computePadding(typeHex+hexEncode(stringValue));
     }
 
@@ -135,7 +155,7 @@ export default class EncoderLightManual implements IEncoder{
         for(let x=0;x<(size*2);x+=2){
             directoryList.push(parseInt(callbackData[padding+x+2]+callbackData[padding+x+3]));//value->[0,3]
         }
-        console.log("directoryList decoded: ", directoryList); //ok
+        // console.log("directoryList decoded: ", directoryList); //ok
 
         // console.log("padding+2+size*2: "+padding+2+size*2);
         // console.log("callbackData[padding+2+size*2]: "+callbackData[padding+2+size*2]);
@@ -164,21 +184,23 @@ export default class EncoderLightManual implements IEncoder{
             if(type===Types.NEG_FLOAT){
                 value=value*-1;
             }
-            console.log("FLOAT decoded: "+ value);
+            // console.log("FLOAT decoded: "+ value);
         }else if(type===Types.NEG_INTEGER || type===Types.POS_INTEGER){ 
             value=parseInt(dataEncoded,16);
             if(type===Types.NEG_INTEGER){
                 value=value*-1;
             }
-            console.log("INTEGER decoded: "+ value);
-        }else if(type===Types.STRING){
+            // console.log("INTEGER decoded: "+ value);
+        }else if(type===Types.STRING || type===Types.BOOLEAN){
             value =hexDecode(dataEncoded);
-            console.log("STRING decoded: "+ value);
+            // console.log("STRING/BOOLEAN decoded: "+ value);
+        }else if(type===Types.NO_CONSENSUS){
+            // console.log("Decoded a no-consensus result");
+            value=undefined;
         }else{
             throw new Error("Not implemented Type found for: "+ type);
         }
-        
-        return {value,dirs:directoryList,requestID:requestID}
+        return {type,value,dirs:directoryList,requestID:requestID}
     }
 
 

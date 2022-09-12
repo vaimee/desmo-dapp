@@ -1,28 +1,27 @@
 import IEncoder from "../component/encoder/IEncoder";
-import Types from "../const/Types";
 import ISourceValues from "./ISourceValues";
 import IResult from "./IResult";
+import {ValueType} from "../const/ValueType";
 
-function getPrecision(a: number): number {
-    if (!isFinite(a)) return 0;
-    var e = 1, p = 0;
-    while (Math.round(a * e) / e !== a) { e *= 10; p++; }
-    return p;
-}
 
 export default class Result implements IResult {
 
     value: string;
-    type: string;
+    type: ValueType;
     sources: Map<number,number>;
 
-    constructor(value: string, type: string, sourcesValues: Array<ISourceValues>) {
+    constructor(value: string, type: ValueType, sourcesValues: Array<ISourceValues>) {
         this.value = value;
         this.type = type;
         this.sources = new Map<number,number>();
+        let allSourcesPunished=true;
         for (let s in sourcesValues) {
-            const score = sourcesValues[s].getSource().getScore();
-            const index = sourcesValues[s].getSource().getIndex();
+            const actualSource = sourcesValues[s].getSource();
+            if(!actualSource.isPunished()){
+                allSourcesPunished=false;
+            }
+            const score = actualSource.getScore();
+            const index = actualSource.getIndex();
             if(this.sources.has(index)){
                 const _reward = this.sources.get(index);
                 if(_reward!==undefined &&  _reward>score){
@@ -32,13 +31,16 @@ export default class Result implements IResult {
                 this.sources.set(index,score);
             }
         }
+        if(allSourcesPunished){
+            this.type=ValueType.TYPE_NO_CONSENSUS;
+        }
     }
 
     getValue(): string {
         return this.value;
     }
 
-    getType(): string {
+    getType(): ValueType {
         return this.type;
     }
 
@@ -49,19 +51,14 @@ export default class Result implements IResult {
     getEncodedValue(encoder:IEncoder): string {
         //###########################Econde result
         encoder.setSources(this.sources);
-        if (this.type === Types.TYPE_NUMBER) {
-            const num = Number(this.value);
-            const precision = getPrecision(num);
-            if(precision>0){
-                const intvalue = Math.trunc(num * (precision**10));
-                return encoder.encodeNumber(intvalue, precision);
-            }else{
-                return encoder.encodeNumber(num,0);
-            }
-        } else if (this.type === Types.TYPE_STRING) {
+        if (this.type === ValueType.TYPE_NUMBER) {
+            return encoder.encodeNumber(Number(this.value));
+        } else if (this.type === ValueType.TYPE_STRING) {
             return encoder.encodeString(this.value);
-        } else if (this.type === Types.TYPE_BOOLEAN) {
-            return encoder.encodeString(this.value.toString());
+        } else if (this.type === ValueType.TYPE_BOOLEAN) {
+            return encoder.encodeBoolean(this.value.toString());
+        }else if (this.type === ValueType.TYPE_NO_CONSENSUS) {
+            return encoder.encodeNoConsensus();
         } else {
             throw new Error("Result.getEncodedValue: type not found for: " + this.type);
         }

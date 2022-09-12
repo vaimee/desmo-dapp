@@ -1,0 +1,22 @@
+{
+    "configurations": [
+    {
+        "name": "Test file",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceFolder}/DApp",
+        "runtimeArgs": [
+            "--inspect-brk",
+            "${workspaceRoot}/DApp/node_modules/jest/bin/jest.js",
+            "${fileBasename}",
+            "--runInBand",
+            "--testTimeout",
+            "100000",
+            "--detectOpenHandles",
+        ],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+    }
+    ]
+    
+}

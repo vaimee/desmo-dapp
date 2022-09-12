@@ -486,3 +486,33 @@ export const query_getter_05: string = `{
   },
   "staticFilter": "$[?((@.title != 'test' && @.type == 'onto:Sensor') || @.actions.moveLeft)]"
 }`;
+
+
+export const query_getter_06: string = `{
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "onto:bool",
+    "datatype": 5
+  },
+  "staticFilter": "$[?((@.title != 'test' && @.type == 'onto:Sensor') || @.actions.moveLeft)]"
+}`;
+
+
+export const query_getter_07: string = `{
+  "prefixList": [
+    {"abbreviation":"desmo", "completeURI":"https://desmo.vaimee.it/"},
+    {"abbreviation":"qudt", "completeURI":"http://qudt.org/schema/qudt/"},
+    {"abbreviation":"onto",  "completeURI":"http://onto.org/ontologies/base/"}
+  ],
+  "property": {
+    "identifier": "desmo:OutdoorTemperature",
+    "unit": "onto:string",
+    "datatype": 4
+  },
+  "staticFilter": "$[?((@.title != 'test' && @.type == 'onto:Sensor') || @.actions.moveLeft)]"
+}`;
