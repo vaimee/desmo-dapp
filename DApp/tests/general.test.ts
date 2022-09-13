@@ -1,6 +1,6 @@
 import VoidSource from "../src/model/VoidSource";
 import Result from "../src/model/Result";
-import Source from "../src/model/Source";
+import Source from "./mocks/Source";
 import {ValueType} from "../src/const/ValueType";
 import DirectoriesCollector from "../src/component/DirectoriesCollector";
 import QueryParser from "../src/component/QueryParser";

@@ -1,5 +1,5 @@
-// import Conf from "../const/Config";
 import ISource from "../../src/model/ISource";
+import IGeoFilter from "../../src/component/IGeoFilter";
 
 export default class Source implements ISource {
 
@@ -18,7 +18,7 @@ export default class Source implements ISource {
         this.score = 3; 
     }
 
-    async isGeoValid(geoQuery: string): Promise<boolean> {
+    async isGeoValid(geoQuery: IGeoFilter): Promise<boolean> {
         return true;
     }
 
