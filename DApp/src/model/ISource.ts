@@ -1,3 +1,5 @@
+import IGeoFilter from "../component/IGeoFilter";
+
 export default interface ISource {
 
 
@@ -7,5 +9,6 @@ export default interface ISource {
     getScore(): number;
     getIndex(): number;
     setScore(s: number):void;
+    isGeoValid(geoQuery:IGeoFilter):Promise<boolean>;
 
 }

@@ -35,5 +35,10 @@ export default {
     CONSOLE_LOGGER_ENABLE:false,
 
     //that is used only for the local run of the DApp outside the docker image
-    DEFAULT_IEXEC_OUT:"/iexec_out"
+    DEFAULT_IEXEC_OUT:"/iexec_out",
+
+    //GEO PROPS on TDs
+    LATITUDE_PROPS_NAME: "latitude",
+    LONGITUDE_PROPS_NAME: "longitude",
+    ALTITUDE_PROPS_NAME: "altitude"
 }

@@ -1,5 +1,5 @@
 // import Conf from "../const/Config";
-import ISource from "./ISource";
+import ISource from "../../src/model/ISource";
 
 export default class Source implements ISource {
 
@@ -18,7 +18,9 @@ export default class Source implements ISource {
         this.score = 3; 
     }
 
-
+    async isGeoValid(geoQuery: string): Promise<boolean> {
+        return true;
+    }
 
     async ask(): Promise<string> {
         //here the code to get the value from the Directory

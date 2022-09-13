@@ -1,4 +1,5 @@
 import ISource from "./ISource";
+import IGeoFilter from "../component/IGeoFilter";
 
 export default class VoidSource implements ISource {
 
@@ -8,6 +9,10 @@ export default class VoidSource implements ISource {
     constructor(url: string, index: number) {
         this.source = url;
         this.index = index;
+    }
+    
+    async isGeoValid(geoQuery: IGeoFilter): Promise<boolean> {
+        return false;
     }
 
     async ask(): Promise<string> {
