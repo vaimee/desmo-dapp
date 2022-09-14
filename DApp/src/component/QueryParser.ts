@@ -4,6 +4,8 @@ import Config from "../const/Config";
 import Const from "../const/Const";
 var jp = require('jsonpath'); //import jp from "jsonpath"; DO NOT WORK :( 
 import Logger from "./Logger";
+import IGeoFilter from "./IGeoFilter";
+import GeoFilter from "./GeoFilter";
 const componentName = "QueryParser";
 
 export default class QueryParser implements IQueryParser {
@@ -13,6 +15,7 @@ export default class QueryParser implements IQueryParser {
     private query: string;
     private valid: boolean;
     private parsedQuery: IQuery;
+    private geoFilter: IGeoFilter|null;
 
     public _PROPERTY_UNIT_IS_URI = Config.PROPERTY_UNIT_IS_URI;
     public _GEOFILTER_UNIT_IS_URI = Config.GEOFILTER_UNIT_IS_URI;
@@ -22,6 +25,7 @@ export default class QueryParser implements IQueryParser {
         this.query = query;
         this.parsedQuery = JSON.parse(this.query) as IQuery;
         this.valid = false;
+        this.geoFilter=null;
     }
 
     parse() {
@@ -79,6 +83,9 @@ export default class QueryParser implements IQueryParser {
             Logger.getInstance().addLog(componentName,"Invalid altitude range inside the geo filter",true);
             this.valid = false;
             return;
+        }
+        if(this.parsedQuery?.geoFilter!==undefined){
+            this.geoFilter= new GeoFilter(this.parsedQuery?.geoFilter);
         }
         //The time filter is optional
         if (this.parsedQuery?.timeFilter && (!this.parsedQuery?.timeFilter?.until || !this.parsedQuery?.timeFilter?.interval ||
@@ -180,6 +187,9 @@ export default class QueryParser implements IQueryParser {
     }
 
 
+    getGeoFilter():IGeoFilter|null{
+       return this.geoFilter;
+    }
 
 
 }

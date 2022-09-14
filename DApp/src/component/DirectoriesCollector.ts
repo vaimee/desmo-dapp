@@ -75,7 +75,20 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
             try{
                 const reader = await this.resolveTD(tds[x]);
                 if (reader !== null) {
-                    ris.push(new WotSource(reader,propName,index));
+                    ///////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////
+                    //HERE THE CODE filter with other query paramter (filters that are not covered from the TDD)
+                    ////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////
+                    const ws = new WotSource(reader,propName,index);
+                    const geoFilter = parser.getGeoFilter();
+                    if(geoFilter===null || await ws.isGeoValid(geoFilter)){
+                        ris.push(ws);
+                    }else{
+                       const vs= new VoidSource("", index);
+                       vs.setScore(1);//geo filter not passed!
+                       ris.push(vs);
+                    }
                 } else if (Config.IGNORE_TD_COLLECTION_ERROR) {
                     ris.push(new VoidSource("", index));
                 } else {
@@ -99,14 +112,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
     ) :Promise<Array<ISource>>{
 
         const jsonpath = parser.getJsonPath();
-        //console.log("getPrefixList-->",parser.getPrefixList());
-    
-        ////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////
-        //          HERE THE CODE to pass query params (json-path, geo, time ...) to the Directory
-        ////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////
-    
+
         var request_path = dir + path_getAll;
         if (jsonpath !== null) {
             request_path = dir + path_jsonPathQuery + encodeURIComponent(jsonpath);

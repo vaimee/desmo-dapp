@@ -1,4 +1,5 @@
 import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IPrefix, ITimeFilter } from "../model/IQuery";
+import IGeoFilter from "./IGeoFilter";
 
 
 export default interface IQueryParser {
@@ -34,5 +35,6 @@ export default interface IQueryParser {
 
     getTimeFilter(): ITimeFilter | null;
 
+    getGeoFilter():IGeoFilter|null;
 
 }

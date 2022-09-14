@@ -10,6 +10,15 @@ This class will not convert the lat and long points to R2
 So the figure will not perfect and there will error near 
 the longitude border -179 +179
 */
+
+const unitMap =new Map<string,string>();
+unitMap.set("KiloM","kilometers");
+unitMap.set("M","meters");
+unitMap.set("qudt:KiloM","kilometers");
+unitMap.set("qudt:M","meters");
+unitMap.set("http://qudt.org/schema/qudt/KiloM","kilometers");
+unitMap.set("http://qudt.org/schema/qudt/M","meters");
+
 export default class GeoFilter implements IGeoFilter{
 
     geoFilterQuery:any;
@@ -115,56 +124,66 @@ export default class GeoFilter implements IGeoFilter{
         that are supported from turf
     */
     convertUnitToMetersform(value:number,unit:string):number{
+        let convertedToTurf= unit;
+        const temp =unitMap.get(unit);
+        if(temp!==undefined){
+            convertedToTurf=temp;
+        }
         try{
 
             const dstUnit:turf.Units = "meters";
-            if(unit==="meters" ||
-             unit==="millimeters" ||
-              unit=== "centimeters" ||
-               unit=== "kilometers" ||
-                unit=== "acres" ||
-                unit=== "miles" ||
-                 unit=== "nauticalmiles" ||
-                  unit=== "inches" ||
-                   unit=== "yards" ||
-                    unit=== "feet" 
+            if(convertedToTurf==="meters" ||
+                convertedToTurf==="millimeters" ||
+                convertedToTurf=== "centimeters" ||
+                convertedToTurf=== "kilometers" ||
+                convertedToTurf=== "acres" ||
+                convertedToTurf=== "miles" ||
+                convertedToTurf=== "nauticalmiles" ||
+                convertedToTurf=== "inches" ||
+                convertedToTurf=== "yards" ||
+                convertedToTurf=== "feet" 
             ){
-               const temp = convertLength(value,unit,dstUnit);
+               const temp = convertLength(value,convertedToTurf,dstUnit);
                     return temp;
             }else{
-                Logger.getInstance().addLog(componentName,"Not valid unit for "+unit+" .",true);
-                throw new Error("Not valid unit for "+unit+" .");
+                Logger.getInstance().addLog(componentName,"Not valid unit for "+convertedToTurf+" .",true);
+                throw new Error("Not valid unit for "+convertedToTurf+" .");
             }
         }catch(err){
-            Logger.getInstance().addLog(componentName,"Not valid conversion for "+unit+": "+ err,true);
-            throw new Error("Not valid conversion for "+unit+" .");
+            Logger.getInstance().addLog(componentName,"Not valid conversion for "+convertedToTurf+": "+ err,true);
+            throw new Error("Not valid conversion for "+convertedToTurf+" .");
         }
     }
 
     convertUnitToKmMorm(value:number,unit:string):number{
+        let convertedToTurf= unit;
+        const temp =unitMap.get(unit);
+        if(temp!==undefined){
+            convertedToTurf=temp;
+        }
         try{
 
             const dstUnit:turf.Units = "kilometers";
-            if(unit==="meters" ||
-             unit==="millimeters" ||
-              unit=== "centimeters" ||
-               unit=== "kilometers" ||
-                unit=== "acres" ||
-                unit=== "miles" ||
-                 unit=== "nauticalmiles" ||
-                  unit=== "inches" ||
-                   unit=== "yards" ||
-                    unit=== "feet" 
+            if(convertedToTurf==="meters" ||
+                convertedToTurf==="millimeters" ||
+                convertedToTurf=== "centimeters" ||
+                convertedToTurf=== "kilometers" ||
+                convertedToTurf=== "acres" ||
+                convertedToTurf=== "miles" ||
+                convertedToTurf=== "nauticalmiles" ||
+                convertedToTurf=== "inches" ||
+                convertedToTurf=== "yards" ||
+                convertedToTurf=== "feet" 
             ){
-               const temp = convertLength(value,unit,dstUnit);
+               const temp = convertLength(value,convertedToTurf,dstUnit);
                     return temp;
             }else{
-                Logger.getInstance().addLog(componentName,"Not valid unit for "+unit+" .",true);
-                throw new Error("Not valid unit for "+unit+" .");
+                Logger.getInstance().addLog(componentName,"Not valid unit for "+convertedToTurf+" .",true);
+                throw new Error("Not valid unit for "+convertedToTurf+" .");
             }
         }catch(err){
-            Logger.getInstance().addLog(componentName,"Not valid conversion for "+unit+": "+ err,true);
-            throw new Error("Not valid conversion for "+unit+" .");
+            Logger.getInstance().addLog(componentName,"Not valid conversion for "+convertedToTurf+": "+ err,true);
+            throw new Error("Not valid conversion for "+convertedToTurf+" .");
         }
     }
 }

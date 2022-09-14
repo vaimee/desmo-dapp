@@ -5,10 +5,12 @@ export default class VoidSource implements ISource {
 
     index: number;
     source: string;
+    score:number;
 
     constructor(url: string, index: number) {
         this.source = url;
         this.index = index;
+        this.score=0;//punished as default
     }
     
     async isGeoValid(geoQuery: IGeoFilter): Promise<boolean> {
@@ -29,10 +31,22 @@ export default class VoidSource implements ISource {
     }
 
     getScore(): number {
-        return 0;
+        return this.score;
     }
 
-    setScore(s: number): void { }
+    setScore(s: number): void { 
+        /*
+        the VoidSource score start as 0 as punished one
+        can be setted as "1" if the thing is valid but it is not 
+        passing some query filter (like geoFilter)
+        */
+        if(s<2){
+            this.score=s;
+        }else{
+            this.score=1;
+        }
+    }
+    
     punish(): void { }
 
 }
