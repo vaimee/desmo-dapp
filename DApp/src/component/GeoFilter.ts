@@ -77,7 +77,7 @@ export default class GeoFilter implements IGeoFilter{
                 let radius = this.geoFilterQuery.region.radius.value*2;//seems circle function use diameter not radius
                 const unit =  this.geoFilterQuery.region.radius.unit;
                 if(unit!==undefined){
-                    radius= this.convertUnitToKmMorm(radius,unit);
+                    radius= this.convertUnitToKmForm(radius,unit);
                 }
                 this.region = circle(center, radius,{steps: radius/10, units: 'kilometers'});
             }else{
@@ -94,8 +94,8 @@ export default class GeoFilter implements IGeoFilter{
             this.altMin = this.geoFilterQuery.altitudeRange.min;
             this.altMax = this.geoFilterQuery.altitudeRange.max;
             if(unit!==undefined){
-                this.altMin= this.convertUnitToMetersform(this.altMin,unit);
-                this.altMax= this.convertUnitToMetersform(this.altMax,unit);
+                this.altMin= this.convertUnitToMetersForm(this.altMin,unit);
+                this.altMax= this.convertUnitToMetersForm(this.altMax,unit);
             }
             this.alt=true;
         }else{ throw new Error("Not valid altitudeRange."); }
@@ -123,7 +123,7 @@ export default class GeoFilter implements IGeoFilter{
         in that version of the GeoFilter  support only units
         that are supported from turf
     */
-    convertUnitToMetersform(value:number,unit:string):number{
+    convertUnitToMetersForm(value:number,unit:string):number{
         let convertedToTurf= unit;
         const temp =unitMap.get(unit);
         if(temp!==undefined){
@@ -155,7 +155,7 @@ export default class GeoFilter implements IGeoFilter{
         }
     }
 
-    convertUnitToKmMorm(value:number,unit:string):number{
+    convertUnitToKmForm(value:number,unit:string):number{
         let convertedToTurf= unit;
         const temp =unitMap.get(unit);
         if(temp!==undefined){

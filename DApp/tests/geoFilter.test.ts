@@ -48,11 +48,11 @@ describe('Testing GeoFilter', () => {
         it('Unit convertor, should convert other units to meter', async () => {
   
             const gf = new GeoFilter(geoFilter_01);
-            expect(gf.convertUnitToMetersform(0.001,"kilometers")).toBe(1);
-            expect(gf.convertUnitToMetersform(1,"meters")).toBe(1);
-            expect(gf.convertUnitToMetersform(1,"miles")).toBe(1609.344);
-            expect(gf.convertUnitToMetersform(5,"nauticalmiles")).toBe(9260);
-            expect(gf.convertUnitToMetersform(2,"inches")).toBe(0.0508001016002032);
+            expect(gf.convertUnitToMetersForm(0.001,"kilometers")).toBe(1);
+            expect(gf.convertUnitToMetersForm(1,"meters")).toBe(1);
+            expect(gf.convertUnitToMetersForm(1,"miles")).toBe(1609.344);
+            expect(gf.convertUnitToMetersForm(5,"nauticalmiles")).toBe(9260);
+            expect(gf.convertUnitToMetersForm(2,"inches")).toBe(0.0508001016002032);
            
         });
        
