@@ -24,7 +24,7 @@
             "description": "Longitude of the stopligth",
 			"@type": "xsd:float"
 		},
-        "value":{ 
+        "color":{ 
             "title": "Stopligth value",
             "description": "Stopligth value",
 			"@type": "xsd:string"
