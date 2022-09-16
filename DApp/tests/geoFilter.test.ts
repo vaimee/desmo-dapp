@@ -40,7 +40,17 @@ const geoFilter_02=  {
   }
 };
 
-
+const geoFilter_03= {
+  "region": {
+    "center": {
+      "latitude":41.9109,
+      "longitude": 12.4818
+    },
+    "radius": {
+      "value": 50.0,
+      "unit": "meters"
+    }
+  }};
 
 describe('Testing GeoFilter', () => {
     describe('GeoFilter general', () => {
@@ -142,6 +152,7 @@ describe('Testing GeoFilter', () => {
             const point6= [45.63942, 20.80335];
             const point7= [-73.05673, 39.78844];
             const point8= [-78.60106, 2.83044];
+            const point9= [44.494884, 11.3426162];
             const gf = new GeoFilter(geoFilter_01);
             
             //wring altitude -1m
@@ -161,8 +172,22 @@ describe('Testing GeoFilter', () => {
             expect(gf.isInside(point6[0],point6[1],55000)).toBeFalsy();
             expect(gf.isInside(point7[0],point7[1],55000)).toBeFalsy();
             expect(gf.isInside(point8[0],point8[1],55000)).toBeFalsy();
+            expect(gf.isInside(point9[0],point9[1],55000)).toBeFalsy();
 
         });
+
+        it('Testing a realy small region filter', async () => {
+  
+          //good points
+          const point1= [41.910911, 12.4818999];
+          //bad points
+          const point2= [44.494888, 11.3426163];
+          const gf = new GeoFilter(geoFilter_03);
+     
+          expect(gf.isInside(point1[0],point1[1],null)).toBeTruthy();
+          expect(gf.isInside(point2[0],point2[1],null)).toBeFalsy();
+
+      });
       
     });
     

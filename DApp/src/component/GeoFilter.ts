@@ -59,7 +59,7 @@ export default class GeoFilter implements IGeoFilter{
                     const p = [_point.latitude, _point.longitude];
                     points.push(p);
                 }
-                //First and last Position are not equivalent
+                //First and last Position must be equivalent
                 const _point = this.geoFilterQuery.region.vertices[0];
                 const p = [_point.latitude, _point.longitude];
                 points.push(p);
@@ -79,7 +79,11 @@ export default class GeoFilter implements IGeoFilter{
                 if(unit!==undefined){
                     radius= this.convertUnitToKmForm(radius,unit);
                 }
-                this.region = circle(center, radius,{steps: radius/10, units: 'kilometers'});
+                let steps = 100;
+                if( radius/steps>steps){
+                    steps = radius/steps;
+                }
+                this.region = circle(center, radius,{steps: steps, units: 'kilometers'});
             }else{
                 throw new Error("Not valid region.");
             }
@@ -87,18 +91,18 @@ export default class GeoFilter implements IGeoFilter{
             throw new Error("Unsupported geoFilterQuery.");
         }
 
-        if(this.geoFilterQuery.altitudeRange===undefined){
-            this.region=null;
-        }else if(!isNaN(this.geoFilterQuery.altitudeRange.min) && !isNaN(this.geoFilterQuery.altitudeRange.max)){
-            const unit = this.geoFilterQuery.altitudeRange.unit;
-            this.altMin = this.geoFilterQuery.altitudeRange.min;
-            this.altMax = this.geoFilterQuery.altitudeRange.max;
-            if(unit!==undefined){
-                this.altMin= this.convertUnitToMetersForm(this.altMin,unit);
-                this.altMax= this.convertUnitToMetersForm(this.altMax,unit);
-            }
-            this.alt=true;
-        }else{ throw new Error("Not valid altitudeRange."); }
+        if(this.geoFilterQuery?.altitudeRange!==undefined){
+            if(!isNaN(this.geoFilterQuery.altitudeRange.min) && !isNaN(this.geoFilterQuery.altitudeRange.max)){
+                const unit = this.geoFilterQuery.altitudeRange.unit;
+                this.altMin = this.geoFilterQuery.altitudeRange.min;
+                this.altMax = this.geoFilterQuery.altitudeRange.max;
+                if(unit!==undefined){
+                    this.altMin= this.convertUnitToMetersForm(this.altMin,unit);
+                    this.altMax= this.convertUnitToMetersForm(this.altMax,unit);
+                }
+                this.alt=true;
+            }else{ throw new Error("Not valid altitudeRange."); }
+        }
     }
 
  
@@ -106,7 +110,7 @@ export default class GeoFilter implements IGeoFilter{
         let okLatLon = false;
         let okAlt = false;
         if(this.region===null){
-            okLatLon=true;
+            okLatLon=true;  
         }else if(lon!==null && lat!==null){
             const _point = point([lat,lon]);
             const temp = pointsWithinPolygon(_point, this.region).features;
