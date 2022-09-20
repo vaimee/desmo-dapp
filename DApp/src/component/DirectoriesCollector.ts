@@ -80,16 +80,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                     //HERE THE CODE filter with other query paramter (filters that are not covered from the TDD)
                     ////////////////////////////////////////////////////////
                     ////////////////////////////////////////////////////////
-                    const reader = await thing.readAllProperties();
-                    const keys  = reader.keys();
-                    let hasThatPros = false;
-                    for(var k of keys){
-                        if(k.trim()===propName){
-                            hasThatPros=true;
-                            break;
-                        }
-                    }
-                    if(hasThatPros){
+                    if(tds[x].properties?.[propName]!==undefined){
                         const ws = new WotSource(thing,propName,index);
                         const geoFilter = parser.getGeoFilter();
                         if(geoFilter===null || await ws.isGeoValid(geoFilter)){
