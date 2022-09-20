@@ -32,7 +32,7 @@ export default {
 
     LOGGER_URL:"https://desmold-logs.vaimee.it/logs",
     ONLINE_LOGGER_ENABLE:false,
-    CONSOLE_LOGGER_ENABLE:false,
+    CONSOLE_LOGGER_ENABLE:true,
 
     //that is used only for the local run of the DApp outside the docker image
     DEFAULT_IEXEC_OUT:"/iexec_out",

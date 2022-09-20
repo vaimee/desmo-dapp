@@ -47,13 +47,25 @@ export default class WotSource implements ISource {
 
     async isGeoValid(geo:IGeoFilter):Promise<boolean>{
         try {
-            const readerLat = await this.thing.readProperty(Config.LATITUDE_PROPS_NAME);
-            let lat = await readerLat.value();
-            const readerLong = await this.thing.readProperty(Config.LONGITUDE_PROPS_NAME);
-            let long = await readerLong.value();
-            const readerAlt = await this.thing.readProperty(Config.ALTITUDE_PROPS_NAME);
-            let alt = await readerAlt.value();
-            Logger.getInstance().addLog(componentName, "isGeoValid, response: lat["+lat+"] lon["+long+"]");
+            let lat =null;
+            let long =null;
+            let alt =null;
+            try{
+                const readerLat = await this.thing.readProperty(Config.LATITUDE_PROPS_NAME);
+                lat = await readerLat.value();
+                const readerLong = await this.thing.readProperty(Config.LONGITUDE_PROPS_NAME);
+                long = await readerLong.value();
+                Logger.getInstance().addLog(componentName, "isGeoValid, response: lat["+lat+"] lon["+long+"]");
+            }catch(err){
+                Logger.getInstance().addLog(componentName, "isGeoValid, lat long not available.");
+            }
+            try{
+                const readerAlt = await this.thing.readProperty(Config.ALTITUDE_PROPS_NAME);
+                alt = await readerAlt.value();
+                Logger.getInstance().addLog(componentName, "isGeoValid, response: alt["+alt+"]");
+            }catch(err){    
+                Logger.getInstance().addLog(componentName, "isGeoValid, altitude not available.");
+            }
             if(lat!==null){
                 lat= Number(lat);
             }

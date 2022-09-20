@@ -88,6 +88,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                        const vs= new VoidSource("", index);
                        vs.setScore(1);//geo filter not passed!
                        ris.push(vs);
+                       Logger.getInstance().addLog(componentName,"GeoFilter not passed for source"+index);
                     }
                 } else if (Config.IGNORE_TD_COLLECTION_ERROR) {
                     ris.push(new VoidSource("", index));
