@@ -1,9 +1,11 @@
-![DESMO-LD](https://github.com/vaimee/desmo/blob/8a741e1542162dd4517a90a2ab37f42a58a8fd7f/imgs/desmo-logo.png)
+<img src="https://github.com/vaimee/desmo/blob/main/imgs/desmo-logo.png" width="40%" alt='DESMO'/>
 
 # DESMO-LD DApp - Iexec Oracle implementation
 
-![](https://img.shields.io/github/issues/vaimee/desmo-dapp?style=flat-square) 
-![](https://img.shields.io/github/license/vaimee/desmo-dapp?style=flat-square)
+<a href="https://github.com/vaimee/desmo-dapp/issues" target="_blank"><img src="https://img.shields.io/github/issues/vaimee/desmo-dapp.svg?style=flat-square" alt="Issues" /></a>
+<a href="https://github.com/vaimee/desmo-dapp/blob/main/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/vaimee/desmo-dapp.svg?style=flat-square" alt="License" /></a>
+<a href="https://discord.gg/B7WZswnH" target="_blank"><img src="https://img.shields.io/badge/Discord-7289DA?style=flat-square&logo=discord&logoColor=white&label=desmo" alt="Discord chat" /></a>
+<a href="https://www.linkedin.com/company/vaimee/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&color=blue" alt="LinkedIn" /></a>
 
 **Overview** 
 
@@ -40,7 +42,7 @@ credentials can be shared without any risk of information leaking.
 </details>
 
 
-# System Architecture
+## System Architecture
 
 ![Architecture](docs/imgs/schema.jpg)
 
@@ -49,7 +51,7 @@ credentials can be shared without any risk of information leaking.
 [FlowChart link](https://miro.com/app/board/uXjVODIdhHI=/?invite_link_id=916009864260)
 
 
-# Getting started
+## Getting started
 Here you can find a short way to configure all the services that you need to run the DApp.
 If you need more details about these services, you can find them in their section, look at the [Table of Contents](#Table-of-Contents) 
 
@@ -108,7 +110,7 @@ To test the DApp with Zion as Direcotry:
     2. `ts-node tests/runTests.ts zion`
 
 
-## Acknowledgments
+### Acknowledgments
 ![DESMO-LD](https://github.com/vaimee/desmo/blob/8a741e1542162dd4517a90a2ab37f42a58a8fd7f/imgs/desmo-logo.png)
 
 DESMO-LD DApp is founded by the [DESMO-LD project](https://ontochain.ngi.eu/content/desmo-ld) inside the [ONTOCHAIN](https://ontochain.ngi.eu/) european organization part of the [Next Generation Internet](https://www.ngi.eu/) fund.
