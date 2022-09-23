@@ -14,8 +14,8 @@ export default class WotSource implements ISource {
     score: number;
     propertyName: string;
 
-    constructor(reader: ConsumedThing, prop: string, index: number) {
-        this.thing = reader;
+    constructor(thing: ConsumedThing, prop: string, index: number) {
+        this.thing = thing;
         this.punished = false;
         this.index = index;
         //start with the max of score

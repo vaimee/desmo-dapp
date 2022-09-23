@@ -67,8 +67,12 @@ describe('Testing Wot components (you need Zion and WAM up and running)', () => 
                 const td = (await axios.get(td_url)).data;
                 const thing = await wot.consume(td as ThingDescription);
                 const reader = await thing.readAllProperties();
-                const ris = await reader.keys.length;
-                expect(ris >= 0).toBeTruthy();
+                const temp  = reader.keys();
+                let count= 0;
+                for(var x of temp){
+                    count++;
+                }
+                expect(count >= 0).toBeTruthy();
         });
 
         it('online TD counter get props', async () => {

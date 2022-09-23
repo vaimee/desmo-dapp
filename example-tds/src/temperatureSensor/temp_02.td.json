@@ -24,7 +24,7 @@
             "description": "Longitude of the sensor",
 			"@type": "xsd:float"
 		},
-        "value":{ 
+        "temperature":{ 
             "title": "Sensor value",
             "description": "Sensor value",
 			"@type": "xsd:float"

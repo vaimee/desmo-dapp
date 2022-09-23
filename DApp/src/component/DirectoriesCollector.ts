@@ -73,23 +73,31 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         }     
         for (let x = 0; x < tds.length; x++) {
             try{
-                const reader = await this.resolveTD(tds[x]);
-                if (reader !== null) {
+                const thing = await this.resolveTD(tds[x]);
+                if (thing !== null) {
                     ///////////////////////////////////////////////////////
                     ////////////////////////////////////////////////////////
                     //HERE THE CODE filter with other query paramter (filters that are not covered from the TDD)
                     ////////////////////////////////////////////////////////
                     ////////////////////////////////////////////////////////
-                    const ws = new WotSource(reader,propName,index);
-                    const geoFilter = parser.getGeoFilter();
-                    if(geoFilter===null || await ws.isGeoValid(geoFilter)){
-                        ris.push(ws);
+                    if(tds[x].properties?.[propName]!==undefined){
+                        const ws = new WotSource(thing,propName,index);
+                        const geoFilter = parser.getGeoFilter();
+                        if(geoFilter===null || await ws.isGeoValid(geoFilter)){
+                            ris.push(ws);
+                        }else{
+                           const vs= new VoidSource("", index);
+                           vs.setScore(1);//geo filter not passed!
+                           ris.push(vs);
+                           Logger.getInstance().addLog(componentName,"GeoFilter not passed for source: "+index);
+                        }
                     }else{
-                       const vs= new VoidSource("", index);
-                       vs.setScore(1);//geo filter not passed!
-                       ris.push(vs);
-                       Logger.getInstance().addLog(componentName,"GeoFilter not passed for source"+index);
+                        const vs= new VoidSource("", index);
+                        vs.setScore(1);//prop filter not passed!
+                        ris.push(vs);
+                        Logger.getInstance().addLog(componentName,"That source has not the porp "+propName+", source: "+index);
                     }
+                  
                 } else if (Config.IGNORE_TD_COLLECTION_ERROR) {
                     ris.push(new VoidSource("", index));
                 } else {
