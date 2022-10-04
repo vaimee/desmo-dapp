@@ -8,7 +8,7 @@ const maxValueT_03= 200;
 
 const activeTemperatureSensors=()=>{
     WoT.produce(td_temp_01).then((thing)=>{
-        thing.setPropertyReadHandler("value",async()=>{
+        thing.setPropertyReadHandler("temperature",async()=>{
             return Math.trunc(Math.random()*maxValueT_01*100)/100;
         });
         thing.setPropertyReadHandler("latitude",async()=>{
@@ -20,7 +20,7 @@ const activeTemperatureSensors=()=>{
         thing.expose();
     });
     WoT.produce(td_temp_02).then((thing)=>{
-        thing.setPropertyReadHandler("value",async()=>{
+        thing.setPropertyReadHandler("temperature",async()=>{
             return Math.trunc(Math.random()*maxValueT_02*100)/100;
         });
         thing.setPropertyReadHandler("latitude",async()=>{
@@ -32,7 +32,7 @@ const activeTemperatureSensors=()=>{
         thing.expose();
     });
     WoT.produce(td_temp_03).then((thing)=>{
-        thing.setPropertyReadHandler("value",async()=>{
+        thing.setPropertyReadHandler("temperature",async()=>{
             return Math.trunc(Math.random()*maxValueT_03*100)/100;
         });
         thing.setPropertyReadHandler("latitude",async()=>{
