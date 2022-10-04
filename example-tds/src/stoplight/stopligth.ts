@@ -19,7 +19,7 @@ function getColor(offset=0):string{
 
 const activeStopligths=()=>{
     WoT.produce(stopligth_01).then((thing)=>{
-        thing.setPropertyReadHandler("value",async()=>{
+        thing.setPropertyReadHandler("color",async()=>{
             return getColor();
         });
         thing.setPropertyReadHandler("latitude",async()=>{
@@ -31,7 +31,7 @@ const activeStopligths=()=>{
         thing.expose();
     });
     WoT.produce(stopligth_02).then((thing)=>{
-        thing.setPropertyReadHandler("value",async()=>{
+        thing.setPropertyReadHandler("color",async()=>{
             return getColor(1);
         });
         thing.setPropertyReadHandler("latitude",async()=>{
@@ -43,7 +43,7 @@ const activeStopligths=()=>{
         thing.expose();
     });
     WoT.produce(stopligth_03).then((thing)=>{
-        thing.setPropertyReadHandler("value",async()=>{
+        thing.setPropertyReadHandler("color",async()=>{
             return getColor(2);
         });
         thing.setPropertyReadHandler("latitude",async()=>{
