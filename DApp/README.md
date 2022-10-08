@@ -107,7 +107,7 @@ The first argument is the RequestID (used in the DApp to get the list of Directo
 
 Build the docker image
 ```bash
-npm run docker_build
+npm run docker:build
 ```
 
 Publish the DApp on docker-hub.
@@ -127,7 +127,7 @@ Check the `app.multiaddr` and `app.owner`  of the same file.
 
 Register the DApp on IExec.
 ```bash
-npm run onchain_deploy
+npm run onchain:deploy
 ```
 
 Make sure to use Viviani which is the free chain.
@@ -138,7 +138,7 @@ iexec account show --chain viviani
 
 Tun the Dapp on a workerpool
 ```bash
-npm run onchain_run
+npm run onchain:run
 ```
 
 If you want that others can run your application you must create an app order. For this run the following command: 

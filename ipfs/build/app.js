@@ -39,7 +39,7 @@ fs.writeFileSync(file, JSON.stringify(json));
 async function loadIpfs() {
     // const { create } = await import('ipfs-http-client')
     const client = await create({ url: 'http://localhost:5001' });
-    const ris = await client.add(file);
+    const ris = await client.add(JSON.stringify(json));
     console.log("ris", ris);
 }
 loadIpfs();

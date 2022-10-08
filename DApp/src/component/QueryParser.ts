@@ -1,4 +1,4 @@
-import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IPrefix, ITimeFilter } from "../model/IQuery";
+import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IGeoPosition, IPrefix, ITimeFilter } from "../model/IQuery";
 import IQueryParser from "./IQueryParser";
 import Config from "../const/Config";
 import Const from "../const/Const";
@@ -6,13 +6,13 @@ var jp = require('jsonpath'); //import jp from "jsonpath"; DO NOT WORK :(
 import Logger from "./Logger";
 import IGeoFilter from "./IGeoFilter";
 import GeoFilter from "./GeoFilter";
+import Query from "../model/Query";
 const componentName = "QueryParser";
 
 export default class QueryParser implements IQueryParser {
 
 
 
-    private query: string;
     private valid: boolean;
     private parsedQuery: IQuery;
     private geoFilter: IGeoFilter|null;
@@ -21,11 +21,115 @@ export default class QueryParser implements IQueryParser {
     public _GEOFILTER_UNIT_IS_URI = Config.GEOFILTER_UNIT_IS_URI;
     public _PROPERTY_IDENTIFIER_IS_URI = Config.PROPERTY_IDENTIFIER_IS_URI;
 
-    constructor(query: string) {
-        this.query = query;
-        this.parsedQuery = JSON.parse(this.query) as IQuery;
+    constructor(query: string|Query) {
+        if(query instanceof Query ){
+            this.parsedQuery =query;
+        }else{
+            this.parsedQuery = JSON.parse(query) as IQuery;
+        }
         this.valid = false;
         this.geoFilter=null;
+    }
+
+
+    static convertFromArgs(args:string[]):Query{
+        const hasNextSubArg =(x:number)=>{return args.length>x && (args[x].startsWith===undefined || !args[x].startsWith("--"))}
+        const argsTemplate = "requestID identifier unit datatype [--prefixList abbreviation1:completeURI1 abbreviation2:completeURI2] [--staticFilter staticFilter] [--dynamicFilter dynamicFilter] [--timeFilter until interval aggregation]"+
+        " [(--geoCircle centerLatitude centerLongitude radiusValue radiusUnit ) || (--geoPolygon latitude1 longitude1 latitude2 longitude2)]"+
+        " [--geoAltitude min max unit]";
+        // property: { identifier: string; unit: string; datatype: number; };
+        // prefixList?: IPrefix[] | undefined;
+        // staticFilter?: string | undefined;
+        // dynamicFilter?: string | undefined;
+        // geoFilter?: { region?: IGeoCircle | IGeoPolygon | undefined; altitudeRange?: IGeoAltitudeRange | undefined; } | undefined;
+        // timeFilter?: ITimeFilter | undefined;
+        const identifier =args[3].trim();
+        const unit =args[4].trim();
+        const datatype =Number(args[5]);
+        let query= new Query(identifier,unit,datatype);
+        const prefixList =new  Array<IPrefix>();
+        let staticFilter:string|undefined;
+        let dynamicFilter:string|undefined;
+        let timeFilter:ITimeFilter|undefined;
+        let geoFilter:{ region?: IGeoCircle | IGeoPolygon | undefined; altitudeRange?: IGeoAltitudeRange | undefined; } | undefined;
+        let geoCircle:IGeoCircle|undefined;
+        let geoPolygons=new  Array<IGeoPosition>();
+        let geoAltitude:IGeoAltitudeRange|undefined;
+        for(let x =6 ;x<args.length;x++){
+            if(args[x].startsWith("--")){
+                const prop = args[x].substring(2);
+                x++;
+                while(hasNextSubArg(x)){
+                    if(prop==="prefixList"){
+                        const i = args[x].indexOf(":");
+                        if(i<1 || i>args[x].length-1){
+                            Logger.getInstance().addLog("APP","Error parsing args, not valid prefixList (ignored) for: "+ args[x]);
+                        }else{
+                            const abbreviation= args[x].substring(0,i);
+                            const completeURI= args[x].substring(i+1);
+                            prefixList.push({abbreviation,completeURI});
+                        }
+                    }else if(prop==="staticFilter"){
+                        staticFilter=args[x];
+                    }else if(prop==="dynamicFilter"){
+                        dynamicFilter=args[x];
+                    }else if(prop==="timeFilter"){
+                        const until= args[x];
+                        x++;
+                        const interval= args[x];
+                        x++;
+                        const aggregation= args[x];
+                        timeFilter={until,interval,aggregation};
+                    }else if(prop==="geoCircle"){
+                        const centerLatitude= Number(args[x]);
+                        x++;
+                        const centerLongitude= Number(args[x]);
+                        x++;
+                        const radiusValue= Number(args[x]);
+                        x++;
+                        const radiusUnit= args[x];
+                        geoCircle={center:{latitude:centerLatitude,longitude:centerLongitude},radius:{value:radiusValue,unit:radiusUnit}};
+                    }else if(prop==="geoPolygon"){
+                        const latitude= Number(args[x]);
+                        x++;
+                        const longitude= Number(args[x]);
+                        geoPolygons.push({latitude,longitude});
+                    }else if(prop==="geoAltitude"){
+                        const min= Number(args[x]);
+                        x++;
+                        const max= Number(args[x]);
+                        x++;
+                        const unit= args[x];
+                        geoAltitude={min,max,unit};
+                    }else{
+                        Logger.getInstance().addLog("APP","Error parsing args, not valid arg for: --"+prop);
+                        Logger.getInstance().addLog("APP","Args should be: "+ argsTemplate);
+                        throw new Error("Error parsing args");
+                    }
+                    x++;
+                }
+                x--;
+            }else{
+                Logger.getInstance().addLog("APP","Error parsing args, for: "+ args[x]);
+                Logger.getInstance().addLog("APP","Args should be: "+ argsTemplate);
+                throw new Error("Error parsing args");
+            }
+        }
+        if(geoCircle!==undefined && geoPolygons.length>0){
+            Logger.getInstance().addLog("APP","Error parsing args, you can't use both --geoCircle and --geoPolygons (ignored geoPolygons)");
+            Logger.getInstance().addLog("APP","Args should be: "+ argsTemplate);
+            geoFilter= {region:geoCircle,altitudeRange:geoAltitude};
+        }else if(geoCircle!==undefined){
+            geoFilter= {region:geoCircle,altitudeRange:geoAltitude};
+        }else if(geoPolygons.length>0){
+            geoFilter= {region:{vertices:geoPolygons},altitudeRange:geoAltitude};
+        }
+        query.prefixList=prefixList;
+        query.geoFilter=geoFilter;
+        query.timeFilter=timeFilter;
+        query.staticFilter=staticFilter;
+        query.dynamicFilter=dynamicFilter;
+        return query;
     }
 
     parse() {
@@ -189,6 +293,13 @@ export default class QueryParser implements IQueryParser {
 
     getGeoFilter():IGeoFilter|null{
        return this.geoFilter;
+    }
+
+    getRawGeoFilter(): {
+        region?: IGeoCircle | IGeoPolygon | undefined;
+        altitudeRange?: IGeoAltitudeRange | undefined;
+    } | undefined{
+        return this.parsedQuery.geoFilter;
     }
 
 

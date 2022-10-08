@@ -156,28 +156,28 @@ export const query_valid_08: string = `{
     "unit": "qudt:DEG_C",
     "datatype": 1
   },
-  "geoFilter": {
-    "region": {
-      "vertices": [{
-        "latitude": 41.9109,
-        "longitude": 12.4818
-      },
-      {
-        "latitude": 45.9109,
-        "longitude": 12.4818
-      },
-      {
-        "latitude": 41.9109,
-        "longitude": 17.4818
+    "geoFilter": {
+      "region": {
+        "vertices": [{
+          "latitude": 41.9109,
+          "longitude": 12.4818
+        },
+        {
+          "latitude": 45.9109,
+          "longitude": 12.4818
+        },
+        {
+          "latitude": 41.9109,
+          "longitude": 17.4818
+        }
+      ]
+    },
+      "altitudeRange": {
+        "min": 0,
+        "max": 500,
+        "unit": "qudt:M"
       }
-    ],
-    "altitudeRange": {
-      "min": 0,
-      "max": 500,
-      "unit": "qudt:M"
-    }
   }
-}
 }`;
 
 //valid query without the identifier being bound to be an URI
