@@ -1,4 +1,4 @@
-import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IGeoPosition, IPrefix, ITimeFilter } from "../model/IQuery";
+import IQuery, { IGeoAltitudeRange, IGeoCircle, IGeoPolygon, IGeoPosition, IPrefix, ITimeFilter ,RequestedDataType} from "../model/IQuery";
 import IQueryParser from "./IQueryParser";
 import Config from "../const/Config";
 import Const from "../const/Const";
@@ -207,21 +207,19 @@ export default class QueryParser implements IQueryParser {
     }
 
     isAskingForNumber(): boolean {
-        if (this.parsedQuery.property.datatype === Const.NEG_FLOAT ||
-            this.parsedQuery.property.datatype ===  Const.NEG_INTEGER||
-            this.parsedQuery.property.datatype ===  Const.POS_FLOAT||
-            this.parsedQuery.property.datatype ===  Const.POS_INTEGER) {
+        if (this.parsedQuery.property.datatype ===RequestedDataType.Decimal||
+            this.parsedQuery.property.datatype === RequestedDataType.Integer ){
             return true;
         }
         return false;
     }
 
     isAskingForBoolean(): boolean {
-        return this.parsedQuery.property.datatype === Const.BOOLEAN;
+        return this.parsedQuery.property.datatype === RequestedDataType.Boolean;
     }
 
     isAskingForString(): boolean {
-        return this.parsedQuery.property.datatype === Const.STRING;
+        return this.parsedQuery.property.datatype === RequestedDataType.String;
     }
 
     getType(): number {

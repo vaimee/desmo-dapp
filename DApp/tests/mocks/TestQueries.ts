@@ -456,7 +456,7 @@ export const query_getter_03: string = `{
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
-    "datatype": 2
+    "datatype": 0
   }
 }`;
 
@@ -469,7 +469,7 @@ export const query_getter_04: string = `{
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
-    "datatype": 3
+    "datatype": 0
   }
 }`;
 
@@ -482,7 +482,7 @@ export const query_getter_05: string = `{
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "qudt:DEG_C",
-    "datatype": 1
+    "datatype": 0
   },
   "staticFilter": "$[?((@.title != 'test' && @.type == 'onto:Sensor') || @.actions.moveLeft)]"
 }`;
@@ -497,7 +497,7 @@ export const query_getter_06: string = `{
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "onto:bool",
-    "datatype": 5
+    "datatype": 2
   },
   "staticFilter": "$[?((@.title != 'test' && @.type == 'onto:Sensor') || @.actions.moveLeft)]"
 }`;
@@ -512,7 +512,7 @@ export const query_getter_07: string = `{
   "property": {
     "identifier": "desmo:OutdoorTemperature",
     "unit": "onto:string",
-    "datatype": 4
+    "datatype": 3
   },
   "staticFilter": "$[?((@.title != 'test' && @.type == 'onto:Sensor') || @.actions.moveLeft)]"
 }`;

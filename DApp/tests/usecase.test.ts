@@ -10,9 +10,9 @@ const query: string = JSON.stringify({
     {"abbreviation":"monas", "completeURI":"https://pod.dasibreaker.vaimee.it/monas/"},
   ],
   "property": {
-    "identifier": "value",
+    "identifier": "temperature",
     "unit": "qudt:DEG_C",                     //skip
-    "datatype": 3
+    "datatype": 1
   },
   "staticFilter": "$[?(@['type']=='Sensor')]",
 });
@@ -25,11 +25,11 @@ const query2: string = JSON.stringify({
     {"abbreviation":"monas", "completeURI":"https://pod.dasibreaker.vaimee.it/monas/"},
   ],
   "property": {
-    "identifier": "temp",
+    "identifier": "color",
     "unit": "qudt:DEG_C",                     //skip
-    "datatype": 3
+    "datatype": 4
   },
-  "staticFilter": "$[?(@['type']=='bme')]"
+  "staticFilter": "$[?(@['type']=='ControlUnit')]"
 });
 
 describe('Testing Worker (you need Zion and WAM up and running)', () => {

@@ -1,2 +1,2 @@
 cd directoryManager
-node setup.js --zion eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY1OTk3Mjg5MiwiZXhwIjoxNjU5OTczNzkyfQ.BYDZh6g90olwYTKaQPWoTEyaGuVQoWUu5oMS9mhPJwg
+node setup.js --zion eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY2NTQ4MDk5OSwiZXhwIjoxNjY1NDgxODk5fQ.dP7Ak6_6BgIZW4OBOTAbSsi7U-bDHIbFRNdJL-oQYwI

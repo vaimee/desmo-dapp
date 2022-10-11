@@ -1,4 +1,5 @@
 import QueryParser from "../src/component/QueryParser";
+import {RequestedDataType} from "../src/model/IQuery";
 import { IPrefix,IGeoCircle, IGeoPosition, IGeoPolygon } from "../src/model/IQuery";
 import {
     query_getter_01,query_getter_02,
@@ -231,42 +232,42 @@ describe('QueryParser tests', () => {
             const parser_getter: QueryParser = new QueryParser(query_getter_01);
             parser_getter.parse();
             expect(parser_getter.isAskingForNumber()).toBe(true);
-            expect(parser_getter.getType()).toBe(1);
+            expect(parser_getter.getType()).toBe(RequestedDataType.Decimal);
         });
 
         it("the query should be valid and parsed, testing type pos int", async () => {
             const parser_getter: QueryParser = new QueryParser(query_getter_02);
             parser_getter.parse();
             expect(parser_getter.isAskingForNumber()).toBe(true);
-            expect(parser_getter.getType()).toBe(0);
+            expect(parser_getter.getType()).toBe(RequestedDataType.Integer);
         });
         
         it("the query should be valid and parsed, testing type neg int", async () => {
             const parser_getter: QueryParser = new QueryParser(query_getter_03);
             parser_getter.parse();
             expect(parser_getter.isAskingForNumber()).toBe(true);
-            expect(parser_getter.getType()).toBe(2);
+            expect(parser_getter.getType()).toBe(RequestedDataType.Integer);
         });
 
         it("the query should be valid and parsed, testing type neg float", async () => {
             const parser_getter: QueryParser = new QueryParser(query_getter_04);
             parser_getter.parse();
             expect(parser_getter.isAskingForNumber()).toBe(true);
-            expect(parser_getter.getType()).toBe(3);
+            expect(parser_getter.getType()).toBe(RequestedDataType.Integer);
         });
 
         it("the query should be valid and parsed, testing type boolean", async () => {
             const parser_getter: QueryParser = new QueryParser(query_getter_06);
             parser_getter.parse();
             expect(parser_getter.isAskingForBoolean()).toBe(true);
-            expect(parser_getter.getType()).toBe(5);
+            expect(parser_getter.getType()).toBe(RequestedDataType.Boolean);
         });
 
         it("the query should be valid and parsed, testing type string", async () => {
             const parser_getter: QueryParser = new QueryParser(query_getter_07);
             parser_getter.parse();
             expect(parser_getter.isAskingForString()).toBe(true);
-            expect(parser_getter.getType()).toBe(4);
+            expect(parser_getter.getType()).toBe(RequestedDataType.String);
         });
 
 
@@ -283,7 +284,7 @@ describe('QueryParser tests', () => {
         
             expect(parser_getter.getPropertyUnit()).toBe("qudt:DEG_C");
             
-            expect(parser_getter.getPropertyDatatype()).toBe(1);
+            expect(parser_getter.getPropertyDatatype()).toBe(0);
         });
 
         
@@ -306,7 +307,7 @@ describe('QueryParser tests', () => {
             const parser = new QueryParser(QueryParser.convertFromArgs(args));
             parser.parse();
             expect(parser.isAskingForNumber()).toBe(true);
-            expect(parser.getType()).toBe(1);
+            expect(parser.getType()).toBe(jsonq.property.datatype);
             expect(parser.getPropertyIdentifier()).toBe("desmo:OutdoorTemperature");
             expect(parser.getPropertyUnit()).toBe("qudt:DEG_C");
         });
@@ -320,7 +321,7 @@ describe('QueryParser tests', () => {
             const parser = new QueryParser(QueryParser.convertFromArgs(args));
             parser.parse();
             expect(parser.isAskingForNumber()).toBe(true);
-            expect(parser.getType()).toBe(1);
+            expect(parser.getType()).toBe(jsonq.property.datatype);
             expect(parser.getPropertyIdentifier()).toBe("desmo:OutdoorTemperature");
             expect(parser.getPropertyUnit()).toBe("qudt:DEG_C");
             expect(parser.getPrefixList()===null).toBe(false);
@@ -347,7 +348,7 @@ describe('QueryParser tests', () => {
             const parser = new QueryParser(QueryParser.convertFromArgs(args));
             parser.parse();
             expect(parser.isAskingForNumber()).toBe(true);
-            expect(parser.getType()).toBe(1);
+            expect(parser.getType()).toBe(jsonq.property.datatype);
             expect(parser.getPropertyIdentifier()).toBe("desmo:OutdoorTemperature");
             expect(parser.getPropertyUnit()).toBe("qudt:DEG_C");
             expect(parser.getPrefixList()===null).toBe(false);
@@ -380,7 +381,7 @@ describe('QueryParser tests', () => {
             const parser = new QueryParser(QueryParser.convertFromArgs(args));
             parser.parse();
             expect(parser.isAskingForNumber()).toBe(true);
-            expect(parser.getType()).toBe(1);
+            expect(parser.getType()).toBe(jsonq.property.datatype);
             expect(parser.getPropertyIdentifier()).toBe("desmo:OutdoorTemperature");
             expect(parser.getPropertyUnit()).toBe("qudt:DEG_C");
             expect(parser.getPrefixList()===null).toBe(false);
