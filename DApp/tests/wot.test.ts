@@ -43,7 +43,7 @@ describe('Testing Wot components (you need Zion and WAM up and running)', () => 
             const td_url = "http://localhost:8080/temp_01";
             const lon = await genericGetPropFromTD(td_url, "longitude");
             const lat = await genericGetPropFromTD(td_url, "latitude");
-            const value = await genericGetPropFromTD(td_url, "value");
+            const value = await genericGetPropFromTD(td_url, "temperature");
             expect(lon).toBeDefined();
             expect(lat).toBeDefined();
             expect(value).toBeDefined();
@@ -53,7 +53,7 @@ describe('Testing Wot components (you need Zion and WAM up and running)', () => 
             const td_url = "http://localhost:8080/stopligth_01";
             const lon = await genericGetPropFromTD(td_url, "longitude");
             const lat = await genericGetPropFromTD(td_url, "latitude");
-            const value = await genericGetPropFromTD(td_url, "value");
+            const value = await genericGetPropFromTD(td_url, "color");
             expect(lon).toBeDefined();
             expect(lat).toBeDefined();
             expect(value).toBeDefined();

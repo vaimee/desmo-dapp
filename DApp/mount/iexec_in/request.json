@@ -1,0 +1,42 @@
+{
+    "data": 1665247806509,
+    "requestID": "0x000000000000000000000000000000000000000000000000000000000000000b",
+    "query": {
+    "prefixList": [
+    {
+    "abbreviation": "desmo",
+    "completeURI": "https://desmo.vaimee.it/"
+    },
+    {
+    "abbreviation": "qudt",
+    "completeURI": "http://qudt.org/schema/qudt/"
+    },
+    {
+    "abbreviation": "onto",
+    "completeURI": "http://onto.org/ontologies/base/"
+    }
+    ],
+    "property": {
+    "identifier": "temperature",
+    "unit": "qudt:DEG_C",
+    "datatype": 1
+    },
+    "geoFilter": {
+    "region": {
+    "center": {
+    "latitude": 41.9109,
+    "longitude": 12.4818
+    },
+    "radius": {
+    "value": 50,
+    "unit": "qudt:KiloM"
+    }
+    },
+    "altitudeRange": {
+    "min": 0,
+    "max": 500,
+    "unit": "qudt:M"
+    }
+    }
+    }
+    }

@@ -107,7 +107,7 @@ The first argument is the RequestID (used in the DApp to get the list of Directo
 
 Build the docker image
 ```bash
-npm run docker_build
+npm run docker:build
 ```
 
 Publish the DApp on docker-hub.
@@ -119,7 +119,7 @@ docker push <your_docker_username>/desmo-dapp:<version>
 
 You can check if the image work, running it locally
 ```bash
-npm run docker_run
+docker run --rm -v <your mount\iexec_in path>:/iexec_in -v <your mount\iexec_out path>:/iexec_out   -e IEXEC_IN=/iexec_in -e IEXEC_OUT=/iexec_out -e IEXEC_INPUT_FILES_NUMBER=1  -e IEXEC_INPUT_FILE_NAME_1=<your json file>  desmo-dapp 
 ```
 
 Copy the checksum of the docker image in the file `iexec.json` under `app.checksumm`.
@@ -127,7 +127,7 @@ Check the `app.multiaddr` and `app.owner`  of the same file.
 
 Register the DApp on IExec.
 ```bash
-npm run onchain_deploy
+npm run onchain:deploy
 ```
 
 Make sure to use Viviani which is the free chain.
@@ -138,7 +138,7 @@ iexec account show --chain viviani
 
 Tun the Dapp on a workerpool
 ```bash
-npm run onchain_run
+npm run onchain:run
 ```
 
 If you want that others can run your application you must create an app order. For this run the following command: 
@@ -181,7 +181,7 @@ You can also follow the application process of the application with the [iExec e
 
 You can also run your application locally with the command:
 ```bash
-npm start -- 0x000000000000000000000000000000000000000000000000000000000000000b "{__!_prefixList__!_:[{__!_abbreviation__!_:__!_desmo__!_,__!_completeURI__!_:__!_https://desmo.vaimee.it/__!_},{__!_abbreviation__!_:__!_qudt__!_,__!_completeURI__!_:__!_http://qudt.org/schema/qudt/__!_},{__!_abbreviation__!_:__!_xsd__!_,__!_completeURI__!_:__!_http://www.w3.org/2001/XMLSchema/__!_},{__!_abbreviation__!_:__!_monas__!_,__!_completeURI__!_:__!_https://pod.dasibreaker.vaimee.it/monas/__!_}],__!_property__!_:{__!_identifier__!_:__!_value__!_,__!_unit__!_:__!_qudt:DEG_C__!_,__!_datatype__!_:1},__!_staticFilter__!_:__!_$[?(@[--#-type--#-]==--#-Sensor--#-)]__!_}"
+npm start -- 0x000000000000000000000000000000000000000000000000000000000000000b "{__!_prefixList__!_:[{__!_abbreviation__!_:__!_desmo__!_,__!_completeURI__!_:__!_https://desmo.vaimee.it/__!_},{__!_abbreviation__!_:__!_qudt__!_,__!_completeURI__!_:__!_http://qudt.org/schema/qudt/__!_},{__!_abbreviation__!_:__!_xsd__!_,__!_completeURI__!_:__!_http://www.w3.org/2001/XMLSchema/__!_},{__!_abbreviation__!_:__!_monas__!_,__!_completeURI__!_:__!_https://pod.dasibreaker.vaimee.it/monas/__!_}],__!_property__!_:{__!_identifier__!_:__!_temperature__!_,__!_unit__!_:__!_qudt:DEG_C__!_,__!_datatype__!_:1},__!_staticFilter__!_:__!_$[?(@[--#-type--#-]==--#-Sensor--#-)]__!_}"
 ```
 
 

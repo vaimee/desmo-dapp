@@ -47,3 +47,10 @@ export default interface IQuery {
     };
     timeFilter?: ITimeFilter;
 };
+
+export enum RequestedDataType {
+    Integer = 0,
+    Decimal = 1,
+    Boolean = 2,
+    String = 3
+}

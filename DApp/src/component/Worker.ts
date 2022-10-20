@@ -13,6 +13,7 @@ import NumberSourceValues from "../model/NumberSourceValues";
 import BoolSourceValues from "../model/BoolSourceValues";
 import Config from "../const/Config";
 import Logger from "./Logger";
+import Query from '../model/Query';
 
 const componentName = "Worker";
 
@@ -45,7 +46,7 @@ export default class Worker implements IWorker {
 
   }
 
-  async work(query: string, requestID: string) {
+  async work(query: string|Query, requestID: string) {
 
     this.logger.setRequestID(requestID);
     this.logger.addLog(componentName,"QUERY is: "+ query);

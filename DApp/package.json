@@ -9,6 +9,7 @@
     "start": "node build/src/app.js",
     "test": "jest",
     "lint": "eslint . --ext .ts",
+    "docker:build": "docker build . --tag desmo-dapp",
     "onchain:deploy": "iexec app deploy --chain viviani",
     "onchain:run": "iexec app run --watch --chain viviani"
   },

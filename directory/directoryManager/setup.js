@@ -230,9 +230,14 @@ function removeAll(
     cbok = () => { },
     cberr = () => { }
 ) {
+    var headers = { 'Content-Type': 'application/ld+json' };
+    if(auth!==null){
+        headers ={ 'Content-Type': 'application/ld+json' , 'Authorization': 'Bearer '+auth.replaceAll("\n",'').replaceAll("\r",'').trim()};
+        console.log("You are using Authorization: ", headers);
+    }
     for (var x in idLIST) {
         const id = idLIST[x];
-        axios.delete(directory + "/things/" + id)
+        axios.delete(directory + "/things/" + id,{headers})
             .then((ris) => {
                 if (ris.status === 204) {
                     cbok(id);
