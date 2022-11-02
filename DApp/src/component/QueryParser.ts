@@ -3,7 +3,7 @@ import IQueryParser from "./IQueryParser";
 import Config from "../const/Config";
 import Const from "../const/Const";
 var jp = require('jsonpath'); //import jp from "jsonpath"; DO NOT WORK :( 
-import Logger from "./Logger";
+
 import IGeoFilter from "./IGeoFilter";
 import GeoFilter from "./GeoFilter";
 import Query from "../model/Query";
@@ -63,7 +63,7 @@ export default class QueryParser implements IQueryParser {
                     if(prop==="prefixList"){
                         const i = args[x].indexOf(":");
                         if(i<1 || i>args[x].length-1){
-                            Logger.getInstance().addLog("APP","Error parsing args, not valid prefixList (ignored) for: "+ args[x]);
+                            console.log("APP","Error parsing args, not valid prefixList (ignored) for: "+ args[x]);
                         }else{
                             const abbreviation= args[x].substring(0,i);
                             const completeURI= args[x].substring(i+1);
@@ -102,22 +102,22 @@ export default class QueryParser implements IQueryParser {
                         const unit= args[x];
                         geoAltitude={min,max,unit};
                     }else{
-                        Logger.getInstance().addLog("APP","Error parsing args, not valid arg for: --"+prop);
-                        Logger.getInstance().addLog("APP","Args should be: "+ argsTemplate);
+                        console.log("APP","Error parsing args, not valid arg for: --"+prop);
+                        console.log("APP","Args should be: "+ argsTemplate);
                         throw new Error("Error parsing args");
                     }
                     x++;
                 }
                 x--;
             }else{
-                Logger.getInstance().addLog("APP","Error parsing args, for: "+ args[x]);
-                Logger.getInstance().addLog("APP","Args should be: "+ argsTemplate);
+                console.log("APP","Error parsing args, for: "+ args[x]);
+                console.log("APP","Args should be: "+ argsTemplate);
                 throw new Error("Error parsing args");
             }
         }
         if(geoCircle!==undefined && geoPolygons.length>0){
-            Logger.getInstance().addLog("APP","Error parsing args, you can't use both --geoCircle and --geoPolygons (ignored geoPolygons)");
-            Logger.getInstance().addLog("APP","Args should be: "+ argsTemplate);
+            console.log("APP","Error parsing args, you can't use both --geoCircle and --geoPolygons (ignored geoPolygons)");
+            console.log("APP","Args should be: "+ argsTemplate);
             geoFilter= {region:geoCircle,altitudeRange:geoAltitude};
         }else if(geoCircle!==undefined){
             geoFilter= {region:geoCircle,altitudeRange:geoAltitude};
@@ -137,7 +137,7 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery?.prefixList && this.parsedQuery?.prefixList?.length > 0) {
             for (let prefix of this.parsedQuery.prefixList) {
                 if (prefix.abbreviation?.trim() == "" || prefix.completeURI?.trim() == "") {
-                    Logger.getInstance().addLog(componentName,"Invalid prefix",true);
+                    console.log(componentName,"Invalid prefix",true);
                     this.valid = false;
                     return;
                 }
@@ -147,7 +147,7 @@ export default class QueryParser implements IQueryParser {
 
         //The property to be read is mandatory
         if (!this.parsedQuery.property) { 
-            Logger.getInstance().addLog(componentName,"Missing property",true);
+            console.log(componentName,"Missing property",true);
             this.valid = false; return; 
         }
         if (!this.parsedQuery?.property?.identifier || (this.parsedQuery?.property?.identifier && this.parsedQuery?.property?.identifier.trim() == "") 
@@ -157,7 +157,7 @@ export default class QueryParser implements IQueryParser {
                 this.parsedQuery?.property?.unit?.trim() == "") || (this._PROPERTY_UNIT_IS_URI &&
                     !validateUnit(this.parsedQuery.property.unit, this.parsedQuery.prefixList)) ||
             this.parsedQuery?.property?.datatype == null) {
-            Logger.getInstance().addLog(componentName,"Invalid property",true);
+            console.log(componentName,"Invalid property",true);
             this.valid = false;
             return;
         }
@@ -167,7 +167,7 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery?.staticFilter && this.parsedQuery?.staticFilter?.trim() != "") {
             //The static filter must be a valid JSON-path query
             if (!JsonPathValidator(this.parsedQuery.staticFilter, this.parsedQuery.prefixList)) {
-                Logger.getInstance().addLog(componentName,"Invalid static filter",true);
+                console.log(componentName,"Invalid static filter",true);
                 this.valid = false; return;
             }
         }
@@ -179,12 +179,12 @@ export default class QueryParser implements IQueryParser {
 
         //The geo filter is optional
         if (this.parsedQuery?.geoFilter && this.parsedQuery?.geoFilter?.region && !geofilterValidator(this._GEOFILTER_UNIT_IS_URI, this.parsedQuery.geoFilter.region, this.parsedQuery.prefixList)) { 
-            Logger.getInstance().addLog(componentName,"Invalid region inside the geo filter",true);
+            console.log(componentName,"Invalid region inside the geo filter",true);
             this.valid = false; return; }
         if (this.parsedQuery?.geoFilter?.altitudeRange && (this.parsedQuery?.geoFilter?.altitudeRange?.min == null || this.parsedQuery?.geoFilter?.altitudeRange?.max == null ||
             !this.parsedQuery?.geoFilter?.altitudeRange?.unit || this.parsedQuery?.geoFilter?.altitudeRange?.unit.trim() == "" ||
             (this._GEOFILTER_UNIT_IS_URI && !validateUnit(this.parsedQuery.geoFilter.altitudeRange.unit, this.parsedQuery.prefixList)))) {
-            Logger.getInstance().addLog(componentName,"Invalid altitude range inside the geo filter",true);
+            console.log(componentName,"Invalid altitude range inside the geo filter",true);
             this.valid = false;
             return;
         }
@@ -195,7 +195,7 @@ export default class QueryParser implements IQueryParser {
         if (this.parsedQuery?.timeFilter && (!this.parsedQuery?.timeFilter?.until || !this.parsedQuery?.timeFilter?.interval ||
             (!this.parsedQuery?.timeFilter?.interval && this.parsedQuery?.timeFilter?.interval.trim() == "") || !this.parsedQuery?.timeFilter?.aggregation ||
             (!this.parsedQuery?.timeFilter?.aggregation && this.parsedQuery?.timeFilter?.aggregation.trim() == ""))) {
-            Logger.getInstance().addLog(componentName,"Invalid time filter",true);
+            console.log(componentName,"Invalid time filter",true);
             this.valid = false; return;
         }
 
@@ -314,7 +314,7 @@ function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefin
             parsedFilter[1].expression.type != "filter_expression") { return false; }
     }
     catch (err) {
-        Logger.getInstance().addLog(componentName,"Error on JsonPathValidator: " +JSON.stringify(err),true);
+        console.log(componentName,"Error on JsonPathValidator: " +JSON.stringify(err),true);
         return false;
     }
 

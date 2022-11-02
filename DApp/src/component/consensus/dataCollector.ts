@@ -7,7 +7,6 @@ import consensusForString from "./consensusForString";
 import consensusForBool from "./consensusForBool";
 import Result from "../../model/Result";
 import Conf from "../../const/Config";
-import Logger from "../Logger";
 import {ValueType} from "../../const/ValueType";
 
 const componentName = "DataCollector";
@@ -36,7 +35,7 @@ export function consensus(sources : Array<ISourceValues>): Result {
             sources
         );
     }else{
-        Logger.getInstance().addLog(componentName,"SourcesValue type not found for: "+ sources[0].constructor.name,true);
+        console.log(componentName,"SourcesValue type not found for: "+ sources[0].constructor.name,true);
         throw new Error("SourcesValue type not found for: "+ sources[0].constructor.name);
     }
 }
@@ -45,7 +44,7 @@ export async function collect(
     sources : Array<ISourceValues>
 ):Promise<Array<ISourceValues>> {
     const notAborted = new Set<number>();
-    Logger.getInstance().addLog(componentName,"collect started!");
+    console.log(componentName,"collect started!");
 
     for(var s in sources){
         const index = sources[s].getSource().getIndex();
@@ -83,9 +82,9 @@ export async function collect(
                             return await actualSource.addTemporalValue();
                         }catch(err){
                             if(err instanceof Error){
-                                Logger.getInstance().addLog(componentName,"Source["+key+"] ask, ERROR: "+ err.message);
+                                console.log(componentName,"Source["+key+"] ask, ERROR: "+ err.message);
                             }else{
-                                Logger.getInstance().addLog(componentName,"Source["+key+"] ask, ERROR: "+ err);
+                                console.log(componentName,"Source["+key+"] ask, ERROR: "+ err);
                             }
                         }
                         needPunishment.push(key);
@@ -100,7 +99,7 @@ export async function collect(
                 if(!risArray[x]){
                     const key =keyArray[x];
                     needPunishment.push(key);
-                    Logger.getInstance().addLog(componentName,"Source["+key+"] ask, received not valid value.");
+                    console.log(componentName,"Source["+key+"] ask, received not valid value.");
                 }
             }
             for(var x in needPunishment){

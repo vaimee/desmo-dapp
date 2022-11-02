@@ -1,7 +1,6 @@
 // import Conf from "../const/Config";
 import ISource from "./ISource";
 import { ConsumedThing } from "wot-typescript-definitions";
-import Logger from "../component/Logger";
 import Config from "../const/Config";
 import IGeoFilter from "../component/IGeoFilter";
 
@@ -31,15 +30,15 @@ export default class WotSource implements ISource {
         try {
             const reader = await this.thing.readProperty(this.propertyName);
             const ris = await reader.value();
-            Logger.getInstance().addLog(componentName, "Ask for a value, response: " + ris);
+            console.log(componentName, "Ask for a value, response: " + ris);
 
             if (ris === null) {
-                Logger.getInstance().addLog(componentName, "Not valid value getted by source: " + this.index, true);
+                console.log(componentName, "Not valid value getted by source: " + this.index, true);
                 throw new Error("Not valid value getted by source: " + this.index);
             }
             return (ris).toString();
         } catch (err) {
-            Logger.getInstance().addLog(componentName, "Error on ask: " + err, true);
+            console.log(componentName, "Error on ask: " + err, true);
             throw new Error("Error on ask: " + err);
         }
 
@@ -55,16 +54,16 @@ export default class WotSource implements ISource {
                 lat = await readerLat.value();
                 const readerLong = await this.thing.readProperty(Config.LONGITUDE_PROPS_NAME);
                 long = await readerLong.value();
-                Logger.getInstance().addLog(componentName, "isGeoValid, response: lat["+lat+"] lon["+long+"]");
+                console.log(componentName, "isGeoValid, response: lat["+lat+"] lon["+long+"]");
             }catch(err){
-                Logger.getInstance().addLog(componentName, "isGeoValid, lat long not available.");
+                console.log(componentName, "isGeoValid, lat long not available.");
             }
             try{
                 const readerAlt = await this.thing.readProperty(Config.ALTITUDE_PROPS_NAME);
                 alt = await readerAlt.value();
-                Logger.getInstance().addLog(componentName, "isGeoValid, response: alt["+alt+"]");
+                console.log(componentName, "isGeoValid, response: alt["+alt+"]");
             }catch(err){    
-                Logger.getInstance().addLog(componentName, "isGeoValid, altitude not available.");
+                console.log(componentName, "isGeoValid, altitude not available.");
             }
             if(lat!==null){
                 lat= Number(lat);
@@ -77,7 +76,7 @@ export default class WotSource implements ISource {
             }
             return geo.isInside(lat,long,alt);
         } catch (err) {
-            Logger.getInstance().addLog(componentName, "Error on ask: " + err, true);
+            console.log(componentName, "Error on ask: " + err, true);
             throw new Error("Error on ask: " + err);
         }
     }

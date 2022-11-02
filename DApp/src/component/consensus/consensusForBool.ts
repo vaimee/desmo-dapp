@@ -1,12 +1,11 @@
 import BoolSourceValues from "../../model/BoolSourceValues";
 import ScoreStruture from "./ScoreStruture";
 import VoidSource from "../../model/VoidSource";
-import Logger from "../Logger";
 
 const componentName = "ConsensusForBool";
 export default function consensus(sourcesAndValues: Array<BoolSourceValues>): boolean {
 
-    Logger.getInstance().addLog(componentName,"Using consensus alghoritm for BOOLEAN");
+    console.log(componentName,"Using consensus alghoritm for BOOLEAN");
 
     const struct = new ScoreStruture();
 

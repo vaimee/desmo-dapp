@@ -1,6 +1,5 @@
 import IGeoFilter from "./IGeoFilter";
 import turf from '@turf/turf'
-import Logger from "./Logger";
 import {convertLength,circle,polygon,point,pointsWithinPolygon} from '@turf/turf'
 const componentName ="GeoFilter";
 /*
@@ -150,11 +149,11 @@ export default class GeoFilter implements IGeoFilter{
                const temp = convertLength(value,convertedToTurf,dstUnit);
                     return temp;
             }else{
-                Logger.getInstance().addLog(componentName,"Not valid unit for "+convertedToTurf+" .",true);
+                console.log(componentName,"Not valid unit for "+convertedToTurf+" .",true);
                 throw new Error("Not valid unit for "+convertedToTurf+" .");
             }
         }catch(err){
-            Logger.getInstance().addLog(componentName,"Not valid conversion for "+convertedToTurf+": "+ err,true);
+            console.log(componentName,"Not valid conversion for "+convertedToTurf+": "+ err,true);
             throw new Error("Not valid conversion for "+convertedToTurf+" .");
         }
     }
@@ -182,11 +181,11 @@ export default class GeoFilter implements IGeoFilter{
                const temp = convertLength(value,convertedToTurf,dstUnit);
                     return temp;
             }else{
-                Logger.getInstance().addLog(componentName,"Not valid unit for "+convertedToTurf+" .",true);
+                console.log(componentName,"Not valid unit for "+convertedToTurf+" .",true);
                 throw new Error("Not valid unit for "+convertedToTurf+" .");
             }
         }catch(err){
-            Logger.getInstance().addLog(componentName,"Not valid conversion for "+convertedToTurf+": "+ err,true);
+            console.log(componentName,"Not valid conversion for "+convertedToTurf+": "+ err,true);
             throw new Error("Not valid conversion for "+convertedToTurf+" .");
         }
     }

@@ -6,7 +6,6 @@ import {
   DesmoHub,
   WalletSignerJsonRpc,
 } from "@vaimee/desmold-sdk"
-import Logger from "./Logger";
 
 const componentName = "DesmoSDKWrapper";
 // const sandboxRoot = './sandbox';
@@ -50,7 +49,7 @@ export default class Desmosdk implements Isdk {
 
   async getTDDsByRequestID(requestID: string): Promise<string[]> {
 
-    Logger.getInstance().addLog(componentName, "Resolve requestID to retrieve TDDs. RequestiD: " + requestID);
+    console.log(componentName, "Resolve requestID to retrieve TDDs. RequestiD: " + requestID);
     //return ZionOnlineDirs;
 
     if(requestID===Types.INTERNAL_TEST_REQUEST_ID){
@@ -89,11 +88,11 @@ export default class Desmosdk implements Isdk {
           }
         }
         
-        Logger.getInstance().addLog(componentName, "DEBUG: sanityzzeMap: "+JSON.stringify(sanityzzeMap));
+        console.log(componentName, "DEBUG: sanityzzeMap: "+JSON.stringify(sanityzzeMap));
         
         return sanityzzeMap;
       }catch(err){
-        Logger.getInstance().addLog(componentName, "error on using the SDK: "+err,true);
+        console.log(componentName, "error on using the SDK: "+err,true);
         return [];
       }
 

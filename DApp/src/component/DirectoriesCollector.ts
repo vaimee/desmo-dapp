@@ -9,7 +9,7 @@ import { Servient, Helpers } from "@node-wot/core";
 import { HttpClientFactory, HttpsClientFactory } from '@node-wot/binding-http';
 import Config from "../const/Config";
 import IDirectoriesCollector from "./IDirectoriesCollector";
-import Logger from "./Logger";
+
 
 const componentName = "DirectoriCollector";
 
@@ -38,7 +38,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
 
     async resolveTD(td: any): Promise<ConsumedThing | null> {
         if(this.wot===undefined){
-            Logger.getInstance().addLog(componentName,"ResolveTD error: wot is still undefined!",true);
+            console.log(componentName,"ResolveTD error: wot is still undefined!",true);
             return null;
         }else{
             try {
@@ -47,7 +47,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 //console.info("========== END");
                 return thing;
             } catch (err) {
-                Logger.getInstance().addLog(componentName,"ResolveTD error: "+ err,true);
+                console.log(componentName,"ResolveTD error: "+ err,true);
                 return null;
             }
         }
@@ -89,13 +89,13 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                            const vs= new VoidSource("", index);
                            vs.setScore(1);//geo filter not passed!
                            ris.push(vs);
-                           Logger.getInstance().addLog(componentName,"GeoFilter not passed for source: "+index);
+                           console.log(componentName,"GeoFilter not passed for source: "+index);
                         }
                     }else{
                         const vs= new VoidSource("", index);
                         vs.setScore(1);//prop filter not passed!
                         ris.push(vs);
-                        Logger.getInstance().addLog(componentName,"That source has not the porp "+propName+", source: "+index);
+                        console.log(componentName,"That source has not the porp "+propName+", source: "+index);
                     }
                   
                 } else if (Config.IGNORE_TD_COLLECTION_ERROR) {
@@ -105,9 +105,9 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 }
             }catch(err){
                 if(err instanceof Error){
-                    Logger.getInstance().addLog(componentName,"ResolveTD resolveToISourceArr error: "+ err.message,true);
+                    console.log(componentName,"ResolveTD resolveToISourceArr error: "+ err.message,true);
                 }else{
-                    Logger.getInstance().addLog(componentName,"ResolveTD resolveToISourceArr error: "+ err,true);
+                    console.log(componentName,"ResolveTD resolveToISourceArr error: "+ err,true);
                 }
             }
         }
@@ -126,7 +126,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
         if (jsonpath !== null) {
             request_path = dir + path_jsonPathQuery + encodeURIComponent(jsonpath);
         }
-        Logger.getInstance().addLog(componentName,"request_path: "+request_path);
+        console.log(componentName,"request_path: "+request_path);
         try{
             const ris = await axios.get(request_path);
             if (ris.status === 200) {
@@ -141,9 +141,9 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
             }
         }catch(error){
             if(error instanceof Error){
-                Logger.getInstance().addLog(componentName,'DirectoriesCollector error on Directory index:' + dirIndex + " Error: " + error.message,true);
+                console.log(componentName,'DirectoriesCollector error on Directory index:' + dirIndex + " Error: " + error.message,true);
             }else{
-                Logger.getInstance().addLog(componentName,'DirectoriesCollector error on Directory index' + dirIndex,true);
+                console.log(componentName,'DirectoriesCollector error on Directory index' + dirIndex,true);
             }
         }
         const noTDs = new Array<ISource>();
@@ -167,7 +167,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 const noTDs = new Array<ISource>();
                 noTDs.push(new VoidSource(realDirURL, indexDir));
                 ris.set(s+"_"+realDirURL, noTDs);
-                Logger.getInstance().addLog(componentName,'DirectoriesCollector miss a Directory for index:' + sources[s]);
+                console.log(componentName,'DirectoriesCollector miss a Directory for index:' + sources[s]);
             }
         }
         var countPunishedSource =0;
@@ -184,7 +184,7 @@ export default class DirectoriesCollector implements IDirectoriesCollector{
                 }
             }
         }
-        Logger.getInstance().addLog(componentName,"Pre punished source: "+countPunishedSource+ "/"+count);
+        console.log(componentName,"Pre punished source: "+countPunishedSource+ "/"+count);
         return ris;
     }
     

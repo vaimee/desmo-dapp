@@ -38,35 +38,18 @@ describe('Testing Worker (you need Zion and WAM up and running)', () => {
         it('Using Zion and Sensor TDs', async () => {
   
             const worker = new Worker("./mount/iexec_out/");
-         
-            const promise = new Promise((resolve, reject) => {
-                try{
-                    worker.setCB(resolve);
-                    worker.work(query,Const.INTERNAL_TEST_REQUEST_ID_ZION);   
-                }catch(err){
-                    resolve(false);
-                }
-            })
-            const ris = await promise;
+            const ris = await worker.work(query, Const.INTERNAL_TEST_REQUEST_ID_ZION);  
 
             expect(ris).toBeDefined();
             expect(ris!==null).toBeTruthy();
-            expect(ris!==false).toBeTruthy();
+            expect(ris["callback-data"].length).toBeGreaterThan(0);
         });
 
         it('Using Zion and bme TDs', async () => {
   
             const worker = new Worker("./mount/iexec_out/");
          
-            const promise = new Promise((resolve, reject) => {
-                try{
-                    worker.setCB(resolve);
-                    worker.work(query2,Const.INTERNAL_TEST_REQUEST_ID_ZION);    
-                }catch(err){
-                    resolve(false);
-                }
-            })
-            const ris = await promise;
+            const ris = await worker.work(query2, Const.INTERNAL_TEST_REQUEST_ID_ZION); 
 
             expect(ris).toBeDefined();
         });
@@ -76,76 +59,31 @@ describe('Testing Worker (you need Zion and WAM up and running)', () => {
 
     describe('Worker errors', () => {
         it('Desmosdk will retrieve not multiple of 4 TDDs', async () => {
-  
             const worker = new Worker("./mount/iexec_out/");
          
-            const promise = new Promise((resolve, reject) => {
-                try{
-                    worker.setCB(resolve);
-                    worker.work(query,Const.INTERNAL_TEST_REQUEST_ID_REJECT_1);    
-                }catch(err){
-                    resolve(false);
-                }
-            })
-            const ris = await promise;
-
-            expect(ris).toBeDefined();
-            expect(ris===null).toBeTruthy();
+            const workPromise = worker.work(query, Const.INTERNAL_TEST_REQUEST_ID_REJECT_1);  
+            await expect(workPromise).rejects.toBeDefined();
         });
 
         it('Desmosdk will retrieve not enought TDDs', async () => {
-  
             const worker = new Worker("./mount/iexec_out/");
-         
-            const promise = new Promise((resolve, reject) => {
-                try{
-                    worker.setCB(resolve);
-                    worker.work(query,Const.INTERNAL_TEST_REQUEST_ID_REJECT_2);    
-                }catch(err){
-                    resolve(false);
-                }
-            })
-            const ris = await promise;
 
-            expect(ris).toBeDefined();
-            expect(ris===null).toBeTruthy();
+            const workPromise = worker.work(query, Const.INTERNAL_TEST_REQUEST_ID_REJECT_2);
+            await expect(workPromise).rejects.toBeDefined();
         });
 
         it('Desmosdk will retrieve to many TDDs', async () => {
-  
             const worker = new Worker("./mount/iexec_out/");
-         
-            const promise = new Promise((resolve, reject) => {
-                try{
-                    worker.setCB(resolve);
-                    worker.work(query,Const.INTERNAL_TEST_REQUEST_ID_REJECT_3);    
-                }catch(err){
-                    resolve(false);
-                }
-            })
-            const ris = await promise;
 
-            expect(ris).toBeDefined();
-            expect(ris===null).toBeTruthy();
+            const workPromise = worker.work(query, Const.INTERNAL_TEST_REQUEST_ID_REJECT_3); 
+            await expect(workPromise).rejects.toBeDefined();
         });
 
         it('Worker with not valid args', async () => {
-  
-
             const worker = new Worker(Config.DEFAULT_IEXEC_OUT);
-         
-            const promise = new Promise((resolve, reject) => {
-                try{
-                    worker.setCB(resolve);
-                    worker.work(JSON.stringify({not:"validquery"}),"");   
-                }catch(err){
-                    resolve(false);
-                }
-            })
-            const ris = await promise;
 
-            expect(ris).toBeDefined();
-            expect(ris===null).toBeTruthy();
+            const workPromise = worker.work(JSON.stringify({ not: "validquery" }), ""); 
+            await expect(workPromise).rejects.toBeDefined();
         });
 
     });
