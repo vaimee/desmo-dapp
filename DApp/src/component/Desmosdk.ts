@@ -3,7 +3,7 @@ import Types from "../const/Const";
 import Isdk from "./Isdk";
 import {ethers} from "ethers-ts";
 import {
-  DesmoHub,
+  Desmo,
   WalletSignerJsonRpc,
 } from "@vaimee/desmold-sdk"
 
@@ -75,10 +75,10 @@ export default class Desmosdk implements Isdk {
         const walletSigner: WalletSignerJsonRpc = new WalletSignerJsonRpc(infuraURL);
         walletSigner.signInWithPrivateKey(privateKEY); //remember to delete if you push to github
     
-        const desmohub: DesmoHub = new DesmoHub(walletSigner);
+        const desmoContract: Desmo = new Desmo(walletSigner);
         const bites = ethers.utils.arrayify(requestID);
         // console.log("DEBUG: bites",bites);
-        const map =await desmohub.getTDDByRequestID(bites);
+        const map =await desmoContract.getTDDByRequestID(bites);
         const sanityzzeMap =new Array<string>();
         for(var x=0;x<map.length;x++){
           if(map[x].endsWith("/")){
