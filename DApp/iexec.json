@@ -18,8 +18,8 @@
     "owner": "0x90f35f12027e4103e690dc9279e086ef5b5431a5",
     "name": "desmo-dapp",
     "type": "DOCKER",
-    "multiaddr": "docker.io/vaimee/desmo-dapp:1.0.0-alpha.2",
-    "checksum": "0x58ed8dd91b0cd974532d9daf8e5b83712510ac6b1f3353efa89e20b951688f13"
+    "multiaddr": "docker.io/vaimee/desmo-dapp:1.0.0",
+    "checksum": "0xf1ab084fa5967c815be07a4e983f0eaeb12f5899244a65f662affa0c0e43c26d"
   },
   "order": {
     "apporder": {
