@@ -2,9 +2,11 @@ FROM node:lts-alpine as build
 
 WORKDIR /home/node/app
 
-COPY . .
+ADD package*.json ./
+RUN npm ci
 
-RUN npm ci && npm run build
+COPY . .
+RUN npm run build
 
 # ---
 
@@ -16,4 +18,5 @@ COPY --from=build /home/node/app/package*.json ./
 COPY --from=build /home/node/app/node_modules ./node_modules/
 COPY --from=build /home/node/app/build/ ./build/
 
-ENTRYPOINT ["node", "build/src/app.js" ]
+
+ENTRYPOINT ["node", "build/app.js" ]
