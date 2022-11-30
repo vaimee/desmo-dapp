@@ -101,6 +101,8 @@ export default class QueryParser implements IQueryParser {
                         x++;
                         const unit= args[x];
                         geoAltitude={min,max,unit};
+                    }else if (prop === "encodedStaticFilter") {
+                        staticFilter = Buffer.from(args[x], "base64").toString('utf-8');
                     }else{
                         console.log("APP","Error parsing args, not valid arg for: --"+prop);
                         console.log("APP","Args should be: "+ argsTemplate);
