@@ -7,7 +7,7 @@ console.log("APP: STARTING");
 
 const _run = async ()=>{
     let result: IExecResult = {
-        "callback-data": ""
+        "callback-data": "0x"
     }
 
     try{

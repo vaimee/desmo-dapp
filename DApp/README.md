@@ -129,11 +129,10 @@ Register the DApp on IExec.
 ```bash
 npm run onchain:deploy
 ```
-
-Make sure to use Viviani which is the free chain.
+Make sure to use Bellecour which is the free chain.
 ​```bash
-iexec app show --chain viviani
-iexec account show --chain viviani
+iexec app show --chain bellecour
+iexec account show --chain bellecour
 ```
 
 Tun the Dapp on a workerpool

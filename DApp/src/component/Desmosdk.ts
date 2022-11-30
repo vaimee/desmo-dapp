@@ -10,8 +10,8 @@ import {
 const componentName = "DesmoSDKWrapper";
 // const sandboxRoot = './sandbox';
 // const samplesRoot = './samples';
-const infuraURL = 'https://viviani.iex.ec'; // Replace with your own Infura URL
-const privateKEY = '0xd01bb8eb696603a88d7c8fdc54e49ea4c66ac1ebcc6f41a7a910d72f9d8b3840'; // Replace with your own private key
+const infuraURL = 'https://bellecour.iex.ec'; // Replace with your own Infura URL
+const privateKEY = '0x7fa112228c073e16e5f2cca93af326281c19466c6cf29281c8095550407187e5'; // Replace with your own private key
 // const MYTDD = 'https://www.desmo.vaimee.it/2019/wot/tdd/v1/TDD:001'; // Replace with your own TDD for tests
 
 const LinkSmartDires =[ "http://localhost:8081",

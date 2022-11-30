@@ -304,6 +304,7 @@ export default class QueryParser implements IQueryParser {
 }
 
 function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefined): boolean {
+    /*
     staticFilter = staticFilter.trim();
     try {
         const parsedFilter = jp.parse(staticFilter);
@@ -337,7 +338,7 @@ function JsonPathValidator(staticFilter: string, prefixList: IPrefix[] | undefin
                 return false;
             }
         }
-    }
+    }*/
     return true;
 
 }
