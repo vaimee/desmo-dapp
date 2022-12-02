@@ -44,7 +44,7 @@ export default class EncoderLightManual implements IEncoder{
     constructor(requestID:string) {
         this.sources= new Array<{ sourceIndex: number, reward: number }>();
         this.encodedScores="";
-        this.requestID=REQUEST_ID_SIZE+requestID;
+        this.requestID=requestID;
     }
 
 computePadding(ecoded:string):string{

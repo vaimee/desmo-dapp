@@ -1,0 +1,1 @@
+npx iexec app run  --watch --trust 0  --args "0x0000000000000000000000000000000000000000000000000000000000000001 value qudt:DEG_C 0 --prefixList qudt:https://qudt.org/2.1/schema/qudt --staticFilter '\$[?@.type==\"Sensor\"]'"  --callback 0xEC5E80b92b742C65E4b1C15E26F8Ff6d8f873B8d

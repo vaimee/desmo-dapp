@@ -18,12 +18,12 @@
     "owner": "0xd168c2CaeE2cfA9ce3149036A898A0aCeD2b4b92",
     "name": "desmo-dapp",
     "type": "DOCKER",
-    "multiaddr": "docker.io/vaimee/desmo-dapp:1.0.5",
-    "checksum": "0x700ddbd94ce6e4dadc8085371bf7615a8ad21e4677a9fb7a131c624da39c9a7c"
+    "multiaddr": "docker.io/vaimee/desmo-dapp:1.0.8",
+    "checksum": "0x2ff058a4255649d04d251c70c91a990f82a1278879121d1d24a35db89bec94bd"
   },
   "order": {
     "apporder": {
-      "app": "0x4A61B90b769aA68d4C4430304ee2E32f12c9562B",
+      "app": "0x239BdA5047C8dD7A02A3F9ac52c710C229DB805a",
       "appprice": "0",
       "volume": "1000000",
       "tag": [],
